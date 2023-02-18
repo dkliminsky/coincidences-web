@@ -46,7 +46,6 @@
           v-for="card in cards"
           :key="card.id"
           :card="card"
-          :degrees="degrees"
       />
 
       <div class="col"></div>

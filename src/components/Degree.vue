@@ -1,7 +1,7 @@
 <template>
   <tr>
     <td>
-      <span :class="degree.icon"></span>
+      <DecreeIcon :name="degree.name"/>
     </td>
     <td class="text-nowrap">
       {{ degree.title }}
@@ -12,14 +12,18 @@
       </div>
     </td>
     <td>
-      <span class="badge text-bg-dark me-2" style="width: 100%;">{{ degree.value }}</span>
+      <span class="badge text-bg-dark me-2" style="width: 32px;">{{ degree.value }}</span>
     </td>
   </tr>
 </template>
 
 <script>
+import {BENEFIT_DIRECTION_DECREASE, BENEFIT_DIRECTION_INCREASE} from "@/const";
+import DecreeIcon from "@/components/DecreeIcon.vue";
+
 export default {
   name: "Degree",
+  components: {DecreeIcon},
   data() {
     return {
 
@@ -27,25 +31,25 @@ export default {
   },
   computed: {
     percent: function() {
-      return this.degree.value / this.degree.valueMax * 100
+      return this.degree.value / this.degree.valueMax * 100;
     },
     color: function () {
-      if (this.degree.benefitDirection === 'decrease') {
+      if (this.degree.benefitDirection === BENEFIT_DIRECTION_DECREASE) {
         if (this.percent > 90) {
-          return "danger"
+          return "danger";
         } else if (this.percent > 70) {
-          return "warning"
+          return "warning";
         } else {
-          return "info"
+          return "info";
         }
       }
-      else if (this.degree.benefitDirection === 'increase') {
+      else if (this.degree.benefitDirection === BENEFIT_DIRECTION_INCREASE) {
         if (this.percent < 10) {
-          return "danger"
+          return "danger";
         } else if (this.percent < 30) {
-          return "warning"
+          return "warning";
         } else {
-          return "info"
+          return "info";
         }
       }
     }

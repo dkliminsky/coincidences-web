@@ -4,15 +4,16 @@
 
       <div class="position-absolute top-0 begin-0 pt-3 ps-3">
         <div v-for="condition in card.conditions" :key="condition.name">
-          <span class="badge text-bg-danger">{{ degrees[condition.name].title }}</span>
+          <DecreeIcon :name="condition.name"/>
+          <span class="badge text-bg-danger">{{ degree_title(condition.name) }}</span>
           <span class="badge text-bg-dark me-2">{{ condition.value }}</span>
         </div>
 
         <div v-for="condition in card.bonuses" :key="condition.name">
-          <span class="badge text-bg-info">{{ degrees[condition.name].title }}</span>
+          <DecreeIcon :name="condition.name"/>
+          <span class="badge text-bg-info">{{ degree_title(condition.name) }}</span>
           <span class="badge text-bg-dark me-2">{{ bonusValue(condition.value) }}</span>
         </div>
-
       </div>
 
       <img :src="card.image" class="card-img-top" alt="...">
@@ -31,7 +32,16 @@
 </template>
 
 <script>
+import {DEGREES} from "@/const";
+import DecreeIcon from "@/components/DecreeIcon.vue";
+
 export default {
+  components: {DecreeIcon},
+  computed: {
+    DEGREES() {
+      return DEGREES
+    }
+  },
   data() {
     return {
     }
@@ -39,20 +49,23 @@ export default {
   methods: {
     bonusValue(value) {
       if (value > 0) {
-        return '+' + value.toString()
+        return '+' + value.toString();
       }
       else {
-        return value
+        return value;
       }
     },
+    degree_title(name) {
+      return DEGREES[name].title;
+    },
     applyCard() {
-      console.log('card used', this.card.id)
+      console.log('card used', this.card.id);
     },
     replaceCard() {
-      console.log('card replaced', this.card.id)
+      console.log('card replaced', this.card.id);
     },
   },
-  props: ['card', 'degrees']
+  props: ['card']
 }
 </script>
 
