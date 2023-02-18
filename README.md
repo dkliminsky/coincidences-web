@@ -28,6 +28,3 @@ npm run dev
 npm run build
 ```
 
-
-TODO:
-https://mdbgo.com/
