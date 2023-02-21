@@ -19,8 +19,8 @@
       <img src="decree.webp" class="card-img-top" alt="...">
 
       <div class="card-body">
-        <h5 class="card-title">{{ card.title }}</h5>
-        <p class="card-text">{{ card.description }}</p>
+        <h5 class="card-title">{{ card.info.title }}</h5>
+        <p class="card-text">{{ card.info.description }}</p>
 
         <div class="btn-group" role="group" aria-label="Basic example">
 <!--          <button @click="applyCard" class="btn btn-info" :disabled="!card.can_apply">Использовать</button>-->

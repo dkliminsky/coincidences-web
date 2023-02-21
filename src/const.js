@@ -43,7 +43,7 @@ export const DEGREES = {
     },
     'economy': {
         'name': 'economy',
-        'title': 'Спад экономики',
+        'title': 'Экономические проблемы',
         'icon': 'fa-solid fa-industry',
         'valueMax': DEGREE_VALUE_MAX,
         'benefitDirection': BENEFIT_DIRECTION_DECREASE,

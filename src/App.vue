@@ -1,13 +1,27 @@
 <template>
-  <div class="text-bg-secondary bg-gradient p-3">
-    <span class="badge text-bg-light">Год правления</span>
-    <span class="badge text-bg-dark me-2">1</span>
 
-    <span class="badge text-bg-light">Президентский срок</span>
-    <span class="badge text-bg-dark me-2">1</span>
+  <nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary" style="background-color: RGB(33, 37, 41);">
+    <div class="container-fluid">
 
-    <span class="badge text-bg-light">Окончание срока</span>
-    <span class="badge text-bg-dark me-2">4</span>
+      <div v-if="context">
+        <span class="badge text-bg-light">Год</span>
+        <span class="badge text-bg-success me-2">{{ context.year }}</span>
+        <span class="badge text-bg-light">Срок</span>
+        <span class="badge text-bg-success me-2">{{ context.term_number }}/{{ context.term_year }}</span>
+      </div>
+
+      <div class="width: 100%;"></div>
+
+      <button @click="finishYearRequest()" class="btn btn-danger" type="submit">Новый раунд</button>
+
+<!--      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--        <span class="navbar-toggler-icon"></span>-->
+<!--      </button>-->
+
+    </div>
+  </nav>
+
+  <div class="container-fluid mt-3">
   </div>
 
   <div class="container-fluid">
@@ -17,6 +31,7 @@
         <table class="table table-sm table-borderless table-hover align-middle">
           <tbody>
           <Degree
+              v-if="degrees"
               v-for="name in degreeResources"
               :key="name"
               :degree="degrees[name]"
@@ -29,7 +44,8 @@
         <table class="table table-sm table-borderless table-hover align-middle">
           <tbody>
           <Degree
-              v-for="name in degreeExternal"
+              v-if="degrees"
+              v-for="name in degreeProblems"
               :key="name"
               :degree="degrees[name]"
           />
@@ -72,143 +88,17 @@ axios.defaults.baseURL = SERVER_URL;
 export default {
   data: function() {
     return {
-      sessionId: '234',
-      degrees: {
-        'elite': {
-          'name': 'elite',
-          'title': 'Лояльность элит',
-          'icon': 'fa-solid fa-user',
-          'value': 0,
-          'valueMax': 12,
-          'benefitDirection': 'increase',
-        },
-        'finance': {
-          'name': 'finance',
-          'title': 'Финансовые ресурсы',
-          'icon': 'fa-solid fa-sack-dollar',
-          'value': 1,
-          'valueMax': 12,
-          'benefitDirection': 'increase',
-        },
-        'law': {
-          'name': 'law',
-          'title': 'Влияние на право',
-          'icon': 'fa-solid fa-scale-balanced',
-          'value': 2,
-          'valueMax': 12,
-          'benefitDirection': 'increase',
-        },
-        'siloviki': {
-          'name': 'siloviki',
-          'title': 'Силовики',
-          'icon': 'fa-solid fa-person-military-rifle',
-          'value': 3,
-          'valueMax': 12,
-          'benefitDirection': 'increase',
-        },
-        'media': {
-          'name': 'media',
-          'title': 'Контроль СМИ',
-          'icon': 'fa-solid fa-tv',
-          'value': 4,
-          'valueMax': 12,
-          'benefitDirection': 'increase',
-        },
-        'economy': {
-          'name': 'economy',
-          'title': 'Спад экономики',
-          'icon': 'fa-solid fa-industry',
-          'value': 12,
-          'valueMax': 12,
-          'benefitDirection': 'decrease',
-        },
-        'corruption': {
-          'name': 'corruption',
-          'title': 'Коррупция',
-          'icon': 'fa-solid fa-hand-holding-dollar',
-          'value': 11,
-          'valueMax': 12,
-          'benefitDirection': 'decrease',
-        },
-        'social': {
-          'name': 'social',
-          'title': 'Общественные движения',
-          'icon': 'fa-solid fa-people-group',
-          'value': 10,
-          'valueMax': 12,
-          'benefitDirection': 'decrease',
-        },
-        'distrust': {
-          'name': 'distrust',
-          'title': 'Недоверие к власти',
-          'icon': 'fa-solid fa-face-angry',
-          'value': 9,
-          'valueMax': 12,
-          'benefitDirection': 'decrease',
-        },
-        'opposition': {
-          'name': 'opposition',
-          'title': 'Оппозиция',
-          'icon': 'fa-solid fa-bullhorn',
-          'value': 8,
-          'valueMax': 12,
-          'benefitDirection': 'decrease',
-        },
-      },
+      sessionId: null,
+      context: null,
+      degrees: null,
+      cards: [],
       degreeResources: ['elite', 'finance', 'law', 'siloviki', 'media'],
-      degreeExternal: ['economy', 'corruption', 'social', 'distrust', 'opposition'],
-      cards: [
-        // {
-        //   'id': '1',
-        //   'title': 'Бессмысленность усилий',
-        //   'description': 'Развитие мыслей: "Ты все равно ничего не изменишь! Куда прёшь против системы!"',
-        //   'conditions': [
-        //     {
-        //       'name': 'media',
-        //       'value': 5,
-        //     },
-        //     {
-        //       'name': 'finance',
-        //       'value': 3,
-        //     },
-        //   ],
-        //   'bonuses': [
-        //     {
-        //       'name': 'distrust',
-        //       'value': -2,
-        //     },
-        //     {
-        //       'name': 'siloviki',
-        //       'value': +1,
-        //     },
-        //   ],
-        //   'can_apply': true,
-        //   'can_replace': true,
-        // },
-        // {
-        //   'id': '2',
-        //   'title': 'Бессмысленность усилий',
-        //   'description': 'Развитие мыслей: "Ты все равно ничего не изменишь! Куда прёшь против системы!"',
-        //   'conditions': [],
-        //   'bonuses': [],
-        //   'can_apply': false,
-        //   'can_replace': true,
-        // },
-        // {
-        //   'id': '3',
-        //   'title': 'Бессмысленность усилий',
-        //   'description': 'Развитие мыслей: "Ты все равно ничего не изменишь! Куда прёшь против системы!"',
-        //   'conditions': [],
-        //   'bonuses': [],
-        //   'can_apply': false,
-        //   'can_replace': false,
-        // },
-
-      ],
+      degreeProblems: ['economy', 'corruption', 'social', 'distrust', 'opposition'],
     }
   },
   methods: {
     updateInfo(info) {
+      this.context = info.context;
       this.degrees = info.degrees;
       this.cards = info.hand;
     },
@@ -256,13 +146,22 @@ export default {
             this.updateInfoRequest();
           })
     },
+    finishYearRequest() {
+      axios.post('/api/game/finish_year', {
+        session_id: this.sessionId,
+      })
+          .then(response => {
+            console.log('Year finished');
+            this.updateInfoRequest();
+          })
+    },
   },
   created: function() {
     // Life Cycle Hook
+    this.createGameRequest();
   },
   mounted() {
     // Life Cycle Hook
-    this.createGameRequest()
   }
 }
 </script>
