@@ -46,8 +46,8 @@
           v-for="card in cards"
           :key="card.id"
           :card="card"
-          @applyCardEvent="applyCard"
-          @replaceCardEvent="replaceCard"
+          @applyCardEvent="applyCardRequest"
+          @replaceCardEvent="replaceCardRequest"
       />
 
       <div class="col"></div>
@@ -64,6 +64,10 @@ import Degree from "@/components/Degree.vue";
 
 <script>
 import axios from "axios";
+
+import {SERVER_URL} from "@/settings";
+
+axios.defaults.baseURL = SERVER_URL;
 
 export default {
   data: function() {
@@ -204,49 +208,52 @@ export default {
     }
   },
   methods: {
-    createGame() {
-      axios.get('http://localhost:8000/api/game/create')
+    updateInfo(info) {
+      this.degrees = info.degrees;
+      this.cards = info.hand;
+    },
+    createGameRequest() {
+      axios.get( '/api/game/create')
           .then(response => {
             let sessionId = response.data.session_id;
             console.log('Get session ID:', sessionId);
             this.sessionId = sessionId;
-            this.updateInfo();
+            this.updateInfoRequest();
           })
           .catch(function (error) {
 
           })
     },
-    updateInfo() {
-      axios.post('http://localhost:8000/api/game/info', {
+    updateInfoRequest() {
+      axios.post('/api/game/info', {
         session_id: this.sessionId,
       })
           .then(response => {
-            console.log('Get info:', response.data);
-            this.degrees = response.data.degrees;
-            this.cards = response.data.hand;
+            console.log('Got info:', response.data);
+            this.updateInfo(response.data);
           })
           .catch(function (error) {
 
           })
     },
-    applyCard(card) {
-      axios.post('http://localhost:8000/api/game/apply_card', {
+    applyCardRequest(card) {
+      axios.post('/api/game/apply_card', {
         session_id: this.sessionId,
         card_id: card.id,
       })
           .then(response => {
-            console.log('card used', card.id);
-            this.updateInfo();
+            console.log('Card used', card.id);
+            this.updateInfoRequest();
           })
     },
-    replaceCard(card) {
-      axios.post('http://localhost:8000/api/game/replace_card', {
+    replaceCardRequest(card) {
+      axios.post('/api/game/replace_card', {
         session_id: this.sessionId,
         card_id: card.id,
       })
           .then(response => {
-            console.log('card replaced', card.id);
-            this.updateInfo();
+            console.log('Card replaced', card.id);
+            this.updateInfoRequest();
           })
     },
   },
@@ -255,7 +262,7 @@ export default {
   },
   mounted() {
     // Life Cycle Hook
-    this.createGame()
+    this.createGameRequest()
   }
 }
 </script>
