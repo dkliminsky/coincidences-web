@@ -16,7 +16,7 @@
         </div>
       </div>
 
-      <img src="decree.webp" class="card-img-top" alt="...">
+      <img src="decree.webp" class="card-img-top" alt="..." style="max-width: 150px;">
 
       <div class="card-body">
         <h5 class="card-title">{{ card.info.title }}</h5>

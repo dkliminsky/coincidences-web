@@ -40,18 +40,18 @@ export default {
     },
     color: function () {
       if (this.degree_info.benefitDirection === BENEFIT_DIRECTION_DECREASE) {
-        if (this.percent > 90) {
+        if (this.percent() > 90) {
           return "danger";
-        } else if (this.percent > 70) {
+        } else if (this.percent() > 70) {
           return "warning";
         } else {
           return "info";
         }
       }
-      else if (this.degree_info === BENEFIT_DIRECTION_INCREASE) {
-        if (this.percent < 10) {
+      else if (this.degree_info.benefitDirection === BENEFIT_DIRECTION_INCREASE) {
+        if (this.percent() < 10) {
           return "danger";
-        } else if (this.percent < 30) {
+        } else if (this.percent() < 30) {
           return "warning";
         } else {
           return "info";

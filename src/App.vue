@@ -97,7 +97,7 @@ export default {
     }
   },
   methods: {
-    updateInfo(info) {
+    updateState(info) {
       this.context = info.context;
       this.degrees = info.degrees;
       this.cards = info.hand;
@@ -108,19 +108,19 @@ export default {
             let sessionId = response.data.session_id;
             console.log('Get session ID:', sessionId);
             this.sessionId = sessionId;
-            this.updateInfoRequest();
+            this.updateStateRequest();
           })
           .catch(function (error) {
 
           })
     },
-    updateInfoRequest() {
-      axios.post('/api/game/info', {
+    updateStateRequest() {
+      axios.post('/api/game/state', {
         session_id: this.sessionId,
       })
           .then(response => {
             console.log('Got info:', response.data);
-            this.updateInfo(response.data);
+            this.updateState(response.data);
           })
           .catch(function (error) {
 
@@ -133,7 +133,7 @@ export default {
       })
           .then(response => {
             console.log('Card used', card.id);
-            this.updateInfoRequest();
+            this.updateStateRequest();
           })
     },
     replaceCardRequest(card) {
@@ -143,7 +143,7 @@ export default {
       })
           .then(response => {
             console.log('Card replaced', card.id);
-            this.updateInfoRequest();
+            this.updateStateRequest();
           })
     },
     finishYearRequest() {
@@ -152,7 +152,7 @@ export default {
       })
           .then(response => {
             console.log('Year finished');
-            this.updateInfoRequest();
+            this.updateStateRequest();
           })
     },
   },
