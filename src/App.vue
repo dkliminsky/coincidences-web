@@ -6,8 +6,8 @@
       <div v-if="context">
         <span class="badge text-bg-light">Год</span>
         <span class="badge text-bg-success me-2">{{ context.year }}</span>
-        <span class="badge text-bg-light">Срок</span>
-        <span class="badge text-bg-success me-2">{{ context.term_number }}/{{ context.term_year }}</span>
+<!--        <span class="badge text-bg-light">Срок</span>-->
+<!--        <span class="badge text-bg-success me-2">{{ context.term_number }}/{{ context.term_year }}</span>-->
       </div>
 
       <div class="width: 100%;"></div>
@@ -35,6 +35,7 @@
               v-for="name in degreeResources"
               :key="name"
               :degree="degrees[name]"
+              :degrees_config="config.degrees"
           />
           </tbody>
         </table>
@@ -48,6 +49,7 @@
               v-for="name in degreeProblems"
               :key="name"
               :degree="degrees[name]"
+              :degrees_config="config.degrees"
           />
           </tbody>
         </table>
@@ -62,6 +64,7 @@
           v-for="card in cards"
           :key="card.id"
           :card="card"
+          :degrees_config="config.degrees"
           @applyCardEvent="applyCardRequest"
           @replaceCardEvent="replaceCardRequest"
       />
@@ -91,6 +94,7 @@ export default {
       sessionId: null,
       context: null,
       degrees: null,
+      config: null,
       cards: [],
       degreeResources: ['elite', 'finance', 'law', 'siloviki', 'media'],
       degreeProblems: ['economy', 'corruption', 'social', 'distrust', 'opposition'],
@@ -108,18 +112,31 @@ export default {
             let sessionId = response.data.session_id;
             console.log('Get session ID:', sessionId);
             this.sessionId = sessionId;
-            this.updateStateRequest();
+            this.getConfigRequest();
           })
           .catch(function (error) {
 
           })
     },
-    updateStateRequest() {
+    getConfigRequest() {
+      axios.post('/api/game/config', {
+        session_id: this.sessionId,
+      })
+          .then(response => {
+            console.log('Got config:', response.data);
+            this.config = response.data;
+            this.getStateRequest();
+          })
+          .catch(function (error) {
+
+          })
+    },
+    getStateRequest() {
       axios.post('/api/game/state', {
         session_id: this.sessionId,
       })
           .then(response => {
-            console.log('Got info:', response.data);
+            console.log('Got state:', response.data);
             this.updateState(response.data);
           })
           .catch(function (error) {
@@ -133,7 +150,7 @@ export default {
       })
           .then(response => {
             console.log('Card used', card.id);
-            this.updateStateRequest();
+            this.getStateRequest();
           })
     },
     replaceCardRequest(card) {
@@ -143,7 +160,7 @@ export default {
       })
           .then(response => {
             console.log('Card replaced', card.id);
-            this.updateStateRequest();
+            this.getStateRequest();
           })
     },
     finishYearRequest() {
@@ -152,7 +169,7 @@ export default {
       })
           .then(response => {
             console.log('Year finished');
-            this.updateStateRequest();
+            this.getStateRequest();
           })
     },
   },

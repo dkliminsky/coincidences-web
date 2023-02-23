@@ -1,10 +1,13 @@
 <template>
   <tr>
     <td>
-      <DecreeIcon :name="degree.name"/>
+      <DecreeIcon
+          :name="degree.name"
+          :degrees_config="degrees_config"
+      />
     </td>
     <td class="text-nowrap">
-      {{ degree_info.title }}
+      {{ degree_config.title }}
     </td>
     <td style="width: 100%; min-width: 120px;">
       <div class="progress" role="progressbar" :aria-label="degree.name" :aria-valuenow="percent" aria-valuemin="0" aria-valuemax="100">
@@ -18,7 +21,7 @@
 </template>
 
 <script>
-import {BENEFIT_DIRECTION_DECREASE, BENEFIT_DIRECTION_INCREASE, DEGREES} from "@/const";
+import {BENEFIT_DIRECTION_DECREASE, BENEFIT_DIRECTION_INCREASE} from "@/const";
 import DecreeIcon from "@/components/DecreeIcon.vue";
 
 export default {
@@ -30,16 +33,16 @@ export default {
     }
   },
   computed: {
-    degree_info() {
-      return DEGREES[this.degree.name]
+    degree_config() {
+      return this.degrees_config[this.degree.name]
     },
   },
   methods: {
     percent: function() {
-      return this.degree.value / this.degree_info.valueMax * 100;
+      return this.degree.value / this.degree_config.value_max * 100;
     },
     color: function () {
-      if (this.degree_info.benefitDirection === BENEFIT_DIRECTION_DECREASE) {
+      if (this.degree_config.info.benefit_direction === BENEFIT_DIRECTION_DECREASE) {
         if (this.percent() > 90) {
           return "danger";
         } else if (this.percent() > 70) {
@@ -48,7 +51,7 @@ export default {
           return "info";
         }
       }
-      else if (this.degree_info.benefitDirection === BENEFIT_DIRECTION_INCREASE) {
+      else if (this.degree_config.info.benefit_direction === BENEFIT_DIRECTION_INCREASE) {
         if (this.percent() < 10) {
           return "danger";
         } else if (this.percent() < 30) {
@@ -59,7 +62,7 @@ export default {
       }
     }
   },
-  props: ['degree']
+  props: ['degree', 'degrees_config']
 
 }
 </script>

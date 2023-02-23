@@ -4,13 +4,19 @@
 
       <div class="position-absolute top-0 begin-0 pt-3 ps-3">
         <div v-for="condition in card.conditions" :key="condition.degree_name">
-          <DecreeIcon :name="condition.degree_name"/>
+          <DecreeIcon
+              :name="condition.degree_name"
+              :degrees_config="degrees_config"
+          />
           <span class="badge text-bg-danger">{{ degree_title(condition.degree_name) }}</span>
           <span class="badge text-bg-dark me-2">{{ condition.value }}</span>
         </div>
 
         <div v-for="bonus in card.bonuses" :key="bonus.degree_name">
-          <DecreeIcon :name="bonus.degree_name"/>
+          <DecreeIcon
+              :name="bonus.degree_name"
+              :degrees_config="degrees_config"
+          />
           <span class="badge text-bg-info">{{ degree_title(bonus.degree_name) }}</span>
           <span class="badge text-bg-dark me-2">{{ bonusValue(bonus.shift_value) }}</span>
         </div>
@@ -35,16 +41,10 @@
 </template>
 
 <script>
-import {DEGREES} from "@/const";
 import DecreeIcon from "@/components/DecreeIcon.vue";
 
 export default {
   components: {DecreeIcon},
-  computed: {
-    DEGREES() {
-      return DEGREES
-    }
-  },
   data() {
     return {
     }
@@ -59,10 +59,10 @@ export default {
       }
     },
     degree_title(name) {
-      return DEGREES[name].title;
+      return this.degrees_config[name].info.title;
     },
   },
-  props: ['card']
+  props: ['card', 'degrees_config']
 }
 </script>
 

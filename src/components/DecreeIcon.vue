@@ -1,20 +1,18 @@
 <template>
   <span class="badge text-bg-primary" style="width: 32px;">
-    <span :class="DEGREES[name].icon"></span>
+    <span :class="degree_icon(name)"></span>
   </span>
 </template>
 
 <script>
-import {DEGREES} from "@/const";
-
 export default {
   name: "DecreeIcon",
-  computed: {
-    DEGREES() {
-      return DEGREES
-    }
+  methods: {
+    degree_icon(name) {
+      return this.degrees_config[name].info.fontawesome_icon;
+    },
   },
-  props: ['name']
+  props: ['name', 'degrees_config']
 }
 </script>
 
