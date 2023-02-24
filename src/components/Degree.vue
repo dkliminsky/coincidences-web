@@ -7,7 +7,7 @@
       />
     </td>
     <td class="text-nowrap">
-      {{ degree_config.title }}
+      {{ degree_config.info.title }}
     </td>
     <td style="width: 100%; min-width: 120px;">
       <div class="progress" role="progressbar" :aria-label="degree.name" :aria-valuenow="percent" aria-valuemin="0" aria-valuemax="100">

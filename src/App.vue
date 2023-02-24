@@ -97,7 +97,7 @@ export default {
       config: null,
       cards: [],
       degreeResources: ['elite', 'finance', 'law', 'siloviki', 'media'],
-      degreeProblems: ['economy', 'corruption', 'social', 'distrust', 'opposition'],
+      degreeProblems: ['corruption', 'economy', 'social', 'distrust', 'opposition'],
     }
   },
   methods: {

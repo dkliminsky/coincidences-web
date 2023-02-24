@@ -33,7 +33,7 @@
 <!--          <button @click="replaceCard" class="btn btn-warning" :disabled="!card.can_replace">Заменить</button>-->
 
           <button v-if="card.can_apply" @click="$emit('applyCardEvent', card)" class="btn btn-info">Использовать</button>
-          <button v-if="card.can_replace"  @click="$emit('replaceCardEvent', card)" class="btn btn-warning">Заменить</button>
+          <button v-if="card.can_replace"  @click="$emit('replaceCardEvent', card)" class="btn btn-warning">Отложить</button>
         </div>
       </div>
     </div>
