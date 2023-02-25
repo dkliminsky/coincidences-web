@@ -1,5 +1,5 @@
 <template>
-  <span class="badge text-bg-primary" style="width: 32px;">
+  <span :class="icon_class" style="width: 32px;">
     <span :class="degree_icon(name)"></span>
   </span>
 </template>
@@ -7,12 +7,17 @@
 <script>
 export default {
   name: "DecreeIcon",
+  computed: {
+    icon_class() {
+      return "badge text-bg-" + this.color;
+    },
+  },
   methods: {
     degree_icon(name) {
       return this.degrees_config[name].info.fontawesome_icon;
     },
   },
-  props: ['name', 'degrees_config']
+  props: ['name', 'degrees_config', 'color']
 }
 </script>
 

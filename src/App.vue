@@ -1,9 +1,9 @@
 <template>
 
   <nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary" style="background-color: RGB(33, 37, 41);">
-    <div class="container-fluid">
+    <div v-if="context" class="container-fluid">
 
-      <div v-if="context">
+      <div>
         <span class="badge text-bg-light">Год</span>
         <span class="badge text-bg-success me-2">{{ context.year }}</span>
 <!--        <span class="badge text-bg-light">Срок</span>-->
@@ -12,8 +12,15 @@
 
       <div class="width: 100%;"></div>
 
-      <button @click="finishYearRequest()" class="btn btn-danger" type="submit">Новый раунд</button>
-
+      <div v-if="!is_game_over()">
+        <div type="button" class="btn btn-outline-info me-1">
+          <i class="fa-solid fa-square-check"></i> {{ context.actions_apply }}
+        </div>
+        <div type="button" class="btn btn-outline-warning me-1">
+          <i class="fa-solid fa-reply"></i> {{ context.actions_replace }}
+        </div>
+        <button @click="finishYearRequest()" class="btn btn-danger" type="submit">Новый раунд</button>
+      </div>
 <!--      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
 <!--        <span class="navbar-toggler-icon"></span>-->
 <!--      </button>-->
@@ -69,7 +76,7 @@
           @replaceCardEvent="replaceCardRequest"
       />
 
-      <div class="col"></div>
+<!--      <div class="col"></div>-->
       <div class="col"></div>
     </div>
   </div>
@@ -85,6 +92,7 @@ import Degree from "@/components/Degree.vue";
 import axios from "axios";
 
 import {SERVER_URL} from "@/settings";
+import {GAME_STATE_PROCESSING} from "@/const";
 
 axios.defaults.baseURL = SERVER_URL;
 
@@ -101,6 +109,9 @@ export default {
     }
   },
   methods: {
+    is_game_over() {
+      return this.context.status !== GAME_STATE_PROCESSING;
+    },
     updateState(info) {
       this.context = info.context;
       this.degrees = info.degrees;

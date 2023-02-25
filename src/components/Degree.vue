@@ -4,6 +4,7 @@
       <DecreeIcon
           :name="degree.name"
           :degrees_config="degrees_config"
+          color="primary"
       />
     </td>
     <td class="text-nowrap">
