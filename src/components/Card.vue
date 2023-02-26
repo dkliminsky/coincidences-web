@@ -2,7 +2,8 @@
   <div class="col">
     <div class="card" style="min-width: 240px;">
 
-      <div class="position-absolute top-0 begin-0 pt-1 ps-1">
+<!--      <div class="position-absolute top-0 begin-0 pt-1 ps-1">-->
+      <div class="pt-1 ps-1">
         <div v-for="condition in card.conditions" :key="condition.degree_name">
           <DecreeIcon
               :name="condition.degree_name"
@@ -24,7 +25,7 @@
         </div>
       </div>
 
-      <img src="decree.webp" class="card-img-top" alt="..." style="max-width: 50px;">
+<!--      <img src="decree.webp" class="card-img-top" alt="..." style="max-width: 50px;">-->
 
       <div class="card-body">
         <h5 class="card-title">{{ card.info.title }}</h5>
@@ -33,15 +34,16 @@
           <div class="container-fluid">
             <div class="row">
 
-              <div class="col p-0">
+              <div class="col">
                 <button v-if="card.can_apply" @click="$emit('applyCardEvent', card)" class="btn btn-info">
                   <i class="fa-solid fa-square-check"></i>
                 </button>
               </div>
-              <div class="col" style="width: 100%;">
-              </div>
-              <div class="col p-0">
-                <button v-if="card.can_replace"  @click="$emit('replaceCardEvent', card)" class="btn btn-warning">
+
+<!--              <div class="col" style="width: 100%;"></div>-->
+
+              <div class="col">
+                <button v-if="card.can_hold"  @click="$emit('holdCardEvent', card)" class="btn btn-warning float-end">
                   <i class="fa-solid fa-reply"></i>
                 </button>
               </div>

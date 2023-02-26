@@ -17,7 +17,7 @@
           <i class="fa-solid fa-square-check"></i> {{ context.actions_apply }}
         </div>
         <div type="button" class="btn btn-outline-warning me-1">
-          <i class="fa-solid fa-reply"></i> {{ context.actions_replace }}
+          <i class="fa-solid fa-reply"></i> {{ context.actions_hold }}
         </div>
         <button @click="finishYearRequest()" class="btn btn-danger" type="submit">Новый раунд</button>
       </div>
@@ -73,7 +73,7 @@
           :card="card"
           :degrees_config="config.degrees"
           @applyCardEvent="applyCardRequest"
-          @replaceCardEvent="replaceCardRequest"
+          @holdCardEvent="holdCardRequest"
       />
 
 <!--      <div class="col"></div>-->
@@ -164,13 +164,13 @@ export default {
             this.getStateRequest();
           })
     },
-    replaceCardRequest(card) {
-      axios.post('/api/game/replace_card', {
+    holdCardRequest(card) {
+      axios.post('/api/game/hold_card', {
         session_id: this.sessionId,
         card_id: card.id,
       })
           .then(response => {
-            console.log('Card replaced', card.id);
+            console.log('Card held', card.id);
             this.getStateRequest();
           })
     },
