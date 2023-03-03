@@ -16,8 +16,10 @@
       </div>
     </td>
     <td class="text-nowrap">
-      <span class="badge text-bg-dark me-2" style="width: 32px;">{{ degree.value }}</span>
-      <i v-if="degree.decline_ratio < 1" class="fa-solid fa-shield"></i>
+      <span class="badge badge-number text-bg-dark me-2">{{ degree.value }}</span>
+      <span class="badge badge-icon text-bg-dark me-2">
+        <i v-if="degree.insure_ratio < 1" class="fa-solid fa-shield"></i>
+      </span>
     </td>
   </tr>
 </template>

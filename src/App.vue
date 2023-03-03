@@ -13,15 +13,15 @@
       <div class="width: 100%;"></div>
 
       <div v-if="!is_game_over()">
-        <div type="button" class="btn btn-outline-success me-1">
-          <i class="fa-solid fa-circle-down"></i> {{ context.actions_take }}
-        </div>
-        <div type="button" class="btn btn-outline-info me-1">
-          <i class="fa-solid fa-square-check"></i> {{ context.actions_apply }}
-        </div>
-        <div type="button" class="btn btn-outline-warning me-1">
-          <i class="fa-solid fa-reply"></i> {{ context.actions_hold }}
-        </div>
+<!--        <div type="button" class="btn btn-outline-success me-1">-->
+<!--          <i class="fa-solid fa-circle-down"></i> {{ context.actions_take }}-->
+<!--        </div>-->
+<!--        <div type="button" class="btn btn-outline-info me-1">-->
+<!--          <i class="fa-solid fa-square-check"></i> {{ context.actions_apply }}-->
+<!--        </div>-->
+<!--        <div type="button" class="btn btn-outline-warning me-1">-->
+<!--          <i class="fa-solid fa-reply"></i> {{ context.actions_hold }}-->
+<!--        </div>-->
         <button @click="finishYearRequest()" class="btn btn-danger" type="submit">Новый раунд</button>
       </div>
 <!--      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
@@ -72,9 +72,9 @@
     <div class="row justify-content-md-center">
       <div class="col">
         <Decks
+          :context="context"
+          :cards="cards"
           :decks="decks"
-          :hand_size="cards.length"
-          :hand_size_max="context.hand_size"
           @takeCardEvent="takeCardRequest"
         />
       </div>
@@ -222,3 +222,24 @@ export default {
   }
 }
 </script>
+
+<style>
+.badge {
+  font-size: 1em;
+}
+.badge-icon {
+  padding: 0.5em;
+}
+.badge-number {
+  padding: 0.5em;
+  min-width: 2em;
+}
+.card-text {
+  font-family: Neucha, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1em;
+}
+.card-title {
+  font-family: Neucha, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1.5em;
+}
+</style>

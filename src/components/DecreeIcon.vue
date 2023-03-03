@@ -1,5 +1,5 @@
 <template>
-  <span :class="icon_class" style="width: 32px;">
+  <span :class="icon_class">
     <span :class="degree_icon(name)"></span>
   </span>
 </template>
@@ -9,7 +9,7 @@ export default {
   name: "DecreeIcon",
   computed: {
     icon_class() {
-      return "badge text-bg-" + this.color;
+      return "badge badge-icon text-bg-" + this.color;
     },
   },
   methods: {

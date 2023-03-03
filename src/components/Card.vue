@@ -2,20 +2,19 @@
   <div class="col">
     <div class="card" style="min-width: 240px;">
 
-<!--      <div class="position-absolute top-0 begin-0 pt-1 ps-1">-->
       <div class="pt-1 ps-1">
 
-        <div v-for="condition in card.conditions" :key="condition.degree_name">
+        <div v-for="condition in card.conditions" :key="condition.degree_name" class="text-nowrap">
           <DecreeIcon
               :name="condition.degree_name"
               :degrees_config="degrees_config"
               color="primary"
           />
           <span class="badge text-bg-danger">{{ degree_title(condition.degree_name) }}</span>
-          <span class="badge text-bg-dark me-2">{{ condition.value }}</span>
+          <span class="badge badge-number text-bg-dark me-2">{{ condition.value }}</span>
         </div>
 
-        <div v-for="bonus in card.bonuses" :key="bonus.degree_name">
+        <div v-for="bonus in card.bonuses" :key="bonus.degree_name" class="text-nowrap">
           <div v-if="bonus.type === BONUS_TYPE_DEGREE">
             <DecreeIcon
                 :name="bonus.degree_name"
@@ -23,7 +22,7 @@
                 color="primary"
             />
             <span class="badge text-bg-info">{{ degree_title(bonus.degree_name) }}</span>
-            <span class="badge text-bg-dark me-2">{{ bonusValue(bonus.shift_value) }}</span>
+            <span class="badge badge-number text-bg-dark me-2">{{ bonusValue(bonus.shift_value) }}</span>
           </div>
         </div>
 
@@ -42,12 +41,16 @@
                 <button v-if="card.can_apply" @click="$emit('applyCardEvent', card)" class="btn btn-info">
                   <i class="fa-solid fa-square-check"></i>
                 </button>
+                <button v-else class="btn btn-outline-primary disabled">
+                  <i class="fa-solid fa-square-check"></i>
+                </button>
               </div>
-
-<!--              <div class="col" style="width: 100%;"></div>-->
 
               <div class="col">
                 <button v-if="card.can_hold" @click="$emit('holdCardEvent', card)" class="btn btn-warning float-end">
+                  <i class="fa-solid fa-reply"></i>
+                </button>
+                <button v-else class="btn btn-outline-primary float-end disabled">
                   <i class="fa-solid fa-reply"></i>
                 </button>
               </div>
