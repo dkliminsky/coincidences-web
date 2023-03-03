@@ -4,6 +4,7 @@
 
 <!--      <div class="position-absolute top-0 begin-0 pt-1 ps-1">-->
       <div class="pt-1 ps-1">
+
         <div v-for="condition in card.conditions" :key="condition.degree_name">
           <DecreeIcon
               :name="condition.degree_name"
@@ -15,14 +16,17 @@
         </div>
 
         <div v-for="bonus in card.bonuses" :key="bonus.degree_name">
-          <DecreeIcon
-              :name="bonus.degree_name"
-              :degrees_config="degrees_config"
-              color="primary"
-          />
-          <span class="badge text-bg-info">{{ degree_title(bonus.degree_name) }}</span>
-          <span class="badge text-bg-dark me-2">{{ bonusValue(bonus.shift_value) }}</span>
+          <div v-if="bonus.type === BONUS_TYPE_DEGREE">
+            <DecreeIcon
+                :name="bonus.degree_name"
+                :degrees_config="degrees_config"
+                color="primary"
+            />
+            <span class="badge text-bg-info">{{ degree_title(bonus.degree_name) }}</span>
+            <span class="badge text-bg-dark me-2">{{ bonusValue(bonus.shift_value) }}</span>
+          </div>
         </div>
+
       </div>
 
 <!--      <img src="decree.webp" class="card-img-top" alt="..." style="max-width: 50px;">-->
@@ -43,7 +47,7 @@
 <!--              <div class="col" style="width: 100%;"></div>-->
 
               <div class="col">
-                <button v-if="card.can_hold"  @click="$emit('holdCardEvent', card)" class="btn btn-warning float-end">
+                <button v-if="card.can_hold" @click="$emit('holdCardEvent', card)" class="btn btn-warning float-end">
                   <i class="fa-solid fa-reply"></i>
                 </button>
               </div>
@@ -57,6 +61,7 @@
 </template>
 
 <script>
+import {BONUS_TYPE_DEGREE} from "@/const";
 import DecreeIcon from "@/components/DecreeIcon.vue";
 
 export default {
@@ -64,6 +69,11 @@ export default {
   data() {
     return {
     }
+  },
+  computed: {
+    BONUS_TYPE_DEGREE() {
+      return BONUS_TYPE_DEGREE;
+    },
   },
   methods: {
     bonusValue(value) {

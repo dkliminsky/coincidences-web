@@ -15,8 +15,9 @@
         <div :class="'progress-bar progress-bar-striped progress-bar-animated bg-' + color()" :style="'width:' + percent() + '%'"></div>
       </div>
     </td>
-    <td>
+    <td class="text-nowrap">
       <span class="badge text-bg-dark me-2" style="width: 32px;">{{ degree.value }}</span>
+      <i v-if="degree.decline_ratio < 1" class="fa-solid fa-shield"></i>
     </td>
   </tr>
 </template>

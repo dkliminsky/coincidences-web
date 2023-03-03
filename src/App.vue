@@ -1,7 +1,7 @@
 <template>
 
-  <nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary" style="background-color: RGB(33, 37, 41);">
-    <div v-if="context" class="container-fluid">
+  <nav v-if="context" class="navbar sticky-top navbar-expand-lg bg-body-tertiary" style="background-color: RGB(33, 37, 41);">
+    <div class="container-fluid">
 
       <div>
         <span class="badge text-bg-light">Год</span>
@@ -13,6 +13,9 @@
       <div class="width: 100%;"></div>
 
       <div v-if="!is_game_over()">
+        <div type="button" class="btn btn-outline-success me-1">
+          <i class="fa-solid fa-circle-down"></i> {{ context.actions_take }}
+        </div>
         <div type="button" class="btn btn-outline-info me-1">
           <i class="fa-solid fa-square-check"></i> {{ context.actions_apply }}
         </div>
@@ -65,6 +68,19 @@
     </div>
   </div>
 
+  <div v-if="decks" class="container-fluid mb-3">
+    <div class="row justify-content-md-center">
+      <div class="col">
+        <Decks
+          :decks="decks"
+          :hand_size="cards.length"
+          :hand_size_max="context.hand_size"
+          @takeCardEvent="takeCardRequest"
+        />
+      </div>
+    </div>
+  </div>
+
   <div class="container-fluid">
     <div class="row gy-3 justify-content-md-center">
       <Card
@@ -86,6 +102,7 @@
 <script setup>
 import Card from '@/components/Card.vue'
 import Degree from "@/components/Degree.vue";
+import Decks from "@/components/Decks.vue";
 </script>
 
 <script>
@@ -103,6 +120,7 @@ export default {
       context: null,
       degrees: null,
       config: null,
+      decks: null,
       cards: [],
       degreeResources: ['elite', 'finance', 'law', 'siloviki', 'media'],
       degreeProblems: ['corruption', 'economy', 'social', 'distrust', 'opposition'],
@@ -116,6 +134,7 @@ export default {
       this.context = info.context;
       this.degrees = info.degrees;
       this.cards = info.hand;
+      this.decks = info.decks;
     },
     createGameRequest() {
       axios.get( '/api/game/create')
@@ -152,6 +171,16 @@ export default {
           })
           .catch(function (error) {
 
+          })
+    },
+    takeCardRequest(deck_name) {
+      axios.post('/api/game/take_card', {
+        session_id: this.sessionId,
+        deck_name: deck_name,
+      })
+          .then(response => {
+            console.log('Card taken', deck_name);
+            this.getStateRequest();
           })
     },
     applyCardRequest(card) {
