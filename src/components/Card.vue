@@ -1,64 +1,67 @@
 <template>
   <div class="col">
-    <div class="card" style="min-width: 240px;">
+    <div class="card" style="min-width: 250px;">
 
-      <div class="pt-1 ps-1">
+<!--      <img src="decree.webp" class="card-img-top" alt="...">-->
+<!--      <img src="decree.webp" class="position-absolute top-0 start-0" alt="...">-->
 
-        <div v-for="condition in card.conditions" :key="condition.degree_name" class="text-nowrap">
-          <DecreeIcon
-              :name="condition.degree_name"
-              :degrees_config="degrees_config"
-              color="primary"
-          />
-          <span class="badge text-bg-danger">{{ degree_title(condition.degree_name) }}</span>
-          <span class="badge badge-number text-bg-dark me-2">{{ condition.value }}</span>
-        </div>
+      <div class="card-body p-3">
+<!--        <img src="decree.webp" class="position-absolute top-0 start-0" alt="...">-->
 
-        <div v-for="bonus in card.bonuses" :key="bonus.degree_name" class="text-nowrap">
-          <div v-if="bonus.type === BONUS_TYPE_DEGREE">
+        <div class="pt-0 ps-0">
+          <div v-for="condition in card.conditions" :key="condition.degree_name" class="text-nowrap">
             <DecreeIcon
-                :name="bonus.degree_name"
+                :name="condition.degree_name"
                 :degrees_config="degrees_config"
                 color="primary"
             />
-            <span class="badge text-bg-info">{{ degree_title(bonus.degree_name) }}</span>
-            <span class="badge badge-number text-bg-dark me-2">{{ bonusValue(bonus.shift_value) }}</span>
+            <span class="badge text-bg-danger">{{ degree_title(condition.degree_name) }}</span>
+            <span class="badge badge-number text-bg-dark me-1">{{ condition.value }}</span>
+          </div>
+
+          <div v-for="bonus in card.bonuses" :key="bonus.degree_name" class="text-nowrap">
+            <div v-if="bonus.type === BONUS_TYPE_DEGREE">
+              <DecreeIcon
+                  :name="bonus.degree_name"
+                  :degrees_config="degrees_config"
+                  color="primary"
+              />
+              <span class="badge text-bg-info">{{ degree_title(bonus.degree_name) }}</span>
+              <span class="badge badge-number text-bg-dark me-1">{{ bonusValue(bonus.shift_value) }}</span>
+            </div>
           </div>
         </div>
 
-      </div>
+<!--        <div class="alert alert-secondary mt-3">-->
+          <h5 class="card-title mt-3">{{ card.info.title }}</h5>
+          <p class="card-text">{{ card.info.description }}</p>
+<!--        </div>-->
 
-<!--      <img src="decree.webp" class="card-img-top" alt="..." style="max-width: 50px;">-->
+        <div class="container-fluid ps-0 pe-0">
+          <div class="row">
 
-      <div class="card-body">
-        <h5 class="card-title">{{ card.info.title }}</h5>
-        <p class="card-text">{{ card.info.description }}</p>
-
-          <div class="container-fluid">
-            <div class="row">
-
-              <div class="col">
-                <button v-if="card.can_apply" @click="$emit('applyCardEvent', card)" class="btn btn-info">
-                  <i class="fa-solid fa-square-check"></i>
-                </button>
-                <button v-else class="btn btn-outline-primary disabled">
-                  <i class="fa-solid fa-square-check"></i>
-                </button>
-              </div>
-
-              <div class="col">
-                <button v-if="card.can_hold" @click="$emit('holdCardEvent', card)" class="btn btn-warning float-end">
-                  <i class="fa-solid fa-reply"></i>
-                </button>
-                <button v-else class="btn btn-outline-primary float-end disabled">
-                  <i class="fa-solid fa-reply"></i>
-                </button>
-              </div>
-
+            <div class="col">
+              <button v-if="card.can_apply" @click="$emit('applyCardEvent', card)" class="btn btn-info">
+                <i class="fa-solid fa-square-check"></i>
+              </button>
+              <button v-else class="btn btn-outline-primary disabled">
+                <i class="fa-solid fa-square-check"></i>
+              </button>
             </div>
-          </div>
 
+            <div class="col">
+              <button v-if="card.can_hold" @click="$emit('holdCardEvent', card)" class="btn btn-warning float-end">
+                <i class="fa-solid fa-reply"></i>
+              </button>
+              <button v-else class="btn btn-outline-primary float-end disabled">
+                <i class="fa-solid fa-reply"></i>
+              </button>
+            </div>
+
+          </div>
+        </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -95,3 +98,10 @@ export default {
 }
 </script>
 
+<style>
+.card {
+  /*background-image: url('card_02.webp');*/
+  /*background-image: url('decree.webp');*/
+  /*background-image: url('card_01.jpg');*/
+}
+</style>
