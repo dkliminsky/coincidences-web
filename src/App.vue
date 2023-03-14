@@ -1,11 +1,11 @@
 <template>
 
-  <nav v-if="context" class="navbar sticky-top navbar-expand-lg bg-body-tertiary" style="background-color: RGB(33, 37, 41);">
+  <nav v-if="context" class="navbar sticky-top navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
 
       <div>
         <span class="badge text-bg-light">Год</span>
-        <span class="badge text-bg-success me-2">{{ context.year }}</span>
+        <span class="badge text-bg-success me-2">{{ context.year }} из {{ context.years_to_win }}</span>
 <!--        <span class="badge text-bg-light">Срок</span>-->
 <!--        <span class="badge text-bg-success me-2">{{ context.term_number }}/{{ context.term_year }}</span>-->
       </div>
@@ -13,74 +13,24 @@
       <div class="width: 100%;"></div>
 
       <div v-if="!is_game_over()">
-          <div type="button" class="btn btn-outline-success me-1">
-            <i class="fa-solid fa-circle-down"></i> {{ context.actions_take }}
-          </div>
-          <div type="button" class="btn btn-outline-info me-1">
-            <i class="fa-solid fa-square-check"></i> {{ context.actions_apply }}
-          </div>
-          <div type="button" class="btn btn-outline-warning me-1">
-            <i class="fa-solid fa-reply"></i> {{ context.actions_hold }}
-          </div>
-          <div type="button" class="btn btn-outline-light me-3">
-            <i class="fa-solid fa-hand"></i>
-            {{ cards.length }}/{{ context.hand_size }}
-          </div>
-
-
         <div type="button" class="btn btn-outline-success me-1">
-          <i class="fa-solid fa-hand-fist"></i>
-          {{ decks[DECK_NAME_STRENGTHENING].deck_size }}/{{ decks[DECK_NAME_STRENGTHENING].hold_size }}
+          Взять
+          <i class="fa-solid fa-circle-down"></i> {{ context.actions_take }}
         </div>
-        <button v-if="decks[DECK_NAME_STRENGTHENING].can_take" @click="$emit('takeCardEvent', DECK_NAME_STRENGTHENING)" class="btn btn-success me-3">
-          <i class="fa-regular fa-circle-down"></i>
-        </button>
-        <button v-else class="btn btn-outline-primary me-3 disabled">
-          <i class="fa-regular fa-circle-down"></i>
-        </button>
-
-        <div type="button" class="btn btn-outline-success me-1">
-          <i class="fa-solid fa-list-check"></i>
-          {{ decks[DECK_NAME_SOLUTION].deck_size }}/{{ decks[DECK_NAME_SOLUTION].hold_size }}
+        <div type="button" class="btn btn-outline-info me-1">
+          Активировать
+          <i class="fa-solid fa-square-check"></i> {{ context.actions_apply }}
         </div>
-        <button v-if="decks[DECK_NAME_SOLUTION].can_take" @click="$emit('takeCardEvent', DECK_NAME_SOLUTION)" class="btn btn-success me-3">
-          <i class="fa-regular fa-circle-down"></i>
-        </button>
-        <button v-else class="btn btn-outline-primary me-3 disabled">
-          <i class="fa-regular fa-circle-down"></i>
-        </button>
-        <!--        </div>-->
-        <!---->
-        <!--        <div class="col text-nowrap">-->
-        <div type="button" class="btn btn-outline-success me-1">
-          <i class="fa-solid fa-gears"></i>
-          {{ decks[DECK_NAME_EFFICIENCY].deck_size }}/{{ decks[DECK_NAME_EFFICIENCY].hold_size }}
+        <div type="button" class="btn btn-outline-warning me-1">
+          Отложить
+          <i class="fa-solid fa-reply"></i> {{ context.actions_hold }}
         </div>
-        <button v-if="decks[DECK_NAME_EFFICIENCY].can_take" @click="$emit('takeCardEvent', DECK_NAME_EFFICIENCY)" class="btn btn-success me-3">
-          <i class="fa-regular fa-circle-down"></i>
-        </button>
-        <button v-else class="btn btn-outline-primary me-3 disabled">
-          <i class="fa-regular fa-circle-down"></i>
-        </button>
-
-        <div type="button" class="btn btn-outline-success me-1">
-          <i class="fa-solid fa-chart-line"></i>
-          {{ decks[DECK_NAME_SUPER_PROJECT].deck_size }}/{{ decks[DECK_NAME_SUPER_PROJECT].hold_size }}
+        <div type="button" class="btn btn-outline-light me-3">
+          Карты на руках
+          <i class="fa-solid fa-hand"></i>
+          {{ cards.length }} из {{ context.hand_size }}
         </div>
-        <button v-if="decks[DECK_NAME_SUPER_PROJECT].can_take" @click="$emit('takeCardEvent', DECK_NAME_SUPER_PROJECT)" class="btn btn-success me-3">
-          <i class="fa-regular fa-circle-down"></i>
-        </button>
-        <button v-else class="btn btn-outline-primary me-3 disabled">
-          <i class="fa-regular fa-circle-down"></i>
-        </button>
-
-
-
-        <button @click="finishYearRequest()" class="btn btn-danger" type="submit">Новый раунд</button>
       </div>
-<!--      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
-<!--        <span class="navbar-toggler-icon"></span>-->
-<!--      </button>-->
 
     </div>
   </nav>
@@ -122,20 +72,7 @@
     </div>
   </div>
 
-  <div v-if="decks" class="container-fluid mb-3">
-    <div class="row justify-content-md-center">
-      <div class="col">
-        <Decks
-          :context="context"
-          :cards="cards"
-          :decks="decks"
-          @takeCardEvent="takeCardRequest"
-        />
-      </div>
-    </div>
-  </div>
-
-  <div class="container-fluid">
+  <div class="container-fluid" style="margin-bottom: 100%">
     <div class="row gy-3 justify-content-md-center">
       <Card
           v-for="card in cards"
@@ -146,10 +83,39 @@
           @holdCardEvent="holdCardRequest"
       />
 
-<!--      <div class="col"></div>-->
-      <div class="col"></div>
+      <div class="col" style="width: 100%"></div>
+      <div class="col" style="width: 100%"></div>
+      <div class="col" style="width: 100%"></div>
+      <div class="col" style="width: 100%"></div>
+      <div class="col" style="width: 100%"></div>
+      <div class="col" style="width: 100%"></div>
+      <div class="col" style="width: 100%"></div>
+      <div class="col" style="width: 100%"></div>
     </div>
   </div>
+
+  <nav v-if="context" class="navbar sticky-bottom">
+    <div class="container-fluid">
+
+      <div class=""></div>
+
+      <div v-if="!is_game_over()">
+
+        <Decks
+            :context="context"
+            :cards="cards"
+            :decks="decks"
+            @takeCardEvent="takeCardRequest"
+        />
+
+        <button @click="finishYearRequest()" class="btn btn-danger ms-2" type="submit">
+          Новый раунд
+          <i class="fa-solid fa-hourglass-start"></i>
+        </button>
+      </div>
+
+    </div>
+  </nav>
 
 </template>
 
@@ -185,20 +151,6 @@ export default {
       degreeResources: ['elite', 'finance', 'law', 'siloviki', 'media'],
       degreeProblems: ['corruption', 'economy', 'social', 'distrust', 'opposition'],
     }
-  },
-  computed: {
-    DECK_NAME_STRENGTHENING() {
-      return DECK_NAME_STRENGTHENING;
-    },
-    DECK_NAME_SOLUTION() {
-      return DECK_NAME_SOLUTION;
-    },
-    DECK_NAME_EFFICIENCY() {
-      return DECK_NAME_EFFICIENCY;
-    },
-    DECK_NAME_SUPER_PROJECT() {
-      return DECK_NAME_SUPER_PROJECT;
-    },
   },
   methods: {
     is_game_over() {
@@ -316,4 +268,9 @@ export default {
   font-family: Neucha, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 1.5em;
 }
+
+.navbar {
+  background-color: RGB(33, 37, 41);
+}
+
 </style>
