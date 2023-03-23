@@ -7,8 +7,11 @@
           color="primary"
       />
     </td>
-    <td class="text-nowrap">
+    <td class="text-nowrap d-none d-lg-inline">
       {{ degree_config.info.title }}
+    </td>
+    <td class="text-nowrap d-lg-none">
+      {{ degree_config.info.title_short }}
     </td>
     <td style="width: 100%; min-width: 120px;">
       <div class="progress" role="progressbar" :aria-label="degree.name" :aria-valuenow="percent" aria-valuemin="0" aria-valuemax="100">
@@ -17,8 +20,9 @@
     </td>
     <td class="text-nowrap">
       <span class="badge badge-number text-bg-dark me-2">{{ degree.value }}</span>
-      <span class="badge badge-icon text-bg-dark me-2">
-        <i v-if="degree.insure_ratio < 1" class="fa-solid fa-shield"></i>
+      <span v-if="degree.protection > 0" class="badge badge-icon text-bg-dark me-2">
+        <i class="fa-solid fa-shield"></i>
+        {{ degree.protection }}
       </span>
     </td>
   </tr>

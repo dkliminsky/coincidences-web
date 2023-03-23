@@ -42,19 +42,19 @@
 
             <div class="col">
               <button v-if="card.can_apply" @click="$emit('applyCardEvent', card)" class="btn btn-info">
-                <i class="fa-solid fa-square-check"></i>
+                <i class="fa-solid fa-square-check"></i> {{ context.actions_apply }}
               </button>
               <button v-else class="btn btn-outline-primary disabled">
-                <i class="fa-solid fa-square-check"></i>
+                <i class="fa-solid fa-square-check"></i> {{ context.actions_apply }}
               </button>
             </div>
 
             <div class="col">
               <button v-if="card.can_hold" @click="$emit('holdCardEvent', card)" class="btn btn-warning float-end">
-                <i class="fa-solid fa-reply"></i>
+                <i class="fa-solid fa-reply"></i> {{ context.actions_hold }}
               </button>
               <button v-else class="btn btn-outline-primary float-end disabled">
-                <i class="fa-solid fa-reply"></i>
+                <i class="fa-solid fa-reply"></i> {{ context.actions_hold }}
               </button>
             </div>
 
@@ -94,7 +94,7 @@ export default {
       return this.degrees_config[name].info.title;
     },
   },
-  props: ['card', 'degrees_config']
+  props: ['context', 'card', 'degrees_config']
 }
 </script>
 

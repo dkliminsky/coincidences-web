@@ -1,6 +1,9 @@
 <template>
+  <Message
+      :message="message"
+  />
 
-  <nav v-if="context" class="navbar sticky-top navbar-expand-lg bg-body-tertiary">
+  <nav v-if="isReady()" class="navbar sticky-top navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
 
       <div>
@@ -12,24 +15,13 @@
 
       <div class="width: 100%;"></div>
 
-      <div v-if="!is_game_over()">
-        <div type="button" class="btn btn-outline-success me-1">
-          Взять
-          <i class="fa-solid fa-circle-down"></i> {{ context.actions_take }}
-        </div>
-        <div type="button" class="btn btn-outline-info me-1">
-          Активировать
-          <i class="fa-solid fa-square-check"></i> {{ context.actions_apply }}
-        </div>
-        <div type="button" class="btn btn-outline-warning me-1">
-          Отложить
-          <i class="fa-solid fa-reply"></i> {{ context.actions_hold }}
-        </div>
-        <div type="button" class="btn btn-outline-light me-3">
-          Карты на руках
-          <i class="fa-solid fa-hand"></i>
-          {{ cards.length }} из {{ context.hand_size }}
-        </div>
+      <div>
+        <button @click="finishYearRequest()" class="btn btn-danger ms-2" type="submit">
+          <span class="d-none d-xl-inline">
+            Новый раунд
+          </span>
+          <i class="fa-solid fa-hourglass-start"></i>
+        </button>
       </div>
 
     </div>
@@ -38,14 +30,13 @@
   <div class="container-fluid mt-3">
   </div>
 
-  <div class="container-fluid">
+  <div v-if="isReady()" class="container-fluid">
     <div class="row">
 
       <div class="col">
         <table class="table table-sm table-borderless table-hover align-middle">
           <tbody>
           <Degree
-              v-if="degrees"
               v-for="name in degreeResources"
               :key="name"
               :degree="degrees[name]"
@@ -59,7 +50,6 @@
         <table class="table table-sm table-borderless table-hover align-middle">
           <tbody>
           <Degree
-              v-if="degrees"
               v-for="name in degreeProblems"
               :key="name"
               :degree="degrees[name]"
@@ -72,10 +62,11 @@
     </div>
   </div>
 
-  <div class="container-fluid" style="margin-bottom: 100%">
+  <div v-if="isReady()" class="container-fluid mb-5">
     <div class="row gy-3 justify-content-md-center">
       <Card
           v-for="card in cards"
+          :context="context"
           :key="card.id"
           :card="card"
           :degrees_config="config.degrees"
@@ -94,26 +85,17 @@
     </div>
   </div>
 
-  <nav v-if="context" class="navbar sticky-bottom">
-    <div class="container-fluid">
-
-      <div class=""></div>
-
-      <div v-if="!is_game_over()">
-
+  <nav v-if="isReady()" class="navbar sticky-bottom">
+    <div class="container-fluid pe-0">
+      <div>
         <Decks
             :context="context"
             :cards="cards"
             :decks="decks"
             @takeCardEvent="takeCardRequest"
+            @finishYearEvent="finishYearRequest"
         />
-
-        <button @click="finishYearRequest()" class="btn btn-danger ms-2" type="submit">
-          Новый раунд
-          <i class="fa-solid fa-hourglass-start"></i>
-        </button>
       </div>
-
     </div>
   </nav>
 
@@ -123,18 +105,16 @@
 import Card from '@/components/Card.vue'
 import Degree from "@/components/Degree.vue";
 import Decks from "@/components/Decks.vue";
+import Message from "@/components/Message.vue";
 </script>
 
 <script>
 import axios from "axios";
+import { Modal } from "bootstrap";
 
 import {SERVER_URL} from "@/settings";
 import {
-  DECK_NAME_EFFICIENCY,
-  DECK_NAME_SOLUTION,
-  DECK_NAME_STRENGTHENING,
-  DECK_NAME_SUPER_PROJECT,
-  GAME_STATE_PROCESSING
+  GAME_STATE_PROCESSING, MESSAGE_LOSE_GAME, MESSAGE_START_GAME
 } from "@/const";
 
 axios.defaults.baseURL = SERVER_URL;
@@ -150,17 +130,36 @@ export default {
       cards: [],
       degreeResources: ['elite', 'finance', 'law', 'siloviki', 'media'],
       degreeProblems: ['corruption', 'economy', 'social', 'distrust', 'opposition'],
+
+      message: {
+        name: null,
+      }
     }
   },
   methods: {
-    is_game_over() {
-      return this.context.status !== GAME_STATE_PROCESSING;
+    isReady() {
+      return this.context;
+    },
+    showMessage(name) {
+      this.message.name = name;
+      var modal = new Modal(document.getElementById("message"), {});
+      modal.show();
+    },
+    startGameMessage() {
+      this.showMessage(MESSAGE_START_GAME);
+    },
+    loseGameMessage() {
+      this.showMessage(MESSAGE_LOSE_GAME);
     },
     updateState(info) {
       this.context = info.context;
       this.degrees = info.degrees;
       this.cards = info.hand;
       this.decks = info.decks;
+
+      if (this.context.status === 'lose') {
+        this.loseGameMessage();
+      }
     },
     createGameRequest() {
       axios.get( '/api/game/create')
@@ -169,6 +168,7 @@ export default {
             console.log('Get session ID:', sessionId);
             this.sessionId = sessionId;
             this.getConfigRequest();
+            this.startGameMessage();
           })
           .catch(function (error) {
 

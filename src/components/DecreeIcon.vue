@@ -20,7 +20,3 @@ export default {
   props: ['name', 'degrees_config', 'color']
 }
 </script>
-
-<style scoped>
-
-</style>
