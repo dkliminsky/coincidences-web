@@ -1,15 +1,15 @@
 <template>
   <span :class="icon_class">
-    <span :class="degree_icon(name)"></span>
+    <i :class="degree_icon(name)"></i> {{ degrees[name].value }}
   </span>
 </template>
 
 <script>
 export default {
-  name: "DecreeIcon",
+  name: "DecreeShort",
   computed: {
     icon_class() {
-      return "degree-icon badge badge-icon text-bg-" + this.color;
+      return "badge badge-icon me-1 text-bg-" + this.color;
     },
   },
   methods: {
@@ -17,12 +17,10 @@ export default {
       return this.degrees_config[name].info.fontawesome_icon;
     },
   },
-  props: ['name', 'degrees_config', 'color']
+  props: ['name', 'degrees_config', 'degrees', 'color']
 }
 </script>
 
 <style>
-.degree-icon {
-  width: 36px;
-}
+
 </style>

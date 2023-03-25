@@ -1,23 +1,50 @@
 <template>
   <Message
       :message="message"
+      @newGameEvent="createGameRequest"
   />
 
   <nav v-if="isReady()" class="navbar sticky-top navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
 
       <div>
-        <span class="badge text-bg-light">Год</span>
-        <span class="badge text-bg-success me-2">{{ context.year }} из {{ context.years_to_win }}</span>
+        <span class="badge text-bg-success">
+          <i class="fa-regular fa-calendar"></i>
+          <span class="d-none d-lg-inline">
+            Год
+          </span>
+          {{ context.year }} / {{ context.years_to_win }}
+        </span>
 <!--        <span class="badge text-bg-light">Срок</span>-->
 <!--        <span class="badge text-bg-success me-2">{{ context.term_number }}/{{ context.term_year }}</span>-->
+
+        <span class="ms-3 d-none d-md-inline">
+          <DecreeShort
+              v-for="name in degreeResources"
+              :name="name"
+              :degrees_config="config.degrees"
+              :degrees="degrees"
+              color="light"
+          />
+        </span>
+
+        <span class="ms-3 d-none d-md-inline">
+          <DecreeShort
+              v-for="name in degreeProblems"
+              :name="name"
+              :degrees_config="config.degrees"
+              :degrees="degrees"
+              color="light"
+          />
+        </span>
+
       </div>
 
       <div class="width: 100%;"></div>
 
       <div>
         <button @click="finishYearRequest()" class="btn btn-danger ms-2" type="submit">
-          <span class="d-none d-xl-inline">
+          <span class="d-none d-lg-inline">
             Новый раунд
           </span>
           <i class="fa-solid fa-hourglass-start"></i>
@@ -86,7 +113,30 @@
   </div>
 
   <nav v-if="isReady()" class="navbar sticky-bottom">
-    <div class="container-fluid pe-0">
+    <div class="container-fluid pe-1">
+      <div>
+<!--          <div type="button" class="btn btn-outline-success me-1">-->
+<!--            Взять-->
+<!--            <i class="fa-solid fa-circle-down"></i> {{ context.actions_take }}-->
+<!--          </div>-->
+<!--          <div type="button" class="btn btn-outline-info me-1">-->
+<!--            Активировать-->
+<!--            <i class="fa-solid fa-square-check"></i> {{ context.actions_apply }}-->
+<!--          </div>-->
+<!--          <div type="button" class="btn btn-outline-warning me-1">-->
+<!--            Отложить-->
+<!--            <i class="fa-solid fa-reply"></i> {{ context.actions_hold }}-->
+<!--          </div>-->
+
+          <span class="badge badge-icon me-1 text-bg-light me-3 d-none d-sm-inline">
+            <i class="fa-solid fa-hand"></i>
+            <span class="d-none d-lg-inline">
+              Карты
+            </span>
+            {{ cards.length }} / {{ context.hand_size }}
+          </span>
+      </div>
+
       <div>
         <Decks
             :context="context"
@@ -106,6 +156,7 @@ import Card from '@/components/Card.vue'
 import Degree from "@/components/Degree.vue";
 import Decks from "@/components/Decks.vue";
 import Message from "@/components/Message.vue";
+import DecreeShort from "@/components/DecreeShort.vue";
 </script>
 
 <script>
@@ -114,7 +165,8 @@ import { Modal } from "bootstrap";
 
 import {SERVER_URL} from "@/settings";
 import {
-  GAME_STATE_PROCESSING, MESSAGE_LOSE_GAME, MESSAGE_START_GAME
+  GAME_STATUS_LOSE, GAME_STATUS_WIN,
+  MESSAGE_LOSE_GAME, MESSAGE_START_GAME, MESSAGE_WIN_GAME
 } from "@/const";
 
 axios.defaults.baseURL = SERVER_URL;
@@ -148,6 +200,9 @@ export default {
     startGameMessage() {
       this.showMessage(MESSAGE_START_GAME);
     },
+    winGameMessage() {
+      this.showMessage(MESSAGE_WIN_GAME);
+    },
     loseGameMessage() {
       this.showMessage(MESSAGE_LOSE_GAME);
     },
@@ -157,8 +212,11 @@ export default {
       this.cards = info.hand;
       this.decks = info.decks;
 
-      if (this.context.status === 'lose') {
+      if (this.context.status === GAME_STATUS_LOSE) {
         this.loseGameMessage();
+      }
+      else if (this.context.status === GAME_STATUS_WIN) {
+        this.winGameMessage();
       }
     },
     createGameRequest() {
@@ -168,7 +226,7 @@ export default {
             console.log('Get session ID:', sessionId);
             this.sessionId = sessionId;
             this.getConfigRequest();
-            this.startGameMessage();
+            // this.startGameMessage();
           })
           .catch(function (error) {
 
@@ -271,6 +329,17 @@ export default {
 
 .navbar {
   background-color: RGB(33, 37, 41);
+}
+
+.btn {
+  --bs-btn-padding-x: 0.6rem;
+  /*box-shadow: 2px 3px #aaa;*/
+  box-shadow: 2px 3px #8f96a3;
+}
+
+.card:hover {
+  box-shadow: 6px 6px 6px #8f96a3;
+  transform: scale(1.05);
 }
 
 </style>

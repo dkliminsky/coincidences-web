@@ -1,33 +1,14 @@
 <template>
-<!--  <div type="button" class="btn btn-outline-success me-1">-->
-<!--    Взять-->
-<!--    <i class="fa-solid fa-circle-down"></i> {{ context.actions_take }}-->
-<!--  </div>-->
-<!--  <div type="button" class="btn btn-outline-info me-1">-->
-<!--    Активировать-->
-<!--    <i class="fa-solid fa-square-check"></i> {{ context.actions_apply }}-->
-<!--  </div>-->
-<!--  <div type="button" class="btn btn-outline-warning me-1">-->
-<!--    Отложить-->
-<!--    <i class="fa-solid fa-reply"></i> {{ context.actions_hold }}-->
-<!--  </div>-->
-
-  <div type="button" class="btn btn-outline-light me-3 d-none d-xl-inline">
-    <span class="d-none d-xl-inline">
-      Карты
-    </span>
-    <i class="fa-solid fa-hand"></i>
-    {{ cards.length }} / {{ context.hand_size }}
-  </div>
 
   <Deck
       :context="context"
       :decks="decks"
       :deck_name="DECK_NAME_STRENGTHENING"
-      title="Усиление"
-      icon="fa-solid fa-hand-fist"
+      title="Контроль"
+      icon="fa-solid fa-sliders"
       @takeCardEvent="takeCard"
   />
+  <!--      icon="fa-solid fa-hand-fist"-->
 
   <Deck
       :context="context"
@@ -61,7 +42,7 @@
       :decks="decks"
       :deck_name="DECK_NAME_PROPAGANDA"
       title="Пропаганда"
-      icon="fa-solid fa-book"
+      icon="fa-solid fa-bullhorn"
       @takeCardEvent="takeCard"
   />
 

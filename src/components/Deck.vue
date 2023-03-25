@@ -17,10 +17,10 @@ export default {
   name: "Deck",
   computed: {
     wide_class() {
-      return "d-none d-xl-inline";
+      return "d-none d-lg-inline";
     },
     mobile_class() {
-      return "d-none d-xl-inline";
+      return "d-none d-lg-inline";
     },
 
   },
