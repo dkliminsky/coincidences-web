@@ -115,35 +115,41 @@
   <nav v-if="isReady()" class="navbar sticky-bottom">
     <div class="container-fluid pe-1">
       <div>
-<!--          <div type="button" class="btn btn-outline-success me-1">-->
-<!--            Взять-->
-<!--            <i class="fa-solid fa-circle-down"></i> {{ context.actions_take }}-->
-<!--          </div>-->
-<!--          <div type="button" class="btn btn-outline-info me-1">-->
-<!--            Активировать-->
-<!--            <i class="fa-solid fa-square-check"></i> {{ context.actions_apply }}-->
-<!--          </div>-->
-<!--          <div type="button" class="btn btn-outline-warning me-1">-->
-<!--            Отложить-->
-<!--            <i class="fa-solid fa-reply"></i> {{ context.actions_hold }}-->
-<!--          </div>-->
+        <span class="badge badge-icon text-bg-light me-3 d-none d-sm-inline">
+          <i class="fa-solid fa-hand"></i>
+<!--          <span class="d-none d-lg-inline">-->
+<!--            Карты-->
+<!--          </span>-->
+          {{ cards.length }} / {{ context.hand_size }}
+        </span>
 
-          <span class="badge badge-icon me-1 text-bg-light me-3 d-none d-sm-inline">
-            <i class="fa-solid fa-hand"></i>
-            <span class="d-none d-lg-inline">
-              Карты
-            </span>
-            {{ cards.length }} / {{ context.hand_size }}
-          </span>
+        <span class="badge badge-icon text-bg-success me-1 d-none d-sm-inline">
+          <i class="fa-solid fa-circle-down"></i>
+<!--          Взять-->
+          {{ context.actions_take }}
+        </span>
+
+        <span class="badge badge-icon text-bg-info me-1 d-none d-sm-inline">
+          <i class="fa-solid fa-square-check"></i>
+<!--          Активировать-->
+          {{ context.actions_apply }}
+        </span>
+
+        <span class="badge badge-icon text-bg-warning me-1 d-none d-sm-inline">
+          <i class="fa-solid fa-reply"></i>
+<!--          Отложить-->
+          {{ context.actions_hold }}
+        </span>
+
       </div>
 
       <div>
-        <Decks
-            :context="context"
-            :cards="cards"
-            :decks="decks"
-            @takeCardEvent="takeCardRequest"
-            @finishYearEvent="finishYearRequest"
+        <Deck
+          v-for="deck_config in config.decks"
+          :context="context"
+          :decks="decks"
+          :deck_config="deck_config"
+          @takeCardEvent="takeCardRequest"
         />
       </div>
     </div>
@@ -154,9 +160,9 @@
 <script setup>
 import Card from '@/components/Card.vue'
 import Degree from "@/components/Degree.vue";
-import Decks from "@/components/Decks.vue";
 import Message from "@/components/Message.vue";
 import DecreeShort from "@/components/DecreeShort.vue";
+import Deck from "@/components/Deck.vue";
 </script>
 
 <script>
@@ -182,7 +188,7 @@ export default {
       cards: [],
       degreeResources: ['elite', 'finance', 'law', 'siloviki', 'media'],
       degreeProblems: ['corruption', 'economy', 'social', 'distrust', 'opposition'],
-
+      decksList: ['corruption', 'economy', 'social', 'distrust', 'opposition'],
       message: {
         name: null,
       }
