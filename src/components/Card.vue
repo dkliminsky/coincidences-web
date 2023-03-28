@@ -104,7 +104,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .card {
   /*background-image: url('card_02.webp');*/
   /*background-image: url('decree.webp');*/
