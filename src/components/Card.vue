@@ -49,6 +49,12 @@
               </button>
             </div>
 
+            <div class="col align-self-center text-center">
+              <span>
+                <i :class="decks_config[card.category].info.fontawesome_icon"></i>
+              </span>
+            </div>
+
             <div class="col">
               <button v-if="card.can_hold" @click="$emit('holdCardEvent', card)" class="btn btn-warning float-end">
                 <i class="fa-solid fa-reply"></i> {{ context.actions_hold }}
@@ -94,7 +100,7 @@ export default {
       return this.degrees_config[name].info.title;
     },
   },
-  props: ['context', 'card', 'degrees_config']
+  props: ['context', 'card', 'degrees_config', 'decks_config']
 }
 </script>
 

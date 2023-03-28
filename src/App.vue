@@ -97,22 +97,23 @@
           :key="card.id"
           :card="card"
           :degrees_config="config.degrees"
+          :decks_config="config.decks"
           @applyCardEvent="applyCardRequest"
           @holdCardEvent="holdCardRequest"
       />
 
-      <div class="col" style="width: 100%"></div>
-      <div class="col" style="width: 100%"></div>
-      <div class="col" style="width: 100%"></div>
-      <div class="col" style="width: 100%"></div>
-      <div class="col" style="width: 100%"></div>
-      <div class="col" style="width: 100%"></div>
-      <div class="col" style="width: 100%"></div>
-      <div class="col" style="width: 100%"></div>
+      <div class="col d-none d-sm-inline" style="width: 100%"></div>
+      <div class="col d-none d-sm-inline" style="width: 100%"></div>
+      <div class="col d-none d-sm-inline" style="width: 100%"></div>
+      <div class="col d-none d-sm-inline" style="width: 100%"></div>
     </div>
   </div>
 
-  <nav v-if="isReady()" class="navbar sticky-bottom">
+  <div class="container-fluid mb-5">
+    <div class="row"></div>
+  </div>
+
+  <nav v-if="isReady()" class="navbar fixed-bottom">
     <div class="container-fluid pe-1">
       <div>
         <span class="badge badge-icon text-bg-light me-3 d-none d-sm-inline">
