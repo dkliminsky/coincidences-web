@@ -2,23 +2,6 @@
   <div id="message" class="modal" tabindex="-1" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 
-      <div v-if="message.name === MESSAGE_START_GAME()" class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Вступление</h5>
-        </div>
-        <div class="modal-body">
-          <p>
-            Вам повезло как политику. Вы стали президентом, когда экономика оправилась от последствий тяжелейшего финансового кризиса августа 1998 года и вошла в длительный период быстрого роста. Успешная военная кампания позволила добиться мощного укрепления политического авторитета и влияния. Низкая вовлеченность граждан в политику создала ситуацию «свободы рук», позволявшую вам не слишком опасаться проявлений общественного недовольства.
-          </p>
-          <p>
-            Цель: Продержитесь у власти 30 лет.
-          </p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-success" data-bs-dismiss="modal">Начать игру</button>
-        </div>
-      </div>
-
       <div v-if="message.name === MESSAGE_WIN_GAME()" class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Победа!</h5>
@@ -54,7 +37,7 @@
 </template>
 
 <script>
-import {MESSAGE_LOSE_GAME, MESSAGE_START_GAME, MESSAGE_WIN_GAME} from "@/const";
+import {MESSAGE_LOSE_GAME, MESSAGE_WIN_GAME} from "@/const";
 
 export default {
   name: "Message",
@@ -68,10 +51,6 @@ export default {
     MESSAGE_LOSE_GAME() {
       return MESSAGE_LOSE_GAME
     },
-    MESSAGE_START_GAME() {
-      return MESSAGE_START_GAME
-    }
-
   },
   emits: ["newGameEvent",],
   props: ['message']
@@ -79,10 +58,5 @@ export default {
 </script>
 
 <style scoped>
-
-.modal-title {
-  font-family: Neucha, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 1.5em;
-}
 
 </style>

@@ -173,7 +173,7 @@ import { Modal } from "bootstrap";
 import {SERVER_URL} from "@/settings";
 import {
   GAME_STATUS_LOSE, GAME_STATUS_WIN,
-  MESSAGE_LOSE_GAME, MESSAGE_START_GAME, MESSAGE_WIN_GAME
+  MESSAGE_LOSE_GAME, MESSAGE_WIN_GAME
 } from "@/const";
 
 axios.defaults.baseURL = SERVER_URL;
@@ -205,9 +205,6 @@ export default {
       let modal = new Modal(document.getElementById("message"), {});
       modal.show();
     },
-    startGameMessage() {
-      this.showMessage(MESSAGE_START_GAME);
-    },
     winGameMessage() {
       this.showMessage(MESSAGE_WIN_GAME);
     },
@@ -232,7 +229,7 @@ export default {
           .then(response => {
             let sessionId = response.data.session_id;
             console.log('Got session ID:', sessionId);
-            this.sessionId = sessionId;
+            // this.sessionId = sessionId;
             this.$router.push({ name: 'game', params: { session: sessionId } })
           })
           .catch(function (error) {
@@ -302,36 +299,35 @@ export default {
             this.getStateRequest();
           })
     },
+    createSession() {
+      let sessionId = this.$route.params.session;
+
+      if (sessionId) {
+        this.sessionId = sessionId;
+        console.log('URL session ID:', this.sessionId);
+        this.getStateRequest();
+      }
+    },
   },
   created() {
     console.log('Game created');
   },
   mounted() {
     console.log('Game mounted');
+    console.log('Route name:', this.$route.name);
 
     this.getConfigRequest();
 
-    if (this.$route.name === 'create_game') {
-      this.createGameRequest();
-    }
-    else {
-      this.sessionId = this.$route.params.session
-      console.log('URL session ID:', this.sessionId)
-      if (this.sessionId) {
-        this.getStateRequest();
-      }
-    }
-
+    // route may not have time to initialize
     this.$watch(
-        () => this.$route.params,
-        (toParams, previousParams) => {
-          // react to route changes...
-          this.sessionId = this.$route.params.session
-          console.log('URL session ID:', this.sessionId)
-          this.getStateRequest();
-        }
+      () => this.$route.params,
+      (toParams, previousParams) => {
+        // react to route changes...
+        this.createSession();
+      }
     )
 
+    this.createSession();
   }
 }
 </script>
@@ -370,6 +366,11 @@ export default {
 .card:hover {
   box-shadow: 6px 6px 6px #8f96a3;
   transform: scale(1.05);
+}
+
+.modal-title {
+  font-family: Neucha, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1.5em;
 }
 
 </style>
