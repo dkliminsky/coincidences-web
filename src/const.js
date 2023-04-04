@@ -8,7 +8,7 @@ export const BENEFIT_DIRECTION_INCREASE = 'increase';
 export const BENEFIT_DIRECTION_DECREASE = 'decrease';
 
 
-export const BONUS_TYPE_DEGREE = 'degree';
+export const EFFECT_TYPE_DEGREE = 'degree';
 
 
 export const MESSAGE_WIN_GAME = 'win_game';

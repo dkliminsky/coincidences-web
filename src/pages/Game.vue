@@ -57,6 +57,27 @@
   <div class="container-fluid mt-3">
   </div>
 
+  <button type="button" class="btn btn-primary" @click="showToastMessage()">Show live toast</button>
+
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="toast-message" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-body">
+        Hello, world! This is a toast message.
+<!--        <button type="button" class="btn btn-primary" data-bs-dismiss="toast">OK</button>-->
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+<!--  <div id="toast-message" class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">-->
+<!--    <div class="d-flex">-->
+<!--      <div class="toast-body">-->
+<!--        Hello, world! This is a toast message.-->
+<!--      </div>-->
+<!--      <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>-->
+<!--    </div>-->
+<!--  </div>-->
+
   <div v-if="isReady()" class="container-fluid">
     <div class="row">
 
@@ -168,7 +189,7 @@ import Deck from "@/components/Deck.vue";
 
 <script>
 import axios from "axios";
-import { Modal } from "bootstrap";
+import { Modal, Toast } from "bootstrap";
 
 import {SERVER_URL} from "@/settings";
 import {
@@ -211,6 +232,10 @@ export default {
     loseGameMessage() {
       this.showMessage(MESSAGE_LOSE_GAME);
     },
+    showToastMessage() {
+      let toast = new Toast(document.getElementById("toast-message"), {});
+      toast.show();
+    },
     updateState(info) {
       this.context = info.context;
       this.degrees = info.degrees;
@@ -224,6 +249,12 @@ export default {
         this.winGameMessage();
       }
     },
+    handleRequestError(request) {
+      console.log('Got request error:', request);
+      if (request.status === 404) {
+        this.$router.push({ name: 'home'})
+      }
+    },
     createGameRequest() {
       axios.get( '/api/game/create')
           .then(response => {
@@ -232,8 +263,8 @@ export default {
             // this.sessionId = sessionId;
             this.$router.push({ name: 'game', params: { session: sessionId } })
           })
-          .catch(function (error) {
-
+          .catch(error => {
+            this.handleRequestError(error.request);
           })
     },
     getConfigRequest() {
@@ -244,8 +275,8 @@ export default {
           console.log('Got config:', response.data);
           this.config = response.data;
         })
-        .catch(function (error) {
-
+        .catch(error => {
+          this.handleRequestError(error.request);
         })
     },
     getStateRequest() {
@@ -256,8 +287,8 @@ export default {
             console.log('Got state:', response.data);
             this.updateState(response.data);
           })
-          .catch(function (error) {
-
+          .catch(error => {
+            this.handleRequestError(error.request);
           })
     },
     takeCardRequest(deck_name) {
@@ -269,6 +300,9 @@ export default {
             console.log('Card taken', deck_name);
             this.getStateRequest();
           })
+          .catch(error => {
+            this.handleRequestError(error.request);
+          })
     },
     applyCardRequest(card) {
       axios.post('/api/game/apply_card', {
@@ -278,6 +312,9 @@ export default {
           .then(response => {
             console.log('Card used', card.id);
             this.getStateRequest();
+          })
+          .catch(error => {
+            this.handleRequestError(error.request);
           })
     },
     holdCardRequest(card) {
@@ -289,6 +326,9 @@ export default {
             console.log('Card held', card.id);
             this.getStateRequest();
           })
+          .catch(error => {
+            this.handleRequestError(error.request);
+          })
     },
     finishYearRequest() {
       axios.post('/api/game/finish_year', {
@@ -297,6 +337,9 @@ export default {
           .then(response => {
             console.log('Year finished');
             this.getStateRequest();
+          })
+          .catch(error => {
+            this.handleRequestError(error.request);
           })
     },
     createSession() {

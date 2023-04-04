@@ -19,15 +19,15 @@
             <span class="badge badge-number text-bg-dark me-1">{{ condition.value }}</span>
           </div>
 
-          <div v-for="bonus in card.bonuses" :key="bonus.degree_name" class="text-nowrap">
-            <div v-if="bonus.type === BONUS_TYPE_DEGREE">
+          <div v-for="effect in card.effects" :key="effect.degree_name" class="text-nowrap">
+            <div v-if="effect.type === EFFECT_TYPE_DEGREE">
               <DecreeIcon
-                  :name="bonus.degree_name"
+                  :name="effect.degree_name"
                   :degrees_config="degrees_config"
                   color="primary"
               />
-              <span class="badge text-bg-info">{{ degree_title(bonus.degree_name) }}</span>
-              <span class="badge badge-number text-bg-dark me-1">{{ bonusValue(bonus.shift_value) }}</span>
+              <span class="badge text-bg-info">{{ degree_title(effect.degree_name) }}</span>
+              <span class="badge badge-number text-bg-dark me-1">{{ effectValue(effect.shift_value) }}</span>
             </div>
           </div>
         </div>
@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import {BONUS_TYPE_DEGREE} from "@/const";
+import {EFFECT_TYPE_DEGREE} from "@/const";
 import DecreeIcon from "@/components/DecreeIcon.vue";
 
 export default {
@@ -83,12 +83,12 @@ export default {
     }
   },
   computed: {
-    BONUS_TYPE_DEGREE() {
-      return BONUS_TYPE_DEGREE;
+    EFFECT_TYPE_DEGREE() {
+      return EFFECT_TYPE_DEGREE;
     },
   },
   methods: {
-    bonusValue(value) {
+    effectValue(value) {
       if (value > 0) {
         return '+' + value.toString();
       }
