@@ -9,6 +9,7 @@ export const BENEFIT_DIRECTION_DECREASE = 'decrease';
 
 
 export const EFFECT_TYPE_SHIFT_DEGREE = 'shift_degree';
+export const EFFECT_TYPE_SHIFT_DEGREE_EVENT = 'shift_degree_event'
 export const EFFECT_TYPE_PROTECT_DEGREE = 'protect_degree'
 export const EFFECT_TYPE_INCREASE_HAND = 'increase_hand'
 export const EFFECT_TYPE_INCREASE_HOLD = 'increase_hold'

@@ -228,10 +228,15 @@ export default {
       modal.show();
     },
     winGameMessage() {
+      this.flushToasts();
       this.showMessage(MESSAGE_WIN_GAME);
     },
     loseGameMessage() {
+      this.flushToasts();
       this.showMessage(MESSAGE_LOSE_GAME);
+    },
+    flushToasts() {
+      this.effects = [];
     },
     updateState(info) {
       console.log('Updating state:', info);
@@ -331,6 +336,8 @@ export default {
           })
     },
     finishYearRequest() {
+      this.flushToasts();
+
       axios.post('/api/game/finish_year', {
         session_id: this.sessionId,
       })
@@ -419,6 +426,10 @@ export default {
 .toast-body {
   font-family: Neucha, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 1.2em;
+}
+
+.toast-container {
+  padding-bottom: 70px !important;
 }
 
 </style>

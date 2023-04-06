@@ -7,6 +7,9 @@
       <span v-if="effect.type === EFFECT_TYPE_SHIFT_DEGREE()">
         {{ degree_config().info.title }} {{ shift_value() }}
       </span>
+      <span v-else-if="effect.type === EFFECT_TYPE_SHIFT_DEGREE_EVENT()">
+        {{ degree_config().info.title }} {{ shift_value() }}
+      </span>
       <span v-else-if="effect.type === EFFECT_TYPE_PROTECT_DEGREE()">
         {{ degree_config().info.title }}
       </span>
@@ -32,12 +35,15 @@ import {
   EFFECT_TYPE_INCREASE_HAND,
   EFFECT_TYPE_INCREASE_HOLD, EFFECT_TYPE_INCREASE_TAKE,
   EFFECT_TYPE_PROTECT_DEGREE,
-  EFFECT_TYPE_SHIFT_DEGREE
+  EFFECT_TYPE_SHIFT_DEGREE, EFFECT_TYPE_SHIFT_DEGREE_EVENT
 } from "@/const";
 
 export default {
   name: "Effect",
   methods: {
+    EFFECT_TYPE_SHIFT_DEGREE_EVENT() {
+      return EFFECT_TYPE_SHIFT_DEGREE_EVENT
+    },
     EFFECT_TYPE_INCREASE_TAKE() {
       return EFFECT_TYPE_INCREASE_TAKE
     },
