@@ -20,7 +20,7 @@
           </div>
 
           <div v-for="effect in card.effects" :key="effect.degree_name" class="text-nowrap">
-            <div v-if="effect.type === EFFECT_TYPE_DEGREE">
+            <div v-if="effect.type === EFFECT_TYPE_SHIFT_DEGREE">
               <DecreeIcon
                   :name="effect.degree_name"
                   :degrees_config="degrees_config"
@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import {EFFECT_TYPE_DEGREE} from "@/const";
+import {EFFECT_TYPE_SHIFT_DEGREE} from "@/const";
 import DecreeIcon from "@/components/DecreeIcon.vue";
 
 export default {
@@ -83,8 +83,8 @@ export default {
     }
   },
   computed: {
-    EFFECT_TYPE_DEGREE() {
-      return EFFECT_TYPE_DEGREE;
+    EFFECT_TYPE_SHIFT_DEGREE() {
+      return EFFECT_TYPE_SHIFT_DEGREE;
     },
   },
   methods: {

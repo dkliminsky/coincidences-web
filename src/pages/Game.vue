@@ -4,6 +4,16 @@
       @newGameEvent="createGameRequest"
   />
 
+  <div v-if="isReady()" class="toast-container position-fixed bottom-0 end-0 p-3">
+    <span v-for="effect in effects">
+      <Effect
+        :effect="effect"
+        :effects_config="config.effects"
+        :degrees_config="config.degrees"
+      />
+    </span>
+  </div>
+
   <nav v-if="isReady()" class="navbar sticky-top navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
 
@@ -56,27 +66,6 @@
 
   <div class="container-fluid mt-3">
   </div>
-
-  <button type="button" class="btn btn-primary" @click="showToastMessage()">Show live toast</button>
-
-  <div class="toast-container position-fixed bottom-0 end-0 p-3">
-    <div id="toast-message" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-      <div class="toast-body">
-        Hello, world! This is a toast message.
-<!--        <button type="button" class="btn btn-primary" data-bs-dismiss="toast">OK</button>-->
-        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-      </div>
-    </div>
-  </div>
-
-<!--  <div id="toast-message" class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">-->
-<!--    <div class="d-flex">-->
-<!--      <div class="toast-body">-->
-<!--        Hello, world! This is a toast message.-->
-<!--      </div>-->
-<!--      <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>-->
-<!--    </div>-->
-<!--  </div>-->
 
   <div v-if="isReady()" class="container-fluid">
     <div class="row">
@@ -185,6 +174,7 @@ import Degree from "@/components/Degree.vue";
 import Message from "@/components/Message.vue";
 import DecreeShort from "@/components/DecreeShort.vue";
 import Deck from "@/components/Deck.vue";
+import Effect from "@/components/Effect.vue";
 </script>
 
 <script>
@@ -209,14 +199,25 @@ export default {
       config: null,
       decks: null,
       cards: [],
+      effects: [],
       degreeResources: ['elite', 'finance', 'law', 'siloviki', 'media'],
       degreeProblems: ['corruption', 'economy', 'social', 'distrust', 'opposition'],
       decksList: ['corruption', 'economy', 'social', 'distrust', 'opposition'],
       message: {
         name: null,
-      }
+      },
     }
   },
+  // Watch example:
+  // watch: {
+  //   effects: {
+  //     handler(newEffects, oldEffects) {
+  //       console.log('Watch!:');
+  //       this.showToastEffects();
+  //     },
+  //     deep: true,
+  //   },
+  // },
   methods: {
     isReady() {
       return this.context && this.config;
@@ -232,11 +233,8 @@ export default {
     loseGameMessage() {
       this.showMessage(MESSAGE_LOSE_GAME);
     },
-    showToastMessage() {
-      let toast = new Toast(document.getElementById("toast-message"), {});
-      toast.show();
-    },
     updateState(info) {
+      console.log('Updating state:', info);
       this.context = info.context;
       this.degrees = info.degrees;
       this.cards = info.hand;
@@ -248,10 +246,12 @@ export default {
       else if (this.context.status === GAME_STATUS_WIN) {
         this.winGameMessage();
       }
+
+      this.effects.push.apply(this.effects, info.new_effects);
     },
-    handleRequestError(request) {
-      console.log('Got request error:', request);
-      if (request.status === 404) {
+    handleRequestError(error) {
+      console.log('Got error:', error);
+      if (error.request && error.request.status === 404) {
         this.$router.push({ name: 'home'})
       }
     },
@@ -264,7 +264,7 @@ export default {
             this.$router.push({ name: 'game', params: { session: sessionId } })
           })
           .catch(error => {
-            this.handleRequestError(error.request);
+            this.handleRequestError(error);
           })
     },
     getConfigRequest() {
@@ -276,7 +276,7 @@ export default {
           this.config = response.data;
         })
         .catch(error => {
-          this.handleRequestError(error.request);
+          this.handleRequestError(error);
         })
     },
     getStateRequest() {
@@ -284,11 +284,11 @@ export default {
         session_id: this.sessionId,
       })
           .then(response => {
-            console.log('Got state:', response.data);
+            console.log('Got state');
             this.updateState(response.data);
           })
           .catch(error => {
-            this.handleRequestError(error.request);
+            this.handleRequestError(error);
           })
     },
     takeCardRequest(deck_name) {
@@ -298,10 +298,10 @@ export default {
       })
           .then(response => {
             console.log('Card taken', deck_name);
-            this.getStateRequest();
+            this.updateState(response.data);
           })
           .catch(error => {
-            this.handleRequestError(error.request);
+            this.handleRequestError(error);
           })
     },
     applyCardRequest(card) {
@@ -311,10 +311,10 @@ export default {
       })
           .then(response => {
             console.log('Card used', card.id);
-            this.getStateRequest();
+            this.updateState(response.data);
           })
           .catch(error => {
-            this.handleRequestError(error.request);
+            this.handleRequestError(error);
           })
     },
     holdCardRequest(card) {
@@ -324,10 +324,10 @@ export default {
       })
           .then(response => {
             console.log('Card held', card.id);
-            this.getStateRequest();
+            this.updateState(response.data);
           })
           .catch(error => {
-            this.handleRequestError(error.request);
+            this.handleRequestError(error);
           })
     },
     finishYearRequest() {
@@ -336,10 +336,10 @@ export default {
       })
           .then(response => {
             console.log('Year finished');
-            this.getStateRequest();
+            this.updateState(response.data);
           })
           .catch(error => {
-            this.handleRequestError(error.request);
+            this.handleRequestError(error);
           })
     },
     createSession() {
@@ -414,6 +414,11 @@ export default {
 .modal-title {
   font-family: Neucha, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 1.5em;
+}
+
+.toast-body {
+  font-family: Neucha, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1.2em;
 }
 
 </style>
