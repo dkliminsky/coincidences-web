@@ -19,12 +19,28 @@
 
       <div>
         <span class="badge text-bg-success">
-          <i class="fa-regular fa-calendar"></i>
+          <i class="fa-regular fa-calendar"></i>&nbsp;
           <span class="d-none d-lg-inline">
             Год
           </span>
           {{ context.year }} / {{ context.years_to_win }}
         </span>
+
+        <span class="badge text-bg-success ms-1">
+          <i class="fa-solid fa-check"></i>&nbsp;
+          <span class="d-none d-lg-inline">
+            Срок
+          </span>
+          <span v-if="electivity.is_castling">
+            <i class="fa-solid fa-rotate-left"></i>
+            {{ electivity.term_year_left }}
+          </span>
+          <span v-else>
+            {{ electivity.term_year_left }} | {{ electivity.term_counts - electivity.term_number + 1 }}
+          </span>
+        </span>
+
+
 <!--        <span class="badge text-bg-light">Срок</span>-->
 <!--        <span class="badge text-bg-success me-2">{{ context.term_number }}/{{ context.term_year }}</span>-->
 
@@ -195,6 +211,7 @@ export default {
     return {
       sessionId: null,
       context: null,
+      electivity: null,
       degrees: null,
       config: null,
       decks: null,
@@ -241,6 +258,7 @@ export default {
     updateState(info) {
       console.log('Updating state:', info);
       this.context = info.context;
+      this.electivity = info.electivity;
       this.degrees = info.degrees;
       this.cards = info.hand;
       this.decks = info.decks;

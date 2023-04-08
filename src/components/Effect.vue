@@ -13,13 +13,7 @@
       <span v-else-if="effect.type === EFFECT_TYPE_PROTECT_DEGREE()">
         {{ degree_config().info.title }}
       </span>
-      <span v-else-if="effect.type === EFFECT_TYPE_INCREASE_HAND()">
-        {{ effect_config().info.title }}
-      </span>
-      <span v-else-if="effect.type === EFFECT_TYPE_INCREASE_HOLD()">
-        {{ effect_config().info.title }}
-      </span>
-      <span v-else-if="effect.type === EFFECT_TYPE_INCREASE_TAKE()">
+      <span v-else>
         {{ effect_config().info.title }}
       </span>
 
