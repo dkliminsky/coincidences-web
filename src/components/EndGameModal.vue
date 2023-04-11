@@ -1,8 +1,8 @@
 <template>
-  <div id="message" class="modal" tabindex="-1" data-bs-backdrop="static">
+  <div id="end-game-modal" class="modal" tabindex="-1" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 
-      <div v-if="message.name === MESSAGE_WIN_GAME()" class="modal-content">
+      <div v-if="context.status === GAME_STATUS_WIN()" class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Победа!</h5>
         </div>
@@ -17,7 +17,7 @@
         </div>
       </div>
 
-      <div v-if="message.name === MESSAGE_LOSE_GAME()" class="modal-content">
+      <div v-if="context.status === GAME_STATUS_LOSE()" class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Поражение</h5>
         </div>
@@ -37,23 +37,23 @@
 </template>
 
 <script>
-import {MESSAGE_LOSE_GAME, MESSAGE_WIN_GAME} from "@/const";
+import {GAME_STATUS_LOSE, GAME_STATUS_WIN,} from "@/const";
 
 export default {
-  name: "Message",
+  name: "EndGameModal",
   computed: {
 
   },
   methods: {
-    MESSAGE_WIN_GAME() {
-      return MESSAGE_WIN_GAME
+    GAME_STATUS_LOSE() {
+      return GAME_STATUS_LOSE
     },
-    MESSAGE_LOSE_GAME() {
-      return MESSAGE_LOSE_GAME
+    GAME_STATUS_WIN() {
+      return GAME_STATUS_WIN
     },
   },
-  emits: ["newGameEvent",],
-  props: ['message']
+  emits: ['newGameEvent',],
+  props: ['context']
 }
 </script>
 

@@ -1,18 +1,28 @@
 <template>
-  <Message
-      :message="message"
+  <EndGameModal
+      v-if="isReady()"
+      :context="context"
       @newGameEvent="createGameRequest"
   />
 
-  <div v-if="isReady()" class="toast-container position-fixed bottom-0 end-0 p-3">
-    <span v-for="effect in effects">
-      <Effect
-        :effect="effect"
-        :effects_config="config.effects"
-        :degrees_config="config.degrees"
-      />
-    </span>
-  </div>
+  <NewRoundModal
+      v-if="isReady()"
+      :new_events="new_events"
+      :new_effects="new_effects"
+      :effects_config="config.effects"
+      :degrees_config="config.degrees"
+      @closeNewRoundModalEvent="closeNewRoundModal"
+  />
+
+<!--  <div v-if="isReady()" class="toast-container position-fixed bottom-0 end-0 p-3">-->
+<!--    <span v-for="effect in effects">-->
+<!--      <EffectToast-->
+<!--        :effect="effect"-->
+<!--        :effects_config="config.effects"-->
+<!--        :degrees_config="config.degrees"-->
+<!--      />-->
+<!--    </span>-->
+<!--  </div>-->
 
   <nav v-if="isReady()" class="navbar sticky-top navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
@@ -187,7 +197,8 @@
 <script setup>
 import Card from '@/components/Card.vue'
 import Degree from "@/components/Degree.vue";
-import Message from "@/components/Message.vue";
+import EndGameModal from "@/components/EndGameModal.vue";
+import NewRoundModal from "@/components/NewRoundModal.vue";
 import DecreeShort from "@/components/DecreeShort.vue";
 import Deck from "@/components/Deck.vue";
 import Effect from "@/components/Effect.vue";
@@ -199,8 +210,7 @@ import { Modal, Toast } from "bootstrap";
 
 import {SERVER_URL} from "@/settings";
 import {
-  GAME_STATUS_LOSE, GAME_STATUS_WIN,
-  MESSAGE_LOSE_GAME, MESSAGE_WIN_GAME
+  GAME_STATUS_LOSE, GAME_STATUS_PROCESSING, GAME_STATUS_WIN,
 } from "@/const";
 
 axios.defaults.baseURL = SERVER_URL;
@@ -216,13 +226,13 @@ export default {
       config: null,
       decks: null,
       cards: [],
-      effects: [],
+
+      new_effects: [],
+      new_events: [],
+
       degreeResources: ['elite', 'finance', 'law', 'siloviki', 'media'],
       degreeProblems: ['corruption', 'economy', 'social', 'distrust', 'opposition'],
       decksList: ['corruption', 'economy', 'social', 'distrust', 'opposition'],
-      message: {
-        name: null,
-      },
     }
   },
   // Watch example:
@@ -239,21 +249,20 @@ export default {
     isReady() {
       return this.context && this.config;
     },
-    showMessage(name) {
-      this.message.name = name;
-      let modal = new Modal(document.getElementById("message"), {});
+    showEndGameModal() {
+      let modal = new Modal(document.getElementById("end-game-modal"), {});
       modal.show();
     },
-    winGameMessage() {
-      this.flushToasts();
-      this.showMessage(MESSAGE_WIN_GAME);
+    closeNewRoundModal() {
     },
-    loseGameMessage() {
-      this.flushToasts();
-      this.showMessage(MESSAGE_LOSE_GAME);
-    },
-    flushToasts() {
-      this.effects = [];
+    doNewRound(info) {
+      window.scrollTo(0, 0);
+      this.updateState(info);
+
+      if (this.context.status === GAME_STATUS_PROCESSING) {
+        let modal = new Modal(document.getElementById("new-round-modal"), {});
+        modal.show();
+      }
     },
     updateState(info) {
       console.log('Updating state:', info);
@@ -262,15 +271,14 @@ export default {
       this.degrees = info.degrees;
       this.cards = info.hand;
       this.decks = info.decks;
+      this.new_effects = info.new_effects;
+      this.new_events = info.new_events;
 
-      if (this.context.status === GAME_STATUS_LOSE) {
-        this.loseGameMessage();
-      }
-      else if (this.context.status === GAME_STATUS_WIN) {
-        this.winGameMessage();
+      if (this.context.status !== GAME_STATUS_PROCESSING) {
+        this.showEndGameModal();
       }
 
-      this.effects.push.apply(this.effects, info.new_effects);
+      // this.effects.push.apply(this.effects, info.new_effects);
     },
     handleRequestError(error) {
       console.log('Got error:', error);
@@ -354,14 +362,12 @@ export default {
           })
     },
     finishYearRequest() {
-      this.flushToasts();
-
       axios.post('/api/game/finish_year', {
         session_id: this.sessionId,
       })
           .then(response => {
             console.log('Year finished');
-            this.updateState(response.data);
+            this.doNewRound(response.data);
           })
           .catch(error => {
             this.handleRequestError(error);
@@ -439,6 +445,11 @@ export default {
 .modal-title {
   font-family: Neucha, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 1.5em;
+}
+
+h6 {
+  font-family: Neucha, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1.3em;
 }
 
 .toast-body {

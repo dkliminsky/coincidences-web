@@ -1,27 +1,33 @@
 <template>
+  <div v-bind:id="effect.id" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-body">
 
-  <i :class="effect_config().info.fontawesome_icon"></i>&nbsp;
+      <i :class="effect_config().info.fontawesome_icon"></i>&nbsp;
 
-  <span v-if="effect.type === EFFECT_TYPE_SHIFT_DEGREE()">
-    {{ degree_config().info.title }} {{ shift_value() }}
-  </span>
-  <span v-else-if="effect.type === EFFECT_TYPE_SHIFT_DEGREE_EVENT()">
-    {{ degree_config().info.title }} {{ shift_value() }}
-  </span>
-  <span v-else-if="effect.type === EFFECT_TYPE_SHIFT_DEGREE_RANDOM()">
-    {{ degree_config().info.title }} {{ shift_value() }}
-  </span>
-  <span v-else-if="effect.type === EFFECT_TYPE_PROTECT_DEGREE()">
-    {{ degree_config().info.title }}
-  </span>
-  <span v-else>
-    {{ effect_config().info.title }}
-  </span>
+      <span v-if="effect.type === EFFECT_TYPE_SHIFT_DEGREE()">
+        {{ degree_config().info.title }} {{ shift_value() }}
+      </span>
+      <span v-else-if="effect.type === EFFECT_TYPE_SHIFT_DEGREE_EVENT()">
+        {{ degree_config().info.title }} {{ shift_value() }}
+      </span>
+      <span v-else-if="effect.type === EFFECT_TYPE_SHIFT_DEGREE_RANDOM()">
+        {{ degree_config().info.title }} {{ shift_value() }}
+      </span>
+      <span v-else-if="effect.type === EFFECT_TYPE_PROTECT_DEGREE()">
+        {{ degree_config().info.title }}
+      </span>
+      <span v-else>
+        {{ effect_config().info.title }}
+      </span>
 
+<!--      <button type="button" class="btn btn-primary" data-bs-dismiss="toast">OK</button>-->
+<!--      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>-->
+    </div>
+  </div>
 </template>
 
 <script>
-
+import { Toast } from "bootstrap";
 import {
   EFFECT_TYPE_INCREASE_HAND,
   EFFECT_TYPE_INCREASE_HOLD, EFFECT_TYPE_INCREASE_TAKE,
@@ -30,7 +36,7 @@ import {
 } from "@/const";
 
 export default {
-  name: "Effect",
+  name: "EffectToast",
   methods: {
     EFFECT_TYPE_SHIFT_DEGREE_RANDOM() {
       return EFFECT_TYPE_SHIFT_DEGREE_RANDOM
@@ -67,6 +73,8 @@ export default {
     },
   },
   mounted() {
+    let toast = new Toast(document.getElementById(this.effect.id), {delay: 3000});
+    toast.show();
   },
   props: ['effect', 'effects_config', 'degrees_config']
 }
