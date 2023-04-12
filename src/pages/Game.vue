@@ -28,31 +28,13 @@
     <div class="container-fluid">
 
       <div>
-        <span class="badge text-bg-success">
-          <i class="fa-regular fa-calendar"></i>&nbsp;
-          <span class="d-none d-lg-inline">
-            Год
-          </span>
-          {{ context.year }} / {{ context.years_to_win }}
-        </span>
+        <RoundsBadge
+          :context="context"
+        />
 
-        <span class="badge text-bg-success ms-1">
-          <i class="fa-solid fa-check"></i>&nbsp;
-          <span class="d-none d-lg-inline">
-            Срок
-          </span>
-          <span v-if="electivity.is_castling">
-            <i class="fa-solid fa-rotate-left"></i>
-            {{ electivity.term_year_left }}
-          </span>
-          <span v-else>
-            {{ electivity.term_year_left }} | {{ electivity.term_counts - electivity.term_number + 1 }}
-          </span>
-        </span>
-
-
-<!--        <span class="badge text-bg-light">Срок</span>-->
-<!--        <span class="badge text-bg-success me-2">{{ context.term_number }}/{{ context.term_year }}</span>-->
+        <ElectivityBadge
+          :electivity="electivity"
+        />
 
         <span class="ms-3 d-none d-md-inline">
           <DecreeShort
@@ -202,11 +184,13 @@ import NewRoundModal from "@/components/NewRoundModal.vue";
 import DecreeShort from "@/components/DecreeShort.vue";
 import Deck from "@/components/Deck.vue";
 import Effect from "@/components/Effect.vue";
+import ElectivityBadge from "@/components/ElectivityBadge.vue";
+import RoundsBadge from "@/components/RoundsBadge.vue";
 </script>
 
 <script>
 import axios from "axios";
-import { Modal, Toast } from "bootstrap";
+import { Modal, Toast, Tooltip } from "bootstrap";
 
 import {SERVER_URL} from "@/settings";
 import {
