@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import {BENEFIT_DIRECTION_DECREASE, BENEFIT_DIRECTION_INCREASE} from "@/const";
+import {BENEFIT_DIRECTION_DECREASE, BENEFIT_DIRECTION_INCREASE, DEGREE_NAME_CRISIS} from "@/const";
 import DecreeIcon from "@/components/DecreeIcon.vue";
 
 export default {
@@ -50,6 +50,10 @@ export default {
       return this.degree.value / this.degree_config.value_max * 100;
     },
     color: function () {
+      if (this.degree.name === DEGREE_NAME_CRISIS) {
+        return "danger";
+      }
+      
       if (this.degree_config.info.benefit_direction === BENEFIT_DIRECTION_DECREASE) {
         if (this.percent() > 90) {
           return "danger";

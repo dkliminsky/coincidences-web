@@ -6,6 +6,9 @@ export const GAME_STATUS_LOSE = 'lose';
 export const LOSE_REASON_ELECTIVITY = 'electivity';
 
 
+export const DEGREE_NAME_EGO = 'ego';
+export const DEGREE_NAME_CRISIS = 'crisis';
+
 
 export const BENEFIT_DIRECTION_INCREASE = 'increase';
 export const BENEFIT_DIRECTION_DECREASE = 'decrease';

@@ -109,6 +109,34 @@
     </div>
   </div>
 
+  <div v-if="isReady()" class="container-fluid">
+    <div class="row">
+
+      <div class="col">
+        <table class="table table-sm table-borderless table-hover align-middle">
+          <tbody>
+          <Degree
+              :degree="degrees['ego']"
+              :degrees_config="config.degrees"
+          />
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col">
+        <table class="table table-sm table-borderless table-hover align-middle">
+          <tbody>
+          <Degree
+              :degree="degrees['crisis']"
+              :degrees_config="config.degrees"
+          />
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
   <div v-if="isReady()" class="container-fluid mb-5">
     <div class="row gy-3 justify-content-md-center">
       <Card
