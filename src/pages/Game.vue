@@ -2,6 +2,7 @@
   <EndGameModal
       v-if="isReady()"
       :context="context"
+      :config="config"
       @newGameEvent="createGameRequest"
   />
 
@@ -33,6 +34,7 @@
         />
 
         <ElectivityBadge
+          v-if="electivity.is_no_electivity === false"
           :electivity="electivity"
         />
 
