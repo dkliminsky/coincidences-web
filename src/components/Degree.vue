@@ -24,6 +24,10 @@
         <i class="fa-solid fa-shield"></i>
         {{ degree.protection }}
       </span>
+      <span class="badge badge-icon text-bg-dark ms-1">
+        <i :class="change_probability_icon()"></i>
+        {{ change_probability() }}%
+      </span>
     </td>
   </tr>
 </template>
@@ -48,6 +52,15 @@ export default {
   methods: {
     percent: function() {
       return this.degree.value / this.degree_config.value_max * 100;
+    },
+    change_probability: function() {
+      return Math.round(Math.abs(this.degree.change_probability) * 100);
+    },
+    change_probability_icon: function() {
+      if (this.degree.change_probability >= 0){
+        return 'fa-solid fa-arrow-up';
+      }
+      return 'fa-solid fa-arrow-down';
     },
     color: function () {
       if (this.degree.name === DEGREE_NAME_CRISIS) {

@@ -51,12 +51,12 @@
 
             <div class="col align-self-center text-center">
               <span>
-                <i :class="decks_config[card.category].info.fontawesome_icon"></i>
+                <i :class="cards_category_config[card.category].info.fontawesome_icon"></i>
               </span>
             </div>
 
             <div class="col">
-              <button v-if="card.can_hold" @click="$emit('holdCardEvent', card)" class="btn btn-warning float-end">
+              <button v-if="card.can_hold" @click="$emit('discardCardEvent', card)" class="btn btn-warning float-end">
                 <i class="fa-solid fa-reply"></i> {{ context.actions_hold }}
               </button>
               <button v-else class="btn btn-outline-primary float-end disabled">
@@ -100,7 +100,7 @@ export default {
       return this.degrees_config[name].info.title;
     },
   },
-  props: ['context', 'card', 'degrees_config', 'decks_config']
+  props: ['context', 'card', 'degrees_config', 'cards_category_config']
 }
 </script>
 

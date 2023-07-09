@@ -1,10 +1,5 @@
 <template>
-<!--  <div type="button" class="btn btn-outline-success me-1 d-none d-xl-inline">-->
-<!--    <span :class="wide_class">{{ title }}</span> <i :class="icon"></i>-->
-<!--    {{ decks[deck_name].deck_size }}/{{ decks[deck_name].hold_size }}-->
-<!--  </div>-->
-
-  <button v-if="decks[deck_config.category].can_take" @click="$emit('takeCardEvent', deck_config.category)" class="btn btn-success me-1">
+  <button v-if="decks[deck_config.category].can_take" @click="$emit('takeCardEvent', { id: '356bb5bd-a355-4bac-9a08-758c18cef860'})" class="btn btn-success me-1">
     <i :class="deck_config.info.fontawesome_icon"></i> <span :class="wide_class">{{ deck_config.info.title }}</span> <i class="fa-regular fa-circle-down"></i>
 <!--    <span :class="wide_class">{{ context.actions_take }}</span>-->
   </button>

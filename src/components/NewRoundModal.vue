@@ -9,45 +9,41 @@
         </div>
         <div class="modal-body">
 
-          <span v-if="new_events.length">
-            <h6>
-              {{ new_events[0].info.title }}
-            </h6>
+<!--          <span v-if="new_events.length">-->
+<!--            <h6>-->
+<!--              {{ new_events[0].info.title }}-->
+<!--            </h6>-->
 
-            <p>
-              {{ new_events[0].info.description_base }}
-            </p>
+<!--            <p>-->
+<!--              {{ new_events[0].info.description_base }}-->
+<!--            </p>-->
+<!--          </span>-->
 
-            <p>
-              {{ new_events[0].info.description_partial }}
-            </p>
-          </span>
+<!--          <div class="alert alert-dark" role="alert">-->
+<!--            <h6>Последствия события</h6>-->
+<!--            <template v-for="effect in new_effects">-->
+<!--              <p v-if="effect.type === EFFECT_TYPE_SHIFT_DEGREE_EVENT()" class="mb-0">-->
+<!--                <Effect-->
+<!--                    :effect="effect"-->
+<!--                    :effects_config="effects_config"-->
+<!--                    :degrees_config="degrees_config"-->
+<!--                />-->
+<!--              </p>-->
+<!--            </template>-->
+<!--          </div>-->
 
-          <div class="alert alert-dark" role="alert">
-            <h6>Последствия события</h6>
-            <template v-for="effect in new_effects">
-              <p v-if="effect.type === EFFECT_TYPE_SHIFT_DEGREE_EVENT()" class="mb-0">
-                <Effect
-                    :effect="effect"
-                    :effects_config="effects_config"
-                    :degrees_config="degrees_config"
-                />
-              </p>
-            </template>
-          </div>
-
-          <div class="alert alert-dark" role="alert">
-            <h6>Случайные последствия</h6>
-            <template v-for="effect in new_effects">
-              <p v-if="effect.type === EFFECT_TYPE_SHIFT_DEGREE_RANDOM()" class="mb-0" >
-                <Effect
-                    :effect="effect"
-                    :effects_config="effects_config"
-                    :degrees_config="degrees_config"
-                />
-              </p>
-            </template>
-          </div>
+<!--          <div class="alert alert-dark" role="alert">-->
+<!--            <h6>Случайные последствия</h6>-->
+<!--            <template v-for="effect in new_effects">-->
+<!--              <p v-if="effect.type === EFFECT_TYPE_SHIFT_DEGREE_RANDOM()" class="mb-0" >-->
+<!--                <Effect-->
+<!--                    :effect="effect"-->
+<!--                    :effects_config="effects_config"-->
+<!--                    :degrees_config="degrees_config"-->
+<!--                />-->
+<!--              </p>-->
+<!--            </template>-->
+<!--          </div>-->
 
         </div>
         <div class="modal-footer">

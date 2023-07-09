@@ -8,8 +8,7 @@
 
   <NewRoundModal
       v-if="isReady()"
-      :new_events="new_events"
-      :new_effects="new_effects"
+      :messages="messages"
       :effects_config="config.effects"
       :degrees_config="config.degrees"
       @closeNewRoundModalEvent="closeNewRoundModal"
@@ -145,9 +144,9 @@
           :key="card.id"
           :card="card"
           :degrees_config="config.degrees"
-          :decks_config="config.decks"
+          :cards_category_config="config.cards_category"
           @applyCardEvent="applyCardRequest"
-          @holdCardEvent="holdCardRequest"
+          @discardCardEvent="discardCardRequest"
       />
 
       <div class="col d-none d-sm-inline" style="width: 100%"></div>
@@ -192,15 +191,14 @@
 
       </div>
 
-      <div>
-        <Deck
-          v-for="deck_config in config.decks"
-          :context="context"
-          :decks="decks"
-          :deck_config="deck_config"
-          @takeCardEvent="takeCardRequest"
-        />
-      </div>
+<!--      <div>-->
+<!--        <Deck-->
+<!--          v-for="deck_config in config.decks"-->
+<!--          :context="context"-->
+<!--          :deck_config="deck_config"-->
+<!--          @takeCardEvent="takeCardRequest"-->
+<!--        />-->
+<!--      </div>-->
     </div>
   </nav>
 
@@ -238,11 +236,8 @@ export default {
       electivity: null,
       degrees: null,
       config: null,
-      decks: null,
       cards: [],
-
-      new_effects: [],
-      new_events: [],
+      messages: [],
 
       degreeResources: ['elite', 'finance', 'law', 'siloviki', 'media'],
       degreeProblems: ['corruption', 'economy', 'social', 'distrust', 'opposition'],
@@ -284,9 +279,7 @@ export default {
       this.electivity = info.electivity;
       this.degrees = info.degrees;
       this.cards = info.hand;
-      this.decks = info.decks;
-      this.new_effects = info.new_effects;
-      this.new_events = info.new_events;
+      this.messages = info.messages;
 
       if (this.context.status !== GAME_STATUS_PROCESSING) {
         this.showEndGameModal();
@@ -336,13 +329,13 @@ export default {
             this.handleRequestError(error);
           })
     },
-    takeCardRequest(deck_name) {
-      axios.post('/api/game/take_card', {
+    takeCardRequest(card) {
+      axios.post('/api/game/card/take', {
         session_id: this.sessionId,
-        deck_name: deck_name,
+        card_id: card.id,
       })
           .then(response => {
-            console.log('Card taken', deck_name);
+            console.log('Card taken', card.id);
             this.updateState(response.data);
           })
           .catch(error => {
@@ -350,7 +343,7 @@ export default {
           })
     },
     applyCardRequest(card) {
-      axios.post('/api/game/apply_card', {
+      axios.post('/api/game/card/apply', {
         session_id: this.sessionId,
         card_id: card.id,
       })
@@ -362,13 +355,13 @@ export default {
             this.handleRequestError(error);
           })
     },
-    holdCardRequest(card) {
-      axios.post('/api/game/hold_card', {
+    discardCardRequest(card) {
+      axios.post('/api/game/card/discard', {
         session_id: this.sessionId,
         card_id: card.id,
       })
           .then(response => {
-            console.log('Card held', card.id);
+            console.log('Card discard', card.id);
             this.updateState(response.data);
           })
           .catch(error => {
