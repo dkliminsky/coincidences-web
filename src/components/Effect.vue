@@ -1,6 +1,6 @@
 <template>
 
-  <i :class="effect_config().info.fontawesome_icon"></i>&nbsp;
+  <i class="fa-solid fa-square-check"></i>&nbsp;
 
   <span v-if="effect.type === EFFECT_TYPE_SHIFT_DEGREE()">
     {{ effect.title }}
@@ -47,9 +47,6 @@ export default {
     EFFECT_TYPE_SHIFT_DEGREE() {
       return EFFECT_TYPE_SHIFT_DEGREE
     },
-    effect_config() {
-      return this.effects_config[this.effect.type];
-    },
     degree_config() {
       return this.degrees_config[this.effect.degree_name];
     },
@@ -62,7 +59,7 @@ export default {
   },
   mounted() {
   },
-  props: ['effect', 'effects_config', 'degrees_config']
+  props: ['effect', 'degrees_config']
 }
 </script>
 

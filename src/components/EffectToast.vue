@@ -2,20 +2,7 @@
   <div v-bind:id="effect.id" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-body">
 
-      <i :class="effect_config().info.fontawesome_icon"></i>&nbsp;
-
-      <span v-if="effect.type === EFFECT_TYPE_SHIFT_DEGREE()">
-        {{ degree_config().info.title }} {{ shift_value() }}
-      </span>
-      <span v-else-if="effect.type === EFFECT_TYPE_SHIFT_DEGREE_EVENT()">
-        {{ degree_config().info.title }} {{ shift_value() }}
-      </span>
-      <span v-else-if="effect.type === EFFECT_TYPE_PROTECT_DEGREE()">
-        {{ degree_config().info.title }}
-      </span>
-      <span v-else>
-        {{ effect_config().info.title }}
-      </span>
+      <i class="fa-solid fa-square-check"></i>&nbsp;text
 
 <!--      <button type="button" class="btn btn-primary" data-bs-dismiss="toast">OK</button>-->
 <!--      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>-->
@@ -35,24 +22,6 @@ import {
 export default {
   name: "EffectToast",
   methods: {
-    EFFECT_TYPE_INCREASE_TAKE() {
-      return EFFECT_TYPE_INCREASE_TAKE
-    },
-    EFFECT_TYPE_INCREASE_HOLD() {
-      return EFFECT_TYPE_INCREASE_HOLD
-    },
-    EFFECT_TYPE_INCREASE_HAND() {
-      return EFFECT_TYPE_INCREASE_HAND
-    },
-    EFFECT_TYPE_PROTECT_DEGREE() {
-      return EFFECT_TYPE_PROTECT_DEGREE
-    },
-    EFFECT_TYPE_SHIFT_DEGREE() {
-      return EFFECT_TYPE_SHIFT_DEGREE
-    },
-    effect_config() {
-      return this.effects_config[this.effect.type];
-    },
     degree_config() {
       return this.degrees_config[this.effect.degree_name];
     },
@@ -67,7 +36,7 @@ export default {
     let toast = new Toast(document.getElementById(this.effect.id), {delay: 3000});
     toast.show();
   },
-  props: ['effect', 'effects_config', 'degrees_config']
+  props: ['effect', 'degrees_config']
 }
 </script>
 

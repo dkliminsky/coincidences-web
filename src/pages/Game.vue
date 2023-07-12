@@ -9,7 +9,6 @@
   <MessagesModal
       v-if="isReady()"
       :messages="messages"
-      :effects_config="config.effects"
       :degrees_config="config.degrees"
       @closeMessagesModalEvent="closeMessagesModal"
   />
@@ -18,7 +17,6 @@
 <!--    <span v-for="effect in effects">-->
 <!--      <EffectToast-->
 <!--        :effect="effect"-->
-<!--        :effects_config="config.effects"-->
 <!--        :degrees_config="config.degrees"-->
 <!--      />-->
 <!--    </span>-->
