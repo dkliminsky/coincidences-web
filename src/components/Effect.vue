@@ -3,19 +3,19 @@
   <i :class="effect_config().info.fontawesome_icon"></i>&nbsp;
 
   <span v-if="effect.type === EFFECT_TYPE_SHIFT_DEGREE()">
-    {{ degree_config().info.title }} {{ shift_value() }}
-  </span>
-  <span v-else-if="effect.type === EFFECT_TYPE_SHIFT_DEGREE_EVENT()">
-    {{ degree_config().info.title }} {{ shift_value() }}
-  </span>
-  <span v-else-if="effect.type === EFFECT_TYPE_SHIFT_DEGREE_RANDOM()">
-    {{ degree_config().info.title }} {{ shift_value() }}
+    {{ effect.title }}
+<!--    {{ degrees_config[effect.degree_name].info.title }}: -->
+    [
+    <i :class="degrees_config[effect.degree_name].info.fontawesome_icon"></i>&nbsp;
+    {{ degrees_config[effect.degree_name].info.title_short }}
+    {{ shift_value() }}
+    ]
   </span>
   <span v-else-if="effect.type === EFFECT_TYPE_PROTECT_DEGREE()">
     {{ degree_config().info.title }}
   </span>
   <span v-else>
-    {{ effect_config().info.title }}
+    {{ effect.type }}
   </span>
 
 </template>
@@ -26,18 +26,12 @@ import {
   EFFECT_TYPE_INCREASE_HAND,
   EFFECT_TYPE_INCREASE_HOLD, EFFECT_TYPE_INCREASE_TAKE,
   EFFECT_TYPE_PROTECT_DEGREE,
-  EFFECT_TYPE_SHIFT_DEGREE, EFFECT_TYPE_SHIFT_DEGREE_EVENT, EFFECT_TYPE_SHIFT_DEGREE_RANDOM
+  EFFECT_TYPE_SHIFT_DEGREE
 } from "@/const";
 
 export default {
   name: "Effect",
   methods: {
-    EFFECT_TYPE_SHIFT_DEGREE_RANDOM() {
-      return EFFECT_TYPE_SHIFT_DEGREE_RANDOM
-    },
-    EFFECT_TYPE_SHIFT_DEGREE_EVENT() {
-      return EFFECT_TYPE_SHIFT_DEGREE_EVENT
-    },
     EFFECT_TYPE_INCREASE_TAKE() {
       return EFFECT_TYPE_INCREASE_TAKE
     },

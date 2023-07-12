@@ -6,12 +6,12 @@
       @newGameEvent="createGameRequest"
   />
 
-  <NewRoundModal
+  <MessagesModal
       v-if="isReady()"
       :messages="messages"
       :effects_config="config.effects"
       :degrees_config="config.degrees"
-      @closeNewRoundModalEvent="closeNewRoundModal"
+      @closeMessagesModalEvent="closeMessagesModal"
   />
 
 <!--  <div v-if="isReady()" class="toast-container position-fixed bottom-0 end-0 p-3">-->
@@ -208,7 +208,7 @@
 import Card from '@/components/Card.vue'
 import Degree from "@/components/Degree.vue";
 import EndGameModal from "@/components/EndGameModal.vue";
-import NewRoundModal from "@/components/NewRoundModal.vue";
+import MessagesModal from "@/components/MessagesModal.vue";
 import DecreeShort from "@/components/DecreeShort.vue";
 import Deck from "@/components/Deck.vue";
 import Effect from "@/components/Effect.vue";
@@ -262,16 +262,16 @@ export default {
       let modal = new Modal(document.getElementById("end-game-modal"), {});
       modal.show();
     },
-    closeNewRoundModal() {
+    showMessagesModal() {
+      let modal = new Modal(document.getElementById("messages-modal"), {});
+      modal.show();
+    },
+    closeMessagesModal() {
+      this.readAllMessagesRequest();
     },
     doNewRound(info) {
       window.scrollTo(0, 0);
       this.updateState(info);
-
-      if (this.context.status === GAME_STATUS_PROCESSING) {
-        let modal = new Modal(document.getElementById("new-round-modal"), {});
-        modal.show();
-      }
     },
     updateState(info) {
       console.log('Updating state:', info);
@@ -283,6 +283,10 @@ export default {
 
       if (this.context.status !== GAME_STATUS_PROCESSING) {
         this.showEndGameModal();
+      }
+
+      if (this.messages.length) {
+        this.showMessagesModal();
       }
 
       // this.effects.push.apply(this.effects, info.new_effects);
@@ -375,6 +379,17 @@ export default {
           .then(response => {
             console.log('Year finished');
             this.doNewRound(response.data);
+          })
+          .catch(error => {
+            this.handleRequestError(error);
+          })
+    },
+    readAllMessagesRequest() {
+      axios.post('/api/game/message/read_all', {
+        session_id: this.sessionId,
+      })
+          .then(response => {
+            console.log('Read all messages');
           })
           .catch(error => {
             this.handleRequestError(error);

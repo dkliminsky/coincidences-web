@@ -8,7 +8,7 @@
         </div>
         <div class="modal-body">
           <p>
-            {{ config.texts.game_win }}
+            next
           </p>
         </div>
         <div class="modal-footer">
@@ -22,11 +22,8 @@
           <h5 class="modal-title">Поражение</h5>
         </div>
         <div class="modal-body">
-          <p v-if="context.lose_reason == LOSE_REASON_ELECTIVITY()">
-            {{ config.texts.game_lose_electivity }}
-          </p>
-          <p v-else>
-            {{ config.texts.game_lose }}
+          <p>
+            text
           </p>
         </div>
         <div class="modal-footer">

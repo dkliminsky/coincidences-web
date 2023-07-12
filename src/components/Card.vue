@@ -53,10 +53,13 @@
               <span>
                 <i :class="cards_category_config[card.category].info.fontawesome_icon"></i>
               </span>
+              <span v-if="card.has_dependency" class="ms-2">
+                <i class="fa-solid fa-link"></i>
+              </span>
             </div>
 
             <div class="col">
-              <button v-if="card.can_hold" @click="$emit('discardCardEvent', card)" class="btn btn-warning float-end">
+              <button v-if="card.can_discard" @click="$emit('discardCardEvent', card)" class="btn btn-warning float-end">
                 <i class="fa-solid fa-reply"></i> {{ context.actions_hold }}
               </button>
               <button v-else class="btn btn-outline-primary float-end disabled">
