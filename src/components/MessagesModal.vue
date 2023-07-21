@@ -14,9 +14,9 @@
 
             <div class="modal-body">
               <h5 class="modal-title">Событие: {{ message.event.info.title }}</h5>
-              {{ message.event.info.description_base }}
+              {{ message.event.info.description }}
 
-              <template v-for="effect in message.event.effects_base">
+              <template v-for="effect in message.event.effects">
                 <p class="mb-0" >
                   <Effect
                       :effect="effect"

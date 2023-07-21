@@ -6,6 +6,12 @@ export const GAME_STATUS_LOSE = 'lose';
 export const LOSE_REASON_ELECTIVITY = 'electivity';
 
 
+export const DECK_TYPE_CHOICE = 'choice'
+export const DECK_TYPE_HAND = 'hand'
+export const DECK_TYPE_TEMPORARY = 'temporary'
+
+
+export const DEGREE_NAME_MEDIA = 'media';
 export const DEGREE_NAME_EGO = 'ego';
 export const DEGREE_NAME_CRISIS = 'crisis';
 
@@ -23,6 +29,7 @@ export const MESSAGE_TYPE_TERM = 'term'
 
 
 export const EFFECT_TYPE_SHIFT_DEGREE = 'shift_degree';
+export const PROPAGANDA = 'propaganda';
 export const EFFECT_TYPE_PROTECT_DEGREE = 'protect_degree'
 export const EFFECT_TYPE_INCREASE_HAND = 'increase_hand'
 export const EFFECT_TYPE_INCREASE_HOLD = 'increase_hold'

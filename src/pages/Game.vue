@@ -136,13 +136,39 @@
 
   <div v-if="isReady()" class="container-fluid mb-5">
     <div class="row gy-3 justify-content-md-center">
+
       <Card
-          v-for="card in cards"
+          v-for="card in cards_choice"
           :context="context"
           :key="card.id"
           :card="card"
           :degrees_config="config.degrees"
           :cards_category_config="config.cards_category"
+          @takeCardEvent="takeCardRequest"
+          @applyCardEvent="applyCardRequest"
+          @discardCardEvent="discardCardRequest"
+      />
+
+      <Card
+          v-for="card in cards_hand"
+          :context="context"
+          :key="card.id"
+          :card="card"
+          :degrees_config="config.degrees"
+          :cards_category_config="config.cards_category"
+          @takeCardEvent="takeCardRequest"
+          @applyCardEvent="applyCardRequest"
+          @discardCardEvent="discardCardRequest"
+      />
+
+      <Card
+          v-for="card in cards_temporary"
+          :context="context"
+          :key="card.id"
+          :card="card"
+          :degrees_config="config.degrees"
+          :cards_category_config="config.cards_category"
+          @takeCardEvent="takeCardRequest"
           @applyCardEvent="applyCardRequest"
           @discardCardEvent="discardCardRequest"
       />
@@ -161,13 +187,13 @@
   <nav v-if="isReady()" class="navbar fixed-bottom">
     <div class="container-fluid pe-1">
       <div>
-        <span class="badge badge-icon text-bg-light me-3 d-none d-sm-inline">
-          <i class="fa-solid fa-hand"></i>
+<!--        <span class="badge badge-icon text-bg-light me-3 d-none d-sm-inline">-->
+<!--          <i class="fa-solid fa-hand"></i>-->
 <!--          <span class="d-none d-lg-inline">-->
 <!--            Карты-->
 <!--          </span>-->
-          {{ cards.length }} / {{ context.hand_size }}
-        </span>
+<!--          {{ cards_hand.length }} / {{ context.hand_size }}-->
+<!--        </span>-->
 
         <span class="badge badge-icon text-bg-success me-1 d-none d-sm-inline">
           <i class="fa-solid fa-circle-down"></i>
@@ -184,7 +210,7 @@
         <span class="badge badge-icon text-bg-warning me-1 d-none d-sm-inline">
           <i class="fa-solid fa-reply"></i>
 <!--          Отложить-->
-          {{ context.actions_hold }}
+          {{ context.actions_discard }}
         </span>
 
       </div>
@@ -234,7 +260,9 @@ export default {
       electivity: null,
       degrees: null,
       config: null,
-      cards: [],
+      cards_choice: [],
+      cards_hand: [],
+      cards_temporary: [],
       messages: [],
 
       degreeResources: ['elite', 'finance', 'law', 'siloviki', 'media'],
@@ -276,7 +304,9 @@ export default {
       this.context = info.context;
       this.electivity = info.electivity;
       this.degrees = info.degrees;
-      this.cards = info.hand;
+      this.cards_choice = info.cards.choice;
+      this.cards_hand = info.cards.hand;
+      this.cards_temporary = info.cards.temporary;
       this.messages = info.messages;
 
       if (this.context.status !== GAME_STATUS_PROCESSING) {

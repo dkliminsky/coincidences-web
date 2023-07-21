@@ -29,6 +29,27 @@
               <span class="badge text-bg-info">{{ degree_title(effect.degree_name) }}</span>
               <span class="badge badge-number text-bg-dark me-1">{{ effectValue(effect.shift_value) }}</span>
             </div>
+
+            <div v-if="effect.type === PROPAGANDA()">
+              <DecreeIcon
+                  :name="effect.degree_name"
+                  :degrees_config="degrees_config"
+                  color="primary"
+              />
+              <span class="badge text-bg-danger">{{ degree_title(DEGREE_NAME_MEDIA()) }}</span>
+              <span class="badge badge-number text-bg-dark me-1">0/3/6/9</span>
+            </div>
+
+            <div v-if="effect.type === PROPAGANDA()">
+              <DecreeIcon
+                  :name="effect.degree_name"
+                  :degrees_config="degrees_config"
+                  color="primary"
+              />
+              <span class="badge text-bg-info">{{ degree_title(effect.degree_name) }}</span>
+              <span class="badge badge-number text-bg-dark me-1">0/-1/-2/-3</span>
+            </div>
+
           </div>
         </div>
 
@@ -49,6 +70,15 @@
               </button>
             </div>
 
+            <div class="col">
+              <button v-if="card.can_take" @click="$emit('takeCardEvent', card)" class="btn btn-success">
+                <i class="fa-solid fa-circle-down"></i> {{ context.actions_take }}
+              </button>
+              <button v-else class="btn btn-outline-primary disabled">
+                <i class="fa-solid fa-circle-down"></i> {{ context.actions_take }}
+              </button>
+            </div>
+
             <div class="col align-self-center text-center">
               <span>
                 <i :class="cards_category_config[card.category].info.fontawesome_icon"></i>
@@ -56,14 +86,17 @@
               <span v-if="card.has_dependency" class="ms-2">
                 <i class="fa-solid fa-link"></i>
               </span>
+              <span v-if="card.temp_year" class="ms-2">
+                <i class="fa-solid fa-hourglass-start"></i>
+              </span>
             </div>
 
             <div class="col">
               <button v-if="card.can_discard" @click="$emit('discardCardEvent', card)" class="btn btn-warning float-end">
-                <i class="fa-solid fa-reply"></i> {{ context.actions_hold }}
+                <i class="fa-solid fa-reply"></i> {{ context.actions_discard }}
               </button>
               <button v-else class="btn btn-outline-primary float-end disabled">
-                <i class="fa-solid fa-reply"></i> {{ context.actions_hold }}
+                <i class="fa-solid fa-reply"></i> {{ context.actions_discard }}
               </button>
             </div>
 
@@ -76,7 +109,7 @@
 </template>
 
 <script>
-import {EFFECT_TYPE_SHIFT_DEGREE} from "@/const";
+import {DEGREE_NAME_MEDIA, EFFECT_TYPE_SHIFT_DEGREE, PROPAGANDA} from "@/const";
 import DecreeIcon from "@/components/DecreeIcon.vue";
 
 export default {
@@ -91,6 +124,12 @@ export default {
     },
   },
   methods: {
+    DEGREE_NAME_MEDIA() {
+      return DEGREE_NAME_MEDIA
+    },
+    PROPAGANDA() {
+      return PROPAGANDA
+    },
     effectValue(value) {
       if (value > 0) {
         return '+' + value.toString();
