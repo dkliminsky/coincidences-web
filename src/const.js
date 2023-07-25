@@ -11,6 +11,11 @@ export const DECK_TYPE_HAND = 'hand'
 export const DECK_TYPE_TEMPORARY = 'temporary'
 
 
+export const DEGREE_TYPE_POWER = 'power'
+export const DEGREE_TYPE_PROBLEMS = 'problems'
+export const DEGREE_TYPE_OTHER = 'other'
+
+
 export const DEGREE_NAME_MEDIA = 'media';
 export const DEGREE_NAME_EGO = 'ego';
 export const DEGREE_NAME_CRISIS = 'crisis';

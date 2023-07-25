@@ -18,29 +18,39 @@
         <div :class="'progress-bar progress-bar-striped progress-bar-animated bg-' + color()" :style="'width:' + percent() + '%'"></div>
       </div>
     </td>
+
     <td class="text-nowrap">
+
       <span class="badge badge-number text-bg-dark">{{ degree.value }}</span>
-      <span v-if="degree.protection > 0 " class="badge badge-icon text-bg-dark ms-1">
-        <i class="fa-solid fa-shield"></i>
-<!--        {{ degree.protection }}-->
-      </span>
-      <span v-if="degree.impact > 0 " class="badge badge-icon text-bg-dark ms-1">
-        <i class="fa-solid fa-bolt"></i>
-<!--        {{ degree.impact }}-->
-      </span>
 
-      <span class="badge badge-icon text-bg-dark ms-1">
-        <i :class="trend_icon()"></i>
-        {{ degree.trend }} ( {{ change_probability() }}% )
-      </span>
-
+      <template v-if="degree_type === DEGREE_TYPE_POWER() || degree_type === DEGREE_TYPE_PROBLEMS()">
+        <span v-if="degree.protection > 0 " class="badge badge-icon text-bg-dark ms-1">
+          <i class="fa-solid fa-shield"></i>
+  <!--        {{ degree.protection }}-->
+        </span>
+        <span v-if="degree.impact > 0 " class="badge badge-icon text-bg-dark ms-1">
+          <i class="fa-solid fa-bolt"></i>
+  <!--        {{ degree.impact }}-->
+        </span>
+        <span class="badge badge-icon text-bg-dark ms-1">
+          <i :class="trend_icon()"></i>
+          {{ degree.trend }} ( {{ change_probability() }}% )
+        </span>
+      </template>
 
     </td>
+
   </tr>
 </template>
 
 <script>
-import {BENEFIT_DIRECTION_DECREASE, BENEFIT_DIRECTION_INCREASE, DEGREE_NAME_CRISIS} from "@/const";
+import {
+  BENEFIT_DIRECTION_DECREASE,
+  BENEFIT_DIRECTION_INCREASE,
+  DEGREE_NAME_CRISIS,
+  DEGREE_TYPE_POWER,
+  DEGREE_TYPE_PROBLEMS
+} from "@/const";
 import DecreeIcon from "@/components/DecreeIcon.vue";
 
 export default {
@@ -57,6 +67,12 @@ export default {
     },
   },
   methods: {
+    DEGREE_TYPE_PROBLEMS() {
+      return DEGREE_TYPE_PROBLEMS
+    },
+    DEGREE_TYPE_POWER() {
+      return DEGREE_TYPE_POWER
+    },
     percent: function() {
       return this.degree.value / this.degree_config.value_max * 100;
     },
@@ -97,7 +113,7 @@ export default {
       }
     }
   },
-  props: ['degree', 'degrees_config']
+  props: ['degree', 'degrees_config', 'degree_type']
 
 }
 </script>

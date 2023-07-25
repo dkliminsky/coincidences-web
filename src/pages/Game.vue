@@ -35,7 +35,7 @@
           :electivity="electivity"
         />
 
-        <span class="ms-3 d-none d-md-inline">
+        <span class="ms-3 d-none d-lg-inline">
           <DecreeShort
               v-for="name in degreeResources"
               :name="name"
@@ -45,7 +45,7 @@
           />
         </span>
 
-        <span class="ms-3 d-none d-md-inline">
+        <span class="ms-3 d-none d-lg-inline">
           <DecreeShort
               v-for="name in degreeProblems"
               :name="name"
@@ -54,18 +54,39 @@
               color="light"
           />
         </span>
-
       </div>
 
       <div class="width: 100%;"></div>
 
       <div>
-        <button @click="finishYearRequest()" class="btn btn-danger ms-2" type="submit">
-          <span class="d-none d-lg-inline">
+        <span class="badge badge-icon text-bg-success me-1 d-none d-sm-inline">
+          <i class="fa-solid fa-circle-down"></i>
+          {{ context.actions_take }}
+        </span>
+
+        <span class="badge badge-icon text-bg-info me-1 d-none d-sm-inline">
+          <i class="fa-solid fa-square-check"></i>
+          {{ context.actions_apply }}
+        </span>
+
+        <span class="badge badge-icon text-bg-warning me-1 d-none d-sm-inline">
+          <i class="fa-solid fa-reply"></i>
+          {{ context.actions_discard }}
+        </span>
+
+        <button v-if="context.can_finish_turn" @click="finishYearRequest()" class="btn btn-danger ms-2" type="submit">
+          <span class="d-none d-xl-inline">
             Новый раунд
           </span>
           <i class="fa-solid fa-hourglass-start"></i>
         </button>
+        <button v-else @click="finishYearRequest()" class="btn btn-danger ms-2 disabled" type="submit">
+          <span class="d-none d-xl-inline">
+            Новый раунд
+          </span>
+          <i class="fa-solid fa-hourglass-start"></i>
+        </button>
+
       </div>
 
     </div>
@@ -85,6 +106,7 @@
               :key="name"
               :degree="degrees[name]"
               :degrees_config="config.degrees"
+              :degree_type=DEGREE_TYPE_POWER
           />
           </tbody>
         </table>
@@ -98,6 +120,7 @@
               :key="name"
               :degree="degrees[name]"
               :degrees_config="config.degrees"
+              :degree_type=DEGREE_TYPE_PROBLEMS
           />
           </tbody>
         </table>
@@ -115,6 +138,7 @@
           <Degree
               :degree="degrees['ego']"
               :degrees_config="config.degrees"
+              :degree_type=DEGREE_TYPE_OTHER
           />
           </tbody>
         </table>
@@ -126,6 +150,7 @@
           <Degree
               :degree="degrees['crisis']"
               :degrees_config="config.degrees"
+              :degree_type=DEGREE_TYPE_OTHER
           />
           </tbody>
         </table>
@@ -135,7 +160,7 @@
   </div>
 
   <div v-if="isReady()" class="container-fluid mb-5">
-    <div class="row gy-3 justify-content-md-center">
+    <div v-if="cards_choice.length" class="row gy-3 justify-content-md-center mb-5">
 
       <Card
           v-for="card in cards_choice"
@@ -144,10 +169,20 @@
           :card="card"
           :degrees_config="config.degrees"
           :cards_category_config="config.cards_category"
+          :deck_type=DECK_TYPE_CHOICE
           @takeCardEvent="takeCardRequest"
           @applyCardEvent="applyCardRequest"
           @discardCardEvent="discardCardRequest"
       />
+
+      <div class="col d-none d-sm-inline" style="width: 100%"></div>
+      <div class="col d-none d-sm-inline" style="width: 100%"></div>
+      <div class="col d-none d-sm-inline" style="width: 100%"></div>
+      <div class="col d-none d-sm-inline" style="width: 100%"></div>
+
+    </div>
+
+    <div class="row gy-3 justify-content-md-center">
 
       <Card
           v-for="card in cards_hand"
@@ -156,6 +191,7 @@
           :card="card"
           :degrees_config="config.degrees"
           :cards_category_config="config.cards_category"
+          :deck_type=DECK_TYPE_HAND
           @takeCardEvent="takeCardRequest"
           @applyCardEvent="applyCardRequest"
           @discardCardEvent="discardCardRequest"
@@ -168,6 +204,7 @@
           :card="card"
           :degrees_config="config.degrees"
           :cards_category_config="config.cards_category"
+          :deck_type=DECK_TYPE_TEMPORARY
           @takeCardEvent="takeCardRequest"
           @applyCardEvent="applyCardRequest"
           @discardCardEvent="discardCardRequest"
@@ -184,47 +221,14 @@
     <div class="row"></div>
   </div>
 
-  <nav v-if="isReady()" class="navbar fixed-bottom">
-    <div class="container-fluid pe-1">
-      <div>
-<!--        <span class="badge badge-icon text-bg-light me-3 d-none d-sm-inline">-->
-<!--          <i class="fa-solid fa-hand"></i>-->
-<!--          <span class="d-none d-lg-inline">-->
-<!--            Карты-->
-<!--          </span>-->
-<!--          {{ cards_hand.length }} / {{ context.hand_size }}-->
-<!--        </span>-->
-
-        <span class="badge badge-icon text-bg-success me-1 d-none d-sm-inline">
-          <i class="fa-solid fa-circle-down"></i>
-<!--          Взять-->
-          {{ context.actions_take }}
-        </span>
-
-        <span class="badge badge-icon text-bg-info me-1 d-none d-sm-inline">
-          <i class="fa-solid fa-square-check"></i>
-<!--          Активировать-->
-          {{ context.actions_apply }}
-        </span>
-
-        <span class="badge badge-icon text-bg-warning me-1 d-none d-sm-inline">
-          <i class="fa-solid fa-reply"></i>
-<!--          Отложить-->
-          {{ context.actions_discard }}
-        </span>
-
-      </div>
-
+<!--  Нижней блок -->
+<!--  <nav v-if="isReady()" class="navbar fixed-bottom">-->
+<!--    <div class="container-fluid pe-1">-->
 <!--      <div>-->
-<!--        <Deck-->
-<!--          v-for="deck_config in config.decks"-->
-<!--          :context="context"-->
-<!--          :deck_config="deck_config"-->
-<!--          @takeCardEvent="takeCardRequest"-->
-<!--        />-->
+<!---->
 <!--      </div>-->
-    </div>
-  </nav>
+<!--    </div>-->
+<!--  </nav>-->
 
 </template>
 
@@ -238,6 +242,14 @@ import Deck from "@/components/Deck.vue";
 import Effect from "@/components/Effect.vue";
 import ElectivityBadge from "@/components/ElectivityBadge.vue";
 import RoundsBadge from "@/components/RoundsBadge.vue";
+import {
+  DECK_TYPE_CHOICE,
+  DECK_TYPE_HAND,
+  DECK_TYPE_TEMPORARY,
+  DEGREE_TYPE_OTHER,
+  DEGREE_TYPE_POWER,
+  DEGREE_TYPE_PROBLEMS
+} from "@/const";
 </script>
 
 <script>
@@ -267,6 +279,7 @@ export default {
 
       degreeResources: ['elite', 'finance', 'law', 'siloviki', 'media'],
       degreeProblems: ['corruption', 'economy', 'social', 'distrust', 'opposition'],
+      degreeOther: ['ego', 'crisis'],
       decksList: ['corruption', 'economy', 'social', 'distrust', 'opposition'],
     }
   },

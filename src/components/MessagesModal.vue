@@ -8,12 +8,28 @@
         <!--              <h5 class="modal-title">Title</h5>-->
         <!--            </div>-->
 
+
+        <div class="modal-body">
+
         <template v-for="message in messages">
 
-          <template v-if="message.type === MESSAGE_TYPE_EVENT()">
+          <template v-if="message.type === MESSAGE_TYPE_TERM()">
+              <h5 class="modal-title mt-3">Выборы: {{ message.title }}</h5>
+              {{ message.description }}
 
-            <div class="modal-body">
-              <h5 class="modal-title">Событие: {{ message.event.info.title }}</h5>
+              <template v-for="effect in message.effects">
+                <p class="mb-0" >
+                  <Effect
+                      :effect="effect"
+                      :degrees_config="degrees_config"
+                  />
+                </p>
+              </template>
+
+          </template>
+
+          <template v-if="message.type === MESSAGE_TYPE_EVENT()">
+              <h5 class="modal-title mt-3">Событие: {{ message.event.info.title }}</h5>
               {{ message.event.info.description }}
 
               <template v-for="effect in message.event.effects">
@@ -25,12 +41,10 @@
                 </p>
               </template>
 
-            </div>
           </template>
 
           <template v-if="message.type === MESSAGE_TYPE_CHANGES()">
-            <div class="modal-body">
-              <h5 class="modal-title">Изменения</h5>
+              <h5 class="modal-title mt-3">Изменения</h5>
 
               <template v-for="effect in message.effects">
                 <p class="mb-0" >
@@ -41,9 +55,10 @@
                 </p>
               </template>
 
-            </div>
           </template>
         </template>
+
+        </div>
 
         <div class="modal-footer">
           <button type="button" class="btn btn-success" data-bs-dismiss="modal" @click="$emit('closeMessagesModalEvent')">Ок</button>
@@ -58,7 +73,7 @@
 
 
 import Effect from "@/components/Effect.vue";
-import {MESSAGE_TYPE_CHANGES, MESSAGE_TYPE_EVENT} from "@/const";
+import {MESSAGE_TYPE_CHANGES, MESSAGE_TYPE_EVENT, MESSAGE_TYPE_TERM} from "@/const";
 
 export default {
   name: "MessagesModal",
@@ -67,6 +82,9 @@ export default {
 
   },
   methods: {
+    MESSAGE_TYPE_TERM() {
+      return MESSAGE_TYPE_TERM
+    },
     MESSAGE_TYPE_CHANGES() {
       return MESSAGE_TYPE_CHANGES
     },
