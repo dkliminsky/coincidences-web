@@ -6,12 +6,15 @@
       @newGameEvent="createGameRequest"
   />
 
-  <MessagesModal
-      v-if="isReady()"
-      :messages="messages"
-      :degrees_config="config.degrees"
-      @closeMessagesModalEvent="closeMessagesModal"
-  />
+  <div id="messages-modal" class="modal" tabindex="-1">
+    <MessagesModal
+        :messages="messages"
+        :context="context"
+        :degrees_config="config.degrees"
+        @closeMessagesModalEvent="closeMessagesModal"
+        @newGameEvent="createGameRequest"
+    />
+  </div>
 
 <!--  <div v-if="isReady()" class="toast-container position-fixed bottom-0 end-0 p-3">-->
 <!--    <span v-for="effect in effects">-->
@@ -271,7 +274,7 @@ export default {
       context: null,
       electivity: null,
       degrees: null,
-      config: null,
+      config: {degrees: {}},
       cards_choice: [],
       cards_hand: [],
       cards_temporary: [],
@@ -298,8 +301,9 @@ export default {
       return this.context && this.config;
     },
     showEndGameModal() {
-      let modal = new Modal(document.getElementById("end-game-modal"), {});
-      modal.show();
+      // let modal = new Modal(document.getElementById("end-game-modal"), {});
+      // const modal = bootstrap.Modal.getOrCreateInstance("#end-game-modal");
+      // modal.show();
     },
     showMessagesModal() {
       let modal = new Modal(document.getElementById("messages-modal"), {});
@@ -322,9 +326,9 @@ export default {
       this.cards_temporary = info.cards.temporary;
       this.messages = info.messages;
 
-      if (this.context.status !== GAME_STATUS_PROCESSING) {
-        this.showEndGameModal();
-      }
+      // if (this.context.status !== GAME_STATUS_PROCESSING) {
+      //   this.showEndGameModal();
+      // }
 
       if (this.messages.length) {
         this.showMessagesModal();

@@ -25,7 +25,8 @@ export const BENEFIT_DIRECTION_INCREASE = 'increase';
 export const BENEFIT_DIRECTION_DECREASE = 'decrease';
 
 
-export const MESSAGE_TYPE_GAME_OVER = 'game_over'
+export const MESSAGE_TYPE_GAME_WIN = 'game_win'
+export const MESSAGE_TYPE_GAME_LOSE = 'game_lose'
 export const MESSAGE_TYPE_NEW_GAME = 'new_game'
 export const MESSAGE_TYPE_EVENT = 'event'
 export const MESSAGE_TYPE_CHANGES = 'changes'
