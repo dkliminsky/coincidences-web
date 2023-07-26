@@ -69,7 +69,7 @@ export default {
     createGameRequest() {
       axios.get('/api/game/create')
           .then(response => {
-            let sessionId = response.data.session_id;
+            let sessionId = response.data.result.session_id;
             console.log('Got session ID:', sessionId);
             this.$router.push({name: 'game', params: {session: sessionId}})
           })

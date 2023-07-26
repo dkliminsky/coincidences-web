@@ -77,13 +77,13 @@
           {{ context.actions_discard }}
         </span>
 
-        <button v-if="context.can_finish_turn" @click="finishYearRequest()" class="btn btn-danger ms-2" type="submit">
+        <button v-if="context.can_finish_turn" @click="endTurnRequest()" class="btn btn-danger ms-2" type="submit">
           <span class="d-none d-xl-inline">
             Новый раунд
           </span>
           <i class="fa-solid fa-hourglass-start"></i>
         </button>
-        <button v-else @click="finishYearRequest()" class="btn btn-danger ms-2 disabled" type="submit">
+        <button v-else @click="endTurnRequest()" class="btn btn-danger ms-2 disabled" type="submit">
           <span class="d-none d-xl-inline">
             Новый раунд
           </span>
@@ -257,7 +257,7 @@ import {
 
 <script>
 import axios from "axios";
-import { Modal, Toast, Tooltip } from "bootstrap";
+import { Modal } from "bootstrap";
 
 import {SERVER_URL} from "@/settings";
 import {
@@ -345,7 +345,7 @@ export default {
     createGameRequest() {
       axios.get( '/api/game/create')
           .then(response => {
-            let sessionId = response.data.session_id;
+            let sessionId = response.data.result.session_id;
             console.log('Got session ID:', sessionId);
             // this.sessionId = sessionId;
             this.$router.push({ name: 'game', params: { session: sessionId } })
@@ -355,24 +355,20 @@ export default {
           })
     },
     getConfigRequest() {
-      axios.post('/api/game/config', {
-        session_id: this.sessionId,
-      })
+      axios.post('/api/game/config', {})
         .then(response => {
-          console.log('Got config:', response.data);
-          this.config = response.data;
+          console.log('Got config:', response.data.result);
+          this.config = response.data.result;
         })
         .catch(error => {
           this.handleRequestError(error);
         })
     },
     getStateRequest() {
-      axios.post('/api/game/state', {
-        session_id: this.sessionId,
-      })
+      axios.post('/api/game/state', {})
           .then(response => {
             console.log('Got state');
-            this.updateState(response.data);
+            this.updateState(response.data.result);
           })
           .catch(error => {
             this.handleRequestError(error);
@@ -380,12 +376,11 @@ export default {
     },
     takeCardRequest(card) {
       axios.post('/api/game/card/take', {
-        session_id: this.sessionId,
         card_id: card.id,
       })
           .then(response => {
             console.log('Card taken', card.id);
-            this.updateState(response.data);
+            this.updateState(response.data.result);
           })
           .catch(error => {
             this.handleRequestError(error);
@@ -393,12 +388,11 @@ export default {
     },
     applyCardRequest(card) {
       axios.post('/api/game/card/apply', {
-        session_id: this.sessionId,
         card_id: card.id,
       })
           .then(response => {
             console.log('Card used', card.id);
-            this.updateState(response.data);
+            this.updateState(response.data.result);
           })
           .catch(error => {
             this.handleRequestError(error);
@@ -406,33 +400,28 @@ export default {
     },
     discardCardRequest(card) {
       axios.post('/api/game/card/discard', {
-        session_id: this.sessionId,
         card_id: card.id,
       })
           .then(response => {
             console.log('Card discard', card.id);
-            this.updateState(response.data);
+            this.updateState(response.data.result);
           })
           .catch(error => {
             this.handleRequestError(error);
           })
     },
-    finishYearRequest() {
-      axios.post('/api/game/finish_year', {
-        session_id: this.sessionId,
-      })
+    endTurnRequest() {
+      axios.post('/api/game/turn/end', {})
           .then(response => {
             console.log('Year finished');
-            this.doNewRound(response.data);
+            this.doNewRound(response.data.result);
           })
           .catch(error => {
             this.handleRequestError(error);
           })
     },
     readAllMessagesRequest() {
-      axios.post('/api/game/message/read_all', {
-        session_id: this.sessionId,
-      })
+      axios.post('/api/game/message/read_all', {})
           .then(response => {
             console.log('Read all messages');
           })
@@ -444,6 +433,7 @@ export default {
       let sessionId = this.$route.params.session;
 
       if (sessionId) {
+        axios.defaults.headers.common['session'] = sessionId
         this.sessionId = sessionId;
         console.log('URL session ID:', this.sessionId);
         this.getStateRequest();

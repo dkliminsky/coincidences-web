@@ -47,7 +47,7 @@
                   color="primary"
               />
               <span class="badge text-bg-info">{{ degree_title(effect.degree_name) }}</span>
-              <span class="badge badge-number text-bg-dark me-1">0/-1/-2/-3</span>
+              <span class="badge badge-number text-bg-dark me-1">{{ effect.shift_value }}</span>
             </div>
 
           </div>
