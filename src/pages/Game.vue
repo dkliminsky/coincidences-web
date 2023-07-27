@@ -1,11 +1,4 @@
 <template>
-  <EndGameModal
-      v-if="isReady()"
-      :context="context"
-      :config="config"
-      @newGameEvent="createGameRequest"
-  />
-
   <div id="messages-modal" class="modal" tabindex="-1">
     <MessagesModal
         :messages="messages"
@@ -238,11 +231,8 @@
 <script setup>
 import Card from '@/components/Card.vue'
 import Degree from "@/components/Degree.vue";
-import EndGameModal from "@/components/EndGameModal.vue";
 import MessagesModal from "@/components/MessagesModal.vue";
 import DecreeShort from "@/components/DecreeShort.vue";
-import Deck from "@/components/Deck.vue";
-import Effect from "@/components/Effect.vue";
 import ElectivityBadge from "@/components/ElectivityBadge.vue";
 import RoundsBadge from "@/components/RoundsBadge.vue";
 import {
@@ -300,11 +290,6 @@ export default {
     isReady() {
       return this.context && this.config;
     },
-    showEndGameModal() {
-      // let modal = new Modal(document.getElementById("end-game-modal"), {});
-      // const modal = bootstrap.Modal.getOrCreateInstance("#end-game-modal");
-      // modal.show();
-    },
     showMessagesModal() {
       let modal = new Modal(document.getElementById("messages-modal"), {});
       modal.show();
@@ -325,10 +310,6 @@ export default {
       this.cards_hand = info.cards.hand;
       this.cards_temporary = info.cards.temporary;
       this.messages = info.messages;
-
-      // if (this.context.status !== GAME_STATUS_PROCESSING) {
-      //   this.showEndGameModal();
-      // }
 
       if (this.messages.length) {
         this.showMessagesModal();

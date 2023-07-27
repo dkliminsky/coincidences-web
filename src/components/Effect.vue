@@ -1,15 +1,15 @@
 <template>
 
-  <i class="fa-solid fa-square-check"></i>&nbsp;
+<!--  <i class="fa-solid fa-square-check"></i>&nbsp;-->
 
   <span v-if="effect.type === EFFECT_TYPE_SHIFT_DEGREE()">
-    {{ effect.title }}
+<!--    {{ effect.title }}-->
 <!--    {{ degrees_config[effect.degree_name].info.title }}: -->
-    [
+<!--    [-->
     <i :class="degrees_config[effect.degree_name].info.fontawesome_icon"></i>&nbsp;
-    {{ degrees_config[effect.degree_name].info.title_short }}
+    {{ degrees_config[effect.degree_name].info.title }}
     {{ shift_value() }}
-    ]
+<!--    ]-->
   </span>
   <span v-else-if="effect.type === EFFECT_TYPE_PROTECT_DEGREE()">
     {{ degree_config().info.title }}

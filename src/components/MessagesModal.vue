@@ -14,8 +14,8 @@
         <template v-for="message in messages">
 
           <template v-if="message.type === MESSAGE_TYPE_TERM()">
-              <h5 class="modal-title mt-3">Выборы: {{ message.title }}</h5>
-              {{ message.description }}
+              <h5 class="modal-title mt-3">{{ message.text.title }}</h5>
+              {{ message.text.description }}
 
               <template v-for="effect in message.effects">
                 <p class="mb-0" >
@@ -29,8 +29,8 @@
           </template>
 
           <template v-if="message.type === MESSAGE_TYPE_EVENT()">
-              <h5 class="modal-title mt-3">Событие: {{ message.event.info.title }}</h5>
-              {{ message.event.info.description }}
+              <h5 class="modal-title mt-3">{{ message.event.text.title }}</h5>
+              {{ message.event.text.description }}
 
               <template v-for="effect in message.event.effects">
                 <p class="mb-0" >
@@ -44,7 +44,7 @@
           </template>
 
           <template v-if="message.type === MESSAGE_TYPE_CHANGES()">
-              <h5 class="modal-title mt-3">Изменения</h5>
+              <h5 class="modal-title mt-3">{{ message.text.title }}</h5>
 
               <template v-for="effect in message.effects">
                 <p class="mb-0" >
@@ -58,18 +58,18 @@
           </template>
 
           <template v-if="message.type === MESSAGE_TYPE_NEW_GAME()">
-              <h5 class="modal-title mt-3">Новая игра</h5>
-              {{ message.description }}
+              <h5 class="modal-title mt-3">{{ message.text.title }}</h5>
+              {{ message.text.description }}
           </template>
 
           <template v-if="message.type === MESSAGE_TYPE_GAME_WIN()">
-              <h5 class="modal-title mt-3">Победа!</h5>
-              {{ message.description }}
+              <h5 class="modal-title mt-3">{{ message.text.title }}</h5>
+              {{ message.text.description }}
           </template>
 
           <template v-if="message.type === MESSAGE_TYPE_GAME_LOSE()">
-              <h5 class="modal-title mt-3">Поражение</h5>
-              {{ message.description }}
+              <h5 class="modal-title mt-3">{{ message.text.title }}</h5>
+              {{ message.text.description }}
           </template>
 
         </template>

@@ -54,8 +54,8 @@
         </div>
 
 <!--        <div class="alert alert-secondary mt-3">-->
-          <h5 class="card-title mt-3">{{ card.info.title }}</h5>
-          <p class="card-text">{{ card.info.description }}</p>
+          <h5 class="card-title mt-3">{{ card.text.title }}</h5>
+          <p class="card-text">{{ card.text.description }}</p>
 <!--        </div>-->
 
         <div class="container-fluid ps-0 pe-0">
