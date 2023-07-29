@@ -27,7 +27,8 @@ export default {
     },
   },
   mounted() {
-    let tooltip = new Tooltip(document.getElementById("electivity-badge"));
+    // let tooltip = new Tooltip(document.getElementById("electivity-badge"));
+    let tooltip = new Tooltip("#electivity-badge");
   }
 }
 </script>

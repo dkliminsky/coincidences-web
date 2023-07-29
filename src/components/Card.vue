@@ -72,10 +72,12 @@
 
             <div v-if="deck_type === DECK_TYPE_HAND() || deck_type === DECK_TYPE_TEMPORARY()" class="col">
               <button v-if="card.can_apply" @click="$emit('applyCardEvent', card)" class="btn btn-info">
-                <i class="fa-solid fa-square-check"></i> {{ context.actions_apply }}
+                <i class="fa-solid fa-square-check"></i>
+<!--                {{ context.actions_apply }}-->
               </button>
               <button v-else class="btn btn-outline-primary disabled">
-                <i class="fa-solid fa-square-check"></i> {{ context.actions_apply }}
+                <i class="fa-solid fa-square-check"></i>
+<!--                {{ context.actions_apply }}-->
               </button>
             </div>
 
@@ -93,10 +95,12 @@
 
             <div v-if="deck_type === DECK_TYPE_HAND()" class="col">
               <button v-if="card.can_discard" @click="$emit('discardCardEvent', card)" class="btn btn-warning float-end">
-                <i class="fa-solid fa-reply"></i>&nbsp;{{ context.actions_discard }}
+                <i class="fa-solid fa-reply"></i>&nbsp;
+<!--                {{ context.actions_discard }}-->
               </button>
               <button v-else class="btn btn-outline-primary float-end disabled">
-                <i class="fa-solid fa-reply"></i>&nbsp;{{ context.actions_discard }}
+                <i class="fa-solid fa-reply"></i>&nbsp;
+<!--                {{ context.actions_discard }}-->
               </button>
             </div>
             <div v-else class="col">

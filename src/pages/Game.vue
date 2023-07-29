@@ -31,9 +31,9 @@
           :electivity="electivity"
         />
 
-        <span class="ms-3 d-none d-lg-inline">
+        <span class="ms-3 d-none d-xl-inline">
           <DecreeShort
-              v-for="name in degreeResources"
+              v-for="name in degreePowers"
               :name="name"
               :degrees_config="config.degrees"
               :degrees="degrees"
@@ -41,7 +41,7 @@
           />
         </span>
 
-        <span class="ms-3 d-none d-lg-inline">
+        <span class="ms-3 d-none d-xl-inline">
           <DecreeShort
               v-for="name in degreeProblems"
               :name="name"
@@ -63,6 +63,11 @@
         <span class="badge badge-icon text-bg-info me-1 d-none d-sm-inline">
           <i class="fa-solid fa-square-check"></i>
           {{ context.actions_apply }}
+        </span>
+
+        <span class="badge badge-icon text-bg-info me-1 d-none d-sm-inline">
+          <i class="fa-solid fa-scale-balanced"></i>
+          {{ context.actions_apply_law }}
         </span>
 
         <span class="badge badge-icon text-bg-warning me-1 d-none d-sm-inline">
@@ -98,7 +103,7 @@
         <table class="table table-sm table-borderless table-hover align-middle">
           <tbody>
           <Degree
-              v-for="name in degreeResources"
+              v-for="name in degreePowers"
               :key="name"
               :degree="degrees[name]"
               :degrees_config="config.degrees"
@@ -133,6 +138,18 @@
           <tbody>
           <Degree
               :degree="degrees['ego']"
+              :degrees_config="config.degrees"
+              :degree_type=DEGREE_TYPE_OTHER
+          />
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col">
+        <table class="table table-sm table-borderless table-hover align-middle">
+          <tbody>
+          <Degree
+              :degree="degrees['repression']"
               :degrees_config="config.degrees"
               :degree_type=DEGREE_TYPE_OTHER
           />
@@ -270,9 +287,9 @@ export default {
       cards_temporary: [],
       messages: [],
 
-      degreeResources: ['elite', 'finance', 'law', 'siloviki', 'media'],
+      degreePowers: ['elite', 'finance', 'law', 'siloviki', 'media'],
       degreeProblems: ['corruption', 'economy', 'social', 'distrust', 'opposition'],
-      degreeOther: ['ego', 'crisis'],
+      degreeOther: ['ego', 'crisis', 'repression'],
       decksList: ['corruption', 'economy', 'social', 'distrust', 'opposition'],
     }
   },

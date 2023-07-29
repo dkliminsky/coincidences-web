@@ -21,7 +21,8 @@ export default {
     },
   },
   mounted() {
-    let tooltip = new Tooltip(document.getElementById("rounds-badge"));
+    // let tooltip = new Tooltip(document.getElementById("rounds-badge"));
+    let tooltip = new Tooltip("#rounds-badge");
   }
 }
 </script>
