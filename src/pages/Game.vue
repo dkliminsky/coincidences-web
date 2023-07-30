@@ -5,6 +5,7 @@
         :messages="messages"
         :context="context"
         :degrees_config="config.degrees"
+        :cards_map="cards_map"
         @closeMessagesModalEvent="closeMessagesModal"
         @newGameEvent="createGameRequest"
     />
@@ -292,6 +293,7 @@ export default {
       cards_choice: [],
       cards_hand: [],
       cards_temporary: [],
+      cards_map: [],
       messages: [],
 
       degreePowers: ['elite', 'finance', 'law', 'siloviki', 'media'],
@@ -333,6 +335,7 @@ export default {
       this.cards_choice = info.cards.choice;
       this.cards_hand = info.cards.hand;
       this.cards_temporary = info.cards.temporary;
+      this.cards_map = info.cards.map;
       this.messages = info.messages;
 
       if (this.messages.length) {

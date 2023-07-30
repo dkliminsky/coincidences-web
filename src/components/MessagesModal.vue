@@ -22,6 +22,7 @@
                   <Effect
                       :effect="effect"
                       :degrees_config="degrees_config"
+                      :cards_map="cards_map"
                   />
                 </p>
               </template>
@@ -37,6 +38,7 @@
                   <Effect
                       :effect="effect"
                       :degrees_config="degrees_config"
+                      :cards_map="cards_map"
                   />
                 </p>
               </template>
@@ -51,6 +53,7 @@
                   <Effect
                       :effect="effect"
                       :degrees_config="degrees_config"
+                      :cards_map="cards_map"
                   />
                 </p>
               </template>
@@ -138,7 +141,7 @@ export default {
 
   },
   emits: ['closeMessagesModalEvent', 'newGameEvent'],
-  props: ['messages', 'context', 'degrees_config'],
+  props: ['messages', 'context', 'degrees_config', 'cards_map'],
 }
 </script>
 
