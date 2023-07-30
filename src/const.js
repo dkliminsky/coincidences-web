@@ -40,3 +40,9 @@ export const EFFECT_TYPE_PROTECT_DEGREE = 'protect_degree'
 export const EFFECT_TYPE_INCREASE_HAND = 'increase_hand'
 export const EFFECT_TYPE_INCREASE_HOLD = 'increase_hold'
 export const EFFECT_TYPE_INCREASE_TAKE = 'increase_take'
+
+
+export const TREND_NAME_CONSTANT = 'constant'
+export const TREND_NAME_LINK = 'link'
+export const TREND_NAME_PERSON = 'person'
+export const TREND_NAME_ACTOR = 'actor'

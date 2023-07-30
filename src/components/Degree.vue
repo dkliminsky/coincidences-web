@@ -13,7 +13,7 @@
     <td class="text-nowrap d-lg-none">
       {{ degree_config.info.title_short }}
     </td>
-    <td style="width: 100%; min-width: 80px;">
+    <td style="width: 100%; min-width: 40px;">
       <div class="progress" role="progressbar" :aria-label="degree.name" :aria-valuenow="percent" aria-valuemin="0" aria-valuemax="100">
         <div :class="'progress-bar progress-bar-striped progress-bar-animated bg-' + color()" :style="'width:' + percent() + '%'"></div>
       </div>
@@ -24,18 +24,30 @@
       <span class="badge badge-number text-bg-dark">{{ degree.value }}</span>
 
       <template v-if="degree_type === DEGREE_TYPE_POWER() || degree_type === DEGREE_TYPE_PROBLEMS()">
-        <span v-if="degree.protection > 0 " class="badge badge-icon text-bg-dark ms-1">
-          <i class="fa-solid fa-shield"></i>
-  <!--        {{ degree.protection }}-->
-        </span>
-        <span v-if="degree.impact > 0 " class="badge badge-icon text-bg-dark ms-1">
-          <i class="fa-solid fa-bolt"></i>
-  <!--        {{ degree.impact }}-->
-        </span>
         <span class="badge badge-icon text-bg-dark ms-1">
           <i :class="trend_icon()"></i>
           {{ degree.trend }} ( {{ change_probability() }}% )
         </span>
+        <template v-for="trend in degree.trends">
+          <span v-if="trend.value !== 0" class="badge badge-icon text-bg-dark ms-1">
+            <template v-if="trend.name === TREND_NAME_CONSTANT()">
+              <i class="fa-solid fa-landmark"></i>
+            </template>
+            <template v-else-if="trend.name === TREND_NAME_PERSON()">
+              <i class="fa-solid fa-user-plus"></i>
+            </template>
+            <template v-else-if="trend.name === TREND_NAME_ACTOR()">
+              <i class="fa-solid fa-user-minus"></i>
+            </template>
+            <template v-else-if="trend.name === TREND_NAME_LINK()">
+<!--              <i class="fa-solid fa-link"></i>-->
+              <i :class="trend_link_icon(trend)"></i>
+            </template>
+
+            {{ trend.value }}
+          </span>
+        </template>
+
       </template>
 
     </td>
@@ -49,7 +61,7 @@ import {
   BENEFIT_DIRECTION_INCREASE,
   DEGREE_NAME_CRISIS,
   DEGREE_TYPE_POWER,
-  DEGREE_TYPE_PROBLEMS
+  DEGREE_TYPE_PROBLEMS, TREND_NAME_ACTOR, TREND_NAME_CONSTANT, TREND_NAME_LINK, TREND_NAME_PERSON
 } from "@/const";
 import DecreeIcon from "@/components/DecreeIcon.vue";
 
@@ -67,6 +79,18 @@ export default {
     },
   },
   methods: {
+    TREND_NAME_LINK() {
+      return TREND_NAME_LINK
+    },
+    TREND_NAME_ACTOR() {
+      return TREND_NAME_ACTOR
+    },
+    TREND_NAME_PERSON() {
+      return TREND_NAME_PERSON
+    },
+    TREND_NAME_CONSTANT() {
+      return TREND_NAME_CONSTANT
+    },
     DEGREE_TYPE_PROBLEMS() {
       return DEGREE_TYPE_PROBLEMS
     },
@@ -87,6 +111,13 @@ export default {
         return 'fa-solid fa-arrow-down';
       }
       return '';
+    },
+    degree_icon(name) {
+      return this.degrees_config[name].info.fontawesome_icon;
+    },
+    trend_link_icon(link_trends) {
+      let link_trend_config = this.trends_config.links[link_trends.trend_id]
+      return this.degrees_config[link_trend_config.degree_from].info.fontawesome_icon;
     },
     color: function () {
       if (this.degree.name === DEGREE_NAME_CRISIS) {
@@ -113,7 +144,7 @@ export default {
       }
     }
   },
-  props: ['degree', 'degrees_config', 'degree_type']
+  props: ['degree', 'degrees_config', 'trends_config', 'degree_type']
 
 }
 </script>

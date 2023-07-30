@@ -1,4 +1,5 @@
 <template>
+<!--  <div v-if="isReady()" id="messages-modal" class="modal" tabindex="-1">-->
   <div id="messages-modal" class="modal" tabindex="-1">
     <MessagesModal
         :messages="messages"
@@ -107,6 +108,7 @@
               :key="name"
               :degree="degrees[name]"
               :degrees_config="config.degrees"
+              :trends_config="config.trends"
               :degree_type=DEGREE_TYPE_POWER
           />
           </tbody>
@@ -121,6 +123,7 @@
               :key="name"
               :degree="degrees[name]"
               :degrees_config="config.degrees"
+              :trends_config="config.trends"
               :degree_type=DEGREE_TYPE_PROBLEMS
           />
           </tbody>
@@ -139,6 +142,7 @@
           <Degree
               :degree="degrees['ego']"
               :degrees_config="config.degrees"
+              :trends_config="config.trends"
               :degree_type=DEGREE_TYPE_OTHER
           />
           </tbody>
@@ -151,6 +155,7 @@
           <Degree
               :degree="degrees['repression']"
               :degrees_config="config.degrees"
+              :trends_config="config.trends"
               :degree_type=DEGREE_TYPE_OTHER
           />
           </tbody>
@@ -163,6 +168,7 @@
           <Degree
               :degree="degrees['crisis']"
               :degrees_config="config.degrees"
+              :trends_config="config.trends"
               :degree_type=DEGREE_TYPE_OTHER
           />
           </tbody>
@@ -281,6 +287,7 @@ export default {
       context: null,
       electivity: null,
       degrees: null,
+      // config: null,
       config: {degrees: {}},
       cards_choice: [],
       cards_hand: [],
