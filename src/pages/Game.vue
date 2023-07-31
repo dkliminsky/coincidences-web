@@ -182,6 +182,9 @@
   <div v-if="isReady()" class="container-fluid mb-5">
     <div v-if="cards_choice.length" class="row gy-3 justify-content-md-center mb-5">
 
+      <hr class="bg-danger border-2 border-top border-secondary vertical-line">
+      <h6>Добор карт</h6>
+
       <Card
           v-for="card in cards_choice"
           :context="context"
@@ -203,6 +206,9 @@
     </div>
 
     <div class="row gy-3 justify-content-md-center">
+
+      <hr class="bg-danger border-2 border-top border-secondary vertical-line">
+      <h6>Карты на руке</h6>
 
       <Card
           v-for="card in cards_hand"
@@ -512,6 +518,11 @@ export default {
   font-size: 1.5em;
 }
 
+h3 {
+  font-family: Neucha, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1em;
+}
+
 h6 {
   font-family: Neucha, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 1.3em;
@@ -524,6 +535,10 @@ h6 {
 
 .toast-container {
   padding-bottom: 70px !important;
+}
+
+.vertical-line {
+  margin: 3px !important;
 }
 
 </style>
