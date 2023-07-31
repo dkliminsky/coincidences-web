@@ -27,9 +27,9 @@
       <button type="button" class="btn btn-outline-secondary" @click="showAboutModal()">О проекте</button>
 <!--      <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal-about">О проекте</button>-->
 
-<!--      <div class="alert alert-danger mt-3" role="alert">-->
-<!--        Внимание! Игра в разработке-->
-<!--      </div>-->
+      <div class="alert alert-danger mt-3" role="alert">
+        Внимание! Альфа версия игры для тестирования баланса. Могут возникать ошибки и происходить потеря игрового прогресса.
+      </div>
 
     </div>
   </div>
@@ -42,7 +42,7 @@
         </div>
         <div class="modal-body">
           <p>
-            Игра-исследование политического режима в России
+            Игра-исследование политического режима в России в 2000-2021 годах.
           </p>
         </div>
         <div class="modal-footer">
