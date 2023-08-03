@@ -7,12 +7,12 @@ run-host:
 	npm run dev -- --host
 
 
-.PHONY: provision-web
-provision-web:
+.PHONY: provision
+provision:
 	cd ../dk/site-deploy/ansible/ ; ansible-playbook -i ./hosts ./playbooks/coincidences_web.yml -u root
 
 
-.PHONY: provision-web
-provision-web:
+.PHONY: deploy
+deploy:
 	cd ../dk/site-deploy/ansible/ ; ansible-playbook -i ./hosts ./playbooks/coincidences_web_deploy.yml -u root
 
