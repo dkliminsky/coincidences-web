@@ -13,7 +13,7 @@
     <span v-if="electivity.is_no_electivity">
       -
     </span>
-    <span v-else>
+    <span v-if="electivity.term_year_left">
       {{ electivity.term_year_left }} | {{ electivity.term_counts - electivity.term_number }}
     </span>
   </span>
