@@ -10,10 +10,10 @@
       <i class="fa-solid fa-rotate-left"></i>
       {{ electivity.term_year_left }}
     </span>
-    <span v-if="electivity.is_no_electivity">
+    <span v-else-if="electivity.is_no_electivity">
       -
     </span>
-    <span v-if="electivity.term_year_left">
+    <span v-else-if="electivity.term_year_left">
       {{ electivity.term_year_left }} | {{ electivity.term_counts - electivity.term_number }}
     </span>
   </span>
