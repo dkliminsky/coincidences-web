@@ -1,4 +1,5 @@
 <template>
+
   <span id="electivity-badge" class="badge text-bg-success ms-1"
         data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" :data-bs-title="tooltip_html()">
     <i class="fa-solid fa-book"></i>&nbsp;
@@ -8,6 +9,9 @@
     <span v-if="electivity.is_castling">
       <i class="fa-solid fa-rotate-left"></i>
       {{ electivity.term_year_left }}
+    </span>
+    <span v-if="electivity.is_no_electivity">
+      -
     </span>
     <span v-else>
       {{ electivity.term_year_left }} | {{ electivity.term_counts - electivity.term_number }}

@@ -20,7 +20,7 @@
 <!--    </span>-->
 <!--  </div>-->
 
-  <nav v-if="isReady()" class="navbar sticky-top navbar-expand-lg bg-body-tertiary">
+  <nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
 
       <div>
@@ -29,11 +29,10 @@
         />
 
         <ElectivityBadge
-          v-if="electivity.is_no_electivity === false"
           :electivity="electivity"
         />
 
-        <span class="ms-3 d-none d-xl-inline">
+        <span v-if="isReady()"  class="ms-3 d-none d-xl-inline">
           <DecreeShort
               v-for="name in degreePowers"
               :name="name"
@@ -43,7 +42,7 @@
           />
         </span>
 
-        <span class="ms-3 d-none d-xl-inline">
+        <span v-if="isReady()"  class="ms-3 d-none d-xl-inline">
           <DecreeShort
               v-for="name in degreeProblems"
               :name="name"
@@ -290,11 +289,13 @@ export default {
   name: "Game",
   data: function() {
     return {
+      isStateLoad: false,
+      isConfigLoad: false,
+
       sessionId: null,
-      context: null,
-      electivity: null,
+      context: {},
+      electivity: {},
       degrees: null,
-      // config: null,
       config: {degrees: {}},
       cards_choice: [],
       cards_hand: [],
@@ -320,7 +321,7 @@ export default {
   // },
   methods: {
     isReady() {
-      return this.context && this.config;
+      return this.isStateLoad && this.isConfigLoad;
     },
     showMessagesModal() {
       let modal = new Modal(document.getElementById("messages-modal"), {});
@@ -335,6 +336,8 @@ export default {
     },
     updateState(info) {
       console.log('Updating state:', info);
+      this.isStateLoad = true;
+
       this.context = info.context;
       this.electivity = info.electivity;
       this.degrees = info.degrees;
@@ -372,6 +375,7 @@ export default {
       axios.post('/api/game/config', {})
         .then(response => {
           console.log('Got config:', response.data.result);
+          this.isConfigLoad = true;
           this.config = response.data.result;
         })
         .catch(error => {
