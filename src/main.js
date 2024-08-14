@@ -1,5 +1,3 @@
-// import "bootstrap/dist/css/bootstrap.css"
-
 import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
 import { createApp } from 'vue'
 
@@ -25,3 +23,4 @@ app.use(router)
 app.mount('#app')
 
 import "bootstrap/dist/js/bootstrap.js"
+// import "bootstrap/dist/css/bootstrap.css"

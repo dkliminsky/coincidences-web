@@ -11,16 +11,7 @@
     />
   </div>
 
-<!--  <div v-if="isReady()" class="toast-container position-fixed bottom-0 end-0 p-3">-->
-<!--    <span v-for="effect in effects">-->
-<!--      <EffectToast-->
-<!--        :effect="effect"-->
-<!--        :degrees_config="config.degrees"-->
-<!--      />-->
-<!--    </span>-->
-<!--  </div>-->
-
-  <nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary">
+  <nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary bg-dark">
     <div class="container-fluid">
 
       <div>
@@ -38,7 +29,7 @@
               :name="name"
               :degrees_config="config.degrees"
               :degrees="degrees"
-              color="light"
+              color="primary"
           />
         </span>
 
@@ -48,7 +39,7 @@
               :name="name"
               :degrees_config="config.degrees"
               :degrees="degrees"
-              color="light"
+              color="primary"
           />
         </span>
       </div>
@@ -56,31 +47,35 @@
       <div class="width: 100%;"></div>
 
       <div>
-        <span class="badge badge-icon text-bg-success me-1 d-none d-sm-inline">
+        <span class="game-badge-icon game-button badge text-bg-success me-1">
           <i class="fa-solid fa-circle-down"></i>
           {{ context.actions_take }}
         </span>
 
-        <span class="badge badge-icon text-bg-info me-1 d-none d-sm-inline">
+        <span class="game-badge-icon game-button badge text-bg-info me-1">
           <i class="fa-solid fa-square-check"></i>
           {{ context.actions_apply }}
         </span>
 
-        <span class="badge badge-icon text-bg-info me-1 d-none d-sm-inline">
+        <span class="game-badge-icon game-button badge text-bg-info me-3">
           <i class="fa-solid fa-scale-balanced"></i>
           {{ context.actions_apply_law }}
         </span>
 
-        <span class="badge badge-icon text-bg-warning me-1 d-none d-sm-inline">
-          <i class="fa-solid fa-reply"></i>
-          {{ context.actions_discard }}
+<!--        <span class="game-badge-icon game-button badge text-bg-warning me-1">-->
+<!--          <i class="fa-solid fa-reply"></i>-->
+<!--          {{ context.actions_discard }}-->
+<!--        </span>-->
+
+        <span class="game-badge-help game-button badge text-bg-warning me-1">
+          <i class="fa-solid fa-question"></i>
         </span>
 
         <button v-if="context.can_finish_turn" @click="endTurnRequest()" class="btn btn-danger ms-2" type="submit">
           <span class="d-none d-xl-inline">
             Новый раунд
           </span>
-          <i class="fa-solid fa-hourglass-start"></i>
+          <i class="fa-solid fa-hourglass-end"></i>
         </button>
         <button v-else @click="endTurnRequest()" class="btn btn-danger ms-2 disabled" type="submit">
           <span class="d-none d-xl-inline">
@@ -182,7 +177,7 @@
     <div v-if="cards_choice.length" class="row gy-3 justify-content-md-center mb-5">
 
       <hr class="bg-danger border-2 border-top border-secondary vertical-line">
-      <h6>Добор карт</h6>
+      <h3>Добор карт</h3>
 
       <Card
           v-for="card in cards_choice"
@@ -207,7 +202,7 @@
     <div class="row gy-3 justify-content-md-center">
 
       <hr class="bg-danger border-2 border-top border-secondary vertical-line">
-      <h6>Карты на руке</h6>
+      <h3>Карты на руке</h3>
 
       <Card
           v-for="card in cards_hand"
@@ -480,27 +475,39 @@ export default {
 
 <style>
 
-.badge {
-  font-size: 1em;
-}
-.badge-icon {
+.game-badge-icon {
   padding: 0.5em;
-}
-.badge-number {
-  padding: 0.5em;
-  min-width: 2em;
-}
-.card-text {
-  font-family: Neucha, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 1em;
-}
-.card-title {
-  font-family: Neucha, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 1.5em;
+  min-width: 3em;
 }
 
-.navbar {
-  background-color: RGB(33, 37, 41);
+.game-button {
+  box-shadow: 2px 3px #888888;
+}
+
+.game-badge-number {
+  padding: 0.5em;
+  min-width: 3em;
+}
+
+.game-badge-trend {
+  padding: 0.5em;
+  min-width: 3em;
+}
+
+.game-badge-electivity {
+  padding: 0.5em;
+}
+
+.game-badge-rounds {
+  padding: 0.5em;
+}
+
+.game-badge-help {
+  padding: 0.5em;
+}
+
+.badge {
+  /*font-size: 1em;*/
 }
 
 .btn {
@@ -514,32 +521,23 @@ export default {
   transform: scale(1.05);
 }
 
-.modal-title {
-  font-family: Neucha, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 1.5em;
-}
+/*.modal-title {*/
+/*  font-family: Neucha, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;*/
+/*  font-size: 1.5em;*/
+/*}*/
 
-h3 {
-  font-family: Neucha, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 1em;
-}
+/*h3 {*/
+/*  font-family: Neucha, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;*/
+/*  font-size: 1em;*/
+/*}*/
 
-h6 {
-  font-family: Neucha, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 1.3em;
-}
+/*h6 {*/
+/*  font-family: Neucha, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;*/
+/*  font-size: 1.3em;*/
+/*}*/
 
-.toast-body {
-  font-family: Neucha, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 1.2em;
-}
-
-.toast-container {
-  padding-bottom: 70px !important;
-}
-
-.vertical-line {
-  margin: 3px !important;
-}
+/*.vertical-line {*/
+/*  margin: 3px !important;*/
+/*}*/
 
 </style>

@@ -9,7 +9,11 @@ export default {
   name: "DecreeIcon",
   computed: {
     icon_class() {
-      return "degree-icon badge badge-icon text-bg-" + this.color;
+      let result = "game-badge-icon game-button badge text-bg-" + this.color;
+      if (this.is_button === true) {
+        result += " game-button";
+      }
+      return result;
     },
   },
   methods: {
@@ -17,12 +21,6 @@ export default {
       return this.degrees_config[name].info.fontawesome_icon;
     },
   },
-  props: ['name', 'degrees_config', 'color']
+  props: ['name', 'degrees_config', 'color', 'is_button']
 }
 </script>
-
-<style scoped>
-.degree-icon {
-  width: 36px;
-}
-</style>

@@ -14,9 +14,10 @@
                 :name="condition.degree_name"
                 :degrees_config="degrees_config"
                 color="primary"
+                is_button=false
             />
             <span class="badge text-bg-danger">{{ degree_title(condition.degree_name) }}</span>
-            <span class="badge badge-number text-bg-dark me-1">{{ condition.value }}</span>
+            <span class="game-badge-number badge text-bg-dark me-1">{{ condition.value }}</span>
           </div>
 
           <div v-for="effect in card.effects" :key="effect.degree_name" class="text-nowrap">
@@ -25,9 +26,10 @@
                   :name="effect.degree_name"
                   :degrees_config="degrees_config"
                   color="primary"
+                  is_button=false
               />
               <span class="badge text-bg-info">{{ degree_title(effect.degree_name) }}</span>
-              <span class="badge badge-number text-bg-dark me-1">{{ effectValue(effect.shift_value) }}</span>
+              <span class="game-badge-number badge text-bg-dark me-1">{{ effectValue(effect.shift_value) }}</span>
             </div>
 
             <div v-if="effect.type === PROPAGANDA()">
@@ -35,9 +37,10 @@
                   :name="effect.degree_name"
                   :degrees_config="degrees_config"
                   color="primary"
+                  is_button=false
               />
               <span class="badge text-bg-danger">{{ degree_title(DEGREE_NAME_MEDIA()) }}</span>
-              <span class="badge badge-number text-bg-dark me-1">0/3/6/9</span>
+              <span class="game-badge-number badge text-bg-dark me-1">0/3/6/9</span>
             </div>
 
             <div v-if="effect.type === PROPAGANDA()">
@@ -45,9 +48,10 @@
                   :name="effect.degree_name"
                   :degrees_config="degrees_config"
                   color="primary"
+                  is_button=false
               />
               <span class="badge text-bg-info">{{ degree_title(effect.degree_name) }}</span>
-              <span class="badge badge-number text-bg-dark me-1">{{ effect.shift_value }}</span>
+              <span class="game-badge-number badge text-bg-dark me-1">{{ effect.shift_value }}</span>
             </div>
 
           </div>
@@ -168,11 +172,3 @@ export default {
   props: ['context', 'card', 'degrees_config', 'cards_category_config', 'deck_type']
 }
 </script>
-
-<style scoped>
-.card {
-  /*background-image: url('card_02.webp');*/
-  /*background-image: url('decree.webp');*/
-  /*background-image: url('card_01.jpg');*/
-}
-</style>

@@ -1,6 +1,6 @@
 <template>
   <span :class="icon_class">
-    <i :class="degree_icon(name)"></i> {{ degrees[name].value }}
+    <i :class="degree_icon(name)"></i> {{ degrees[name].value }} / 12
   </span>
 </template>
 
@@ -9,7 +9,7 @@ export default {
   name: "DecreeShort",
   computed: {
     icon_class() {
-      return "badge badge-icon me-1 text-bg-" + this.color;
+      return "game-badge-icon badge me-1 text-bg-" + this.color;
     },
   },
   methods: {
@@ -20,4 +20,3 @@ export default {
   props: ['name', 'degrees_config', 'degrees', 'color']
 }
 </script>
-

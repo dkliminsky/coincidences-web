@@ -70,7 +70,3 @@ export default {
   props: ['effect', 'degrees_config', 'cards_map']
 }
 </script>
-
-<style scoped>
-
-</style>

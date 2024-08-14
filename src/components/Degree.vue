@@ -5,6 +5,7 @@
           :name="degree.name"
           :degrees_config="degrees_config"
           color="primary"
+          is_button=true
       />
     </td>
     <td class="text-nowrap d-none d-lg-table-cell">
@@ -21,18 +22,18 @@
 
     <td class="text-nowrap">
 
-      <span class="badge badge-number text-bg-dark">{{ degree.value }}</span>
+      <span class="game-badge-number badge text-bg-dark">{{ degree.value }}</span>
 
       <template v-if="degree_type === DEGREE_TYPE_POWER() || degree_type === DEGREE_TYPE_PROBLEMS()">
-        <span class="badge badge-icon text-bg-dark ms-1">
+        <span class="game-badge-trend game-button badge text-bg-warning ms-1">
           <i :class="trend_icon()"></i>
           {{ degree.trend }}
-          <span class="d-none d-sm-inline">
-            ( {{ change_probability() }}% )
-          </span>
+<!--          <span class="d-none d-sm-inline">-->
+<!--            ( {{ change_probability() }}% )-->
+<!--          </span>-->
         </span>
         <template v-for="trend in degree.trends">
-          <span v-if="trend.value !== 0" class="badge badge-icon text-bg-dark ms-1 d-none d-sm-inline">
+          <span v-if="trend.value !== 0" class="game-badge-icon badge text-bg-dark ms-1 d-none d-sm-inline">
             <template v-if="trend.name === TREND_NAME_CONSTANT()">
               <i class="fa-solid fa-landmark"></i>
             </template>
