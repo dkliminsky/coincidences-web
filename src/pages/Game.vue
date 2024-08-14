@@ -279,9 +279,6 @@ import axios from "axios";
 import { Modal } from "bootstrap";
 
 import {SERVER_URL} from "@/settings";
-import {
-  GAME_STATUS_LOSE, GAME_STATUS_PROCESSING, GAME_STATUS_WIN,
-} from "@/const";
 
 axios.defaults.baseURL = SERVER_URL;
 
@@ -338,7 +335,7 @@ export default {
       console.log('Updating state:', info);
       this.isStateLoad = true;
 
-      this.context = info.context;
+      this.context = info.turn;
       this.electivity = info.electivity;
       this.degrees = info.degrees;
       this.cards_choice = info.cards.choice;
@@ -360,9 +357,9 @@ export default {
       }
     },
     createGameRequest() {
-      axios.get( '/api/game/create')
+      axios.post( '/api/v1/game/create', {})
           .then(response => {
-            let sessionId = response.data.result.session_id;
+            let sessionId = response.data.session_id;
             console.log('Got session ID:', sessionId);
             // this.sessionId = sessionId;
             this.$router.push({ name: 'game', params: { session: sessionId } })
@@ -372,74 +369,74 @@ export default {
           })
     },
     getConfigRequest() {
-      axios.post('/api/game/config', {})
+      axios.post('/api/v1/game/config', {})
         .then(response => {
-          console.log('Got config:', response.data.result);
+          console.log('Got config:', response.data);
           this.isConfigLoad = true;
-          this.config = response.data.result;
+          this.config = response.data;
         })
         .catch(error => {
           this.handleRequestError(error);
         })
     },
     getStateRequest() {
-      axios.post('/api/game/state', {})
+      axios.post('/api/v1/game/state', {})
           .then(response => {
             console.log('Got state');
-            this.updateState(response.data.result);
+            this.updateState(response.data);
           })
           .catch(error => {
             this.handleRequestError(error);
           })
     },
     takeCardRequest(card) {
-      axios.post('/api/game/card/take', {
-        card_id: card.id,
+      axios.post('/api/v1/game/card/take', {
+        card_ids: [card.id],
       })
           .then(response => {
             console.log('Card taken', card.id);
-            this.updateState(response.data.result);
+            this.updateState(response.data);
           })
           .catch(error => {
             this.handleRequestError(error);
           })
     },
     applyCardRequest(card) {
-      axios.post('/api/game/card/apply', {
+      axios.post('/api/v1/game/card/apply', {
         card_id: card.id,
       })
           .then(response => {
             console.log('Card used', card.id);
-            this.updateState(response.data.result);
+            this.updateState(response.data);
           })
           .catch(error => {
             this.handleRequestError(error);
           })
     },
     discardCardRequest(card) {
-      axios.post('/api/game/card/discard', {
-        card_id: card.id,
+      axios.post('/api/v1/game/card/discard', {
+        card_ids: [card.id],
       })
           .then(response => {
             console.log('Card discard', card.id);
-            this.updateState(response.data.result);
+            this.updateState(response.data);
           })
           .catch(error => {
             this.handleRequestError(error);
           })
     },
     endTurnRequest() {
-      axios.post('/api/game/turn/end', {})
+      axios.post('/api/v1/game/turn/end', {})
           .then(response => {
             console.log('Year finished');
-            this.doNewRound(response.data.result);
+            this.doNewRound(response.data);
           })
           .catch(error => {
             this.handleRequestError(error);
           })
     },
     readAllMessagesRequest() {
-      axios.post('/api/game/message/read_all', {})
+      axios.post('/api/v1/game/message/read_all', {})
           .then(response => {
             console.log('Read all messages');
           })
@@ -451,7 +448,7 @@ export default {
       let sessionId = this.$route.params.session;
 
       if (sessionId) {
-        axios.defaults.headers.common['session'] = sessionId
+        axios.defaults.headers.common['Session-Id'] = sessionId
         this.sessionId = sessionId;
         console.log('URL session ID:', this.sessionId);
         this.getStateRequest();

@@ -1,10 +1,6 @@
 
-export const GAME_STATUS_PROCESSING = 'processing';
 export const GAME_STATUS_WIN = 'win';
 export const GAME_STATUS_LOSE = 'lose';
-
-export const LOSE_REASON_ELECTIVITY = 'electivity';
-
 
 export const DECK_TYPE_CHOICE = 'choice'
 export const DECK_TYPE_HAND = 'hand'

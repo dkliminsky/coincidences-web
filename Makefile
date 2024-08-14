@@ -1,6 +1,6 @@
 
 run:
-	npm run dev
+	npm run dev -- --port 3000
 
 
 run-host:

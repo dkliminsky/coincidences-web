@@ -27,9 +27,9 @@
       <button type="button" class="btn btn-outline-secondary" @click="showAboutModal()">О проекте</button>
 <!--      <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal-about">О проекте</button>-->
 
-      <div class="alert alert-danger mt-3" role="alert">
-        Внимание! Альфа версия игры для тестирования баланса. Могут возникать ошибки и происходить потеря игрового прогресса.
-      </div>
+<!--      <div class="alert alert-danger mt-3" role="alert">-->
+<!--        Внимание! Альфа версия игры для тестирования баланса. Могут возникать ошибки и происходить потеря игрового прогресса.-->
+<!--      </div>-->
 
     </div>
   </div>
@@ -67,14 +67,14 @@ export default {
       modal.show();
     },
     createGameRequest() {
-      axios.get('/api/game/create')
+      axios.post('/api/v1/game/create', {})
           .then(response => {
-            let sessionId = response.data.result.session_id;
+            let sessionId = response.data.session_id;
             console.log('Got session ID:', sessionId);
             this.$router.push({name: 'game', params: {session: sessionId}})
           })
           .catch(function (error) {
-
+            console.log('Got error:', error);
           })
     },
   },

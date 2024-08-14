@@ -80,7 +80,7 @@
         </div>
 
         <div v-if="context" class="modal-footer">
-          <template v-if="context.status === GAME_STATUS_WIN() || context.status === GAME_STATUS_LOSE()">
+          <template v-if="context.phase === GAME_STATUS_WIN() || context.phase === GAME_STATUS_LOSE()">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="$router.push({name: 'home'})">На главную</button>
             <button type="button" class="btn btn-success" data-bs-dismiss="modal" @click="$emit('newGameEvent')">Попробовать еще раз</button>
           </template>
