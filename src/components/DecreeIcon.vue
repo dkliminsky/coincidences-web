@@ -9,8 +9,8 @@ export default {
   name: "DecreeIcon",
   computed: {
     icon_class() {
-      let result = "game-badge-icon game-button badge text-bg-" + this.color;
-      if (this.is_button === true) {
+      let result = "game-badge-icon badge text-bg-" + this.color;
+      if (this.is_button === "true") {
         result += " game-button";
       }
       return result;

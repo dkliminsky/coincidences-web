@@ -1,6 +1,9 @@
 
-export const GAME_STATUS_WIN = 'win';
-export const GAME_STATUS_LOSE = 'lose';
+export const GAME_PHASE_WIN = 'win';
+export const GAME_PHASE_LOSE = 'lose';
+
+export const GAME_PHASE_TAKING_CARDS = 'taking_cards';
+export const GAME_PHASE_APPLYING_CARDS = 'applying_cards';
 
 export const DECK_TYPE_CHOICE = 'choice'
 export const DECK_TYPE_HAND = 'hand'
@@ -44,3 +47,7 @@ export const TREND_NAME_CONSTANT = 'constant'
 export const TREND_NAME_LINK = 'link'
 export const TREND_NAME_PERSON = 'person'
 export const TREND_NAME_ACTOR = 'actor'
+
+
+export const LABEL_ELECTIVITY = 'electivity'
+export const LABEL_ALT = 'alt'

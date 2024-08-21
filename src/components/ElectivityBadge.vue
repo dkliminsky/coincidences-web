@@ -1,6 +1,6 @@
 <template>
 
-  <span id="electivity-badge" class="game-badge-electivity game-button badge text-bg-success ms-1"
+  <span id="electivity-badge" class="game-badge-electivity game-button badge text-bg-success ms-1 me-3"
         data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" :data-bs-title="tooltip_html()">
     <i class="fa-solid fa-book"></i>&nbsp;
     <span class="d-none d-lg-inline">

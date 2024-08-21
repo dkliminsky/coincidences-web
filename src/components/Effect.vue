@@ -1,23 +1,32 @@
 <template>
 
   <span v-if="effect.type === EFFECT_TYPE_SHIFT_DEGREE()">
-    <i :class="degrees_config[effect.degree_name].info.fontawesome_icon"></i>&nbsp;
-    {{ degrees_config[effect.degree_name].info.title }}
-    {{ shift_value() }}
+    <DecreeIcon
+        :name="effect.degree_name"
+        :degrees_config="degrees_config"
+        color="primary"
+        is_button=false
+    />
+    <span class="badge text-bg-secondary">{{ degrees_config[effect.degree_name].info.title }}</span>
+    <span class="game-badge-number badge text-bg-dark me-1">{{ shift_value() }}</span>
   </span>
-  <span v-else-if="effect.type === EFFECT_TYPE_PROTECT_DEGREE()">
-    {{ degree_config().info.title }}
-  </span>
+
   <span v-else-if="effect.type === EFFECT_TYPE_TAKE_ACTION_BY_CODE()">
-    <i class="fa-solid fa-circle-down"></i>
-    Получена карта "{{ cards_map[effect.code].text.title }}"
+    <span class="game-badge-icon badge text-bg-success"><i class="fa-solid fa-circle-down"></i></span>
+    <span class="badge text-bg-secondary">{{ cards_map[effect.code].text.title }}</span>
   </span>
+
   <span v-else-if="effect.type === EFFECT_TYPE_TAKE_TEMP_ACTION_BY_CODE()">
-    <i class="fa-solid fa-circle-down"></i>
-    Получена временная карта "{{ cards_map[effect.code].text.title }}"
+    <span class="game-badge-icon badge text-bg-success"><i class="fa-solid fa-circle-down"></i></span>
+    <span class="badge text-bg-secondary">{{ cards_map[effect.code].text.title }}</span>
   </span>
+
+<!--  <span v-else-if="effect.type === EFFECT_TYPE_PROTECT_DEGREE()">-->
+<!--    {{ degree_config().info.title }}-->
+<!--  </span>-->
+
   <span v-else>
-    {{ effect.type }}
+    For debug: {{ effect.type }}
   </span>
 
 </template>
@@ -30,9 +39,11 @@ import {
   EFFECT_TYPE_PROTECT_DEGREE,
   EFFECT_TYPE_SHIFT_DEGREE, EFFECT_TYPE_TAKE_ACTION_BY_CODE, EFFECT_TYPE_TAKE_TEMP_ACTION_BY_CODE
 } from "@/const";
+import DecreeIcon from "@/components/DecreeIcon.vue";
 
 export default {
   name: "Effect",
+  components: {DecreeIcon},
   methods: {
     EFFECT_TYPE_TAKE_TEMP_ACTION_BY_CODE() {
       return EFFECT_TYPE_TAKE_TEMP_ACTION_BY_CODE

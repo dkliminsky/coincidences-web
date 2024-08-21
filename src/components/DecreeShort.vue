@@ -1,6 +1,6 @@
 <template>
   <span :class="icon_class">
-    <i :class="degree_icon(name)"></i> {{ degrees[name].value }} / 12
+    <i :class="degree_icon(name)"></i> {{ degrees[name].value }}
   </span>
 </template>
 

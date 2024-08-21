@@ -46,7 +46,7 @@
           </p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ОК</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ок</button>
         </div>
       </div>
     </div>

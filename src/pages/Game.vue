@@ -13,8 +13,11 @@
 
   <nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary bg-dark">
     <div class="container-fluid">
-
       <div>
+        <span class="game-badge-help game-button badge text-bg-warning me-3">
+          <i class="fa-solid fa-question"></i>
+        </span>
+
         <RoundsBadge
           :context="context"
         />
@@ -23,7 +26,41 @@
           :electivity="electivity"
         />
 
-        <span v-if="isReady()"  class="ms-3 d-none d-xl-inline">
+        <span v-if="context.phase === GAME_PHASE_TAKING_CARDS">
+          <span class="game-badge-icon game-button badge text-bg-success me-1">
+            <i class="fa-solid fa-circle-down"></i>
+            {{ context.actions_take }}
+          </span>
+        </span>
+
+        <span v-if="context.phase === GAME_PHASE_APPLYING_CARDS">
+          <span class="game-badge-icon game-button badge text-bg-info me-1">
+            <i class="fa-solid fa-square-check"></i>
+            {{ context.actions_apply }}
+          </span>
+
+          <span class="game-badge-icon game-button badge text-bg-info me-1">
+            <i class="fa-solid fa-scale-balanced"></i>
+            {{ context.actions_apply_law }}
+          </span>
+
+          <span v-if="context.is_war" class="game-badge-icon game-button badge text-bg-info me-1">
+            <i class="fa-solid fa-person-rifle"></i>
+            0
+          </span>
+        </span>
+
+        <!--        <span class="game-badge-icon game-button badge text-bg-warning me-1">-->
+        <!--          <i class="fa-solid fa-reply"></i>-->
+        <!--          {{ context.actions_discard }}-->
+        <!--        </span>-->
+
+      </div>
+
+<!--      <div class="width: 100%;"></div>-->
+
+      <div>
+        <span v-if="isReady()" class="ms-3 d-none d-xl-inline">
           <DecreeShort
               v-for="name in degreePowers"
               :name="name"
@@ -44,46 +81,19 @@
         </span>
       </div>
 
-      <div class="width: 100%;"></div>
-
       <div>
-        <span class="game-badge-icon game-button badge text-bg-success me-1">
-          <i class="fa-solid fa-circle-down"></i>
-          {{ context.actions_take }}
-        </span>
-
-        <span class="game-badge-icon game-button badge text-bg-info me-1">
-          <i class="fa-solid fa-square-check"></i>
-          {{ context.actions_apply }}
-        </span>
-
-        <span class="game-badge-icon game-button badge text-bg-info me-3">
-          <i class="fa-solid fa-scale-balanced"></i>
-          {{ context.actions_apply_law }}
-        </span>
-
-<!--        <span class="game-badge-icon game-button badge text-bg-warning me-1">-->
-<!--          <i class="fa-solid fa-reply"></i>-->
-<!--          {{ context.actions_discard }}-->
-<!--        </span>-->
-
-        <span class="game-badge-help game-button badge text-bg-warning me-1">
-          <i class="fa-solid fa-question"></i>
-        </span>
-
-        <button v-if="context.can_finish_turn" @click="endTurnRequest()" class="btn btn-danger ms-2" type="submit">
+        <button v-if="context.can_finish_turn" @click="endTurnRequest()" class="game-button-action btn btn-danger ms-2" type="submit">
           <span class="d-none d-xl-inline">
             Новый раунд
           </span>
           <i class="fa-solid fa-hourglass-end"></i>
         </button>
-        <button v-else @click="endTurnRequest()" class="btn btn-danger ms-2 disabled" type="submit">
+        <button v-else class="game-button-action btn btn-danger ms-2 disabled" type="submit">
           <span class="d-none d-xl-inline">
             Новый раунд
           </span>
           <i class="fa-solid fa-hourglass-start"></i>
         </button>
-
       </div>
 
     </div>
@@ -176,8 +186,8 @@
   <div v-if="isReady()" class="container-fluid mb-5">
     <div v-if="cards_choice.length" class="row gy-3 justify-content-md-center mb-5">
 
-      <hr class="bg-danger border-2 border-top border-secondary vertical-line">
-      <h3>Добор карт</h3>
+<!--      <hr class="bg-danger border-2 border-top border-secondary vertical-line">-->
+<!--      <h3>Выбор действий</h3>-->
 
       <Card
           v-for="card in cards_choice"
@@ -185,7 +195,8 @@
           :key="card.id"
           :card="card"
           :degrees_config="config.degrees"
-          :cards_category_config="config.cards_category"
+          :card_categories_config="config.card_categories"
+          :card_labels_config="config.card_labels"
           :deck_type=DECK_TYPE_CHOICE
           @takeCardEvent="takeCardRequest"
           @applyCardEvent="applyCardRequest"
@@ -201,8 +212,8 @@
 
     <div class="row gy-3 justify-content-md-center">
 
-      <hr class="bg-danger border-2 border-top border-secondary vertical-line">
-      <h3>Карты на руке</h3>
+<!--      <hr class="bg-danger border-2 border-top border-secondary vertical-line">-->
+<!--      <h3>Действия</h3>-->
 
       <Card
           v-for="card in cards_hand"
@@ -210,7 +221,8 @@
           :key="card.id"
           :card="card"
           :degrees_config="config.degrees"
-          :cards_category_config="config.cards_category"
+          :card_categories_config="config.card_categories"
+          :card_labels_config="config.card_labels"
           :deck_type=DECK_TYPE_HAND
           @takeCardEvent="takeCardRequest"
           @applyCardEvent="applyCardRequest"
@@ -223,7 +235,8 @@
           :key="card.id"
           :card="card"
           :degrees_config="config.degrees"
-          :cards_category_config="config.cards_category"
+          :card_categories_config="config.card_categories"
+          :card_labels_config="config.card_labels"
           :deck_type=DECK_TYPE_TEMPORARY
           @takeCardEvent="takeCardRequest"
           @applyCardEvent="applyCardRequest"
@@ -241,15 +254,6 @@
     <div class="row"></div>
   </div>
 
-<!--  Нижней блок -->
-<!--  <nav v-if="isReady()" class="navbar fixed-bottom">-->
-<!--    <div class="container-fluid pe-1">-->
-<!--      <div>-->
-<!---->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </nav>-->
-
 </template>
 
 <script setup>
@@ -265,7 +269,9 @@ import {
   DECK_TYPE_TEMPORARY,
   DEGREE_TYPE_OTHER,
   DEGREE_TYPE_POWER,
-  DEGREE_TYPE_PROBLEMS
+  DEGREE_TYPE_PROBLEMS,
+  GAME_PHASE_APPLYING_CARDS,
+  GAME_PHASE_TAKING_CARDS
 } from "@/const";
 </script>
 
@@ -504,6 +510,15 @@ export default {
 
 .game-badge-help {
   padding: 0.5em;
+  min-width: 2em;
+}
+
+.game-button-action {
+  min-width: 2.4em;
+}
+
+.game-labels {
+  font-size: 0.8em;
 }
 
 .badge {
@@ -511,9 +526,7 @@ export default {
 }
 
 .btn {
-  --bs-btn-padding-x: 0.6rem;
-  /*box-shadow: 2px 3px #aaa;*/
-  box-shadow: 2px 3px #8f96a3;
+  box-shadow: 2px 3px #888888;
 }
 
 .card:hover {
