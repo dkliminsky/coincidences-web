@@ -6,15 +6,15 @@
         <div class="d-flex justify-content-between">
 
           <div class="align-self-center">
-              <span>
+            <span>
                 <i :class="card_categories_config[card.category].info.fontawesome_icon"></i>
-              </span>
+            </span>
             <span v-if="card.has_dependency" class="ms-2">
-                <i class="fa-solid fa-link"></i>
-              </span>
-            <span v-if="card.temp_year" class="ms-2">
-                <i class="fa-solid fa-hourglass-start"></i>
-              </span>
+              <i class="fa-solid fa-link"></i>
+            </span>
+            <span v-if="card.expire_at_year" class="ms-2">
+              <i class="fa-solid fa-hourglass-start"></i>
+            </span>
           </div>
 
           <div class="align-self-center text-center ms-3 me-3">
@@ -167,6 +167,9 @@ export default {
       if (this.card.labels.includes('electivity')) {
         // result += " border-primary";
         result += " text-white bg-info";
+      }
+      else if (this.card.expire_at_year) {
+        result += " text-white bg-warning";
       }
       return result;
     },

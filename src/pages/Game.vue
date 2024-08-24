@@ -1,6 +1,6 @@
 <template>
-<!--  <div v-if="isReady()" id="messages-modal" class="modal" tabindex="-1">-->
-  <div id="messages-modal" class="modal" tabindex="-1">
+
+  <div id="messages-modal" class="modal" tabindex="-1" data-bs-backdrop="static">
     <MessagesModal
         :messages="messages"
         :context="context"
@@ -14,7 +14,7 @@
   <nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary bg-dark">
     <div class="container-fluid">
       <div>
-        <span class="game-badge-help game-button badge text-bg-warning me-3">
+        <span class="game-badge-help game-button badge text-bg-warning me-3" @click="showHelpModal()">
           <i class="fa-solid fa-question"></i>
         </span>
 
@@ -73,6 +73,16 @@
         <span v-if="isReady()"  class="ms-3 d-none d-xl-inline">
           <DecreeShort
               v-for="name in degreeProblems"
+              :name="name"
+              :degrees_config="config.degrees"
+              :degrees="degrees"
+              color="primary"
+          />
+        </span>
+
+        <span v-if="isReady()"  class="ms-3 d-none d-xl-inline">
+          <DecreeShort
+              v-for="name in degreeOther"
               :name="name"
               :degrees_config="config.degrees"
               :degrees="degrees"
@@ -351,6 +361,13 @@ export default {
 
       // this.effects.push.apply(this.effects, info.new_effects);
     },
+    showHelpModal() {
+
+    },
+    showTrendsModal(degree) {
+      let modal = new Modal(document.getElementById("trends-modal"), {});
+      modal.show();
+    },
     handleRequestError(error) {
       console.log('Got error:', error);
       if (error.request && error.request.status === 404) {
@@ -488,6 +505,7 @@ export default {
 
 .game-button {
   box-shadow: 2px 3px #888888;
+  cursor: pointer;
 }
 
 .game-badge-number {

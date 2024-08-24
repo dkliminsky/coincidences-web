@@ -63,7 +63,7 @@
 import {
   BENEFIT_DIRECTION_DECREASE,
   BENEFIT_DIRECTION_INCREASE,
-  DEGREE_NAME_CRISIS,
+  DEGREE_NAME_CRISIS, DEGREE_NAME_EGO,
   DEGREE_TYPE_POWER,
   DEGREE_TYPE_PROBLEMS, TREND_NAME_ACTOR, TREND_NAME_CONSTANT, TREND_NAME_LINK, TREND_NAME_PERSON
 } from "@/const";
@@ -127,7 +127,18 @@ export default {
       if (this.degree.name === DEGREE_NAME_CRISIS) {
         return "danger";
       }
-      
+      if (this.degree.name === DEGREE_NAME_EGO) {
+        if (this.degree.value > 6) {
+          return "info";
+        }
+        else if (this.degree.value > 3) {
+          return "warning";
+        }
+        else {
+          return "danger";
+        }
+      }
+
       if (this.degree_config.info.benefit_direction === BENEFIT_DIRECTION_DECREASE) {
         if (this.percent() > 90) {
           return "danger";

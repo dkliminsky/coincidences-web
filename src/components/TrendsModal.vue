@@ -116,7 +116,7 @@ import {
 } from "@/const";
 
 export default {
-  name: "MessagesModal",
+  name: "TrendsModal",
   components: {Effect},
   computed: {
 
