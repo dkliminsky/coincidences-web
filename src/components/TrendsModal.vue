@@ -1,155 +1,115 @@
 <template xmlns="http://www.w3.org/1999/html">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 
-      <template v-if="context.phase === GAME_PHASE_WIN() || context.phase === GAME_PHASE_LOSE()">
-        <template v-for="message in messages">
-          <template v-if="message.type === MESSAGE_TYPE_GAME_WIN() || message.type === MESSAGE_TYPE_GAME_LOSE()">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title">{{ message.text.title }}</h1>
-              </div>
-
-              <div class="modal-body">
-                <template v-if="message.type === MESSAGE_TYPE_GAME_WIN()">
-                  {{ message.text.description }}
-                </template>
-
-                <template v-if="message.type === MESSAGE_TYPE_GAME_LOSE()">
-                  {{ message.text.description }}
-                </template>
-              </div>
-
-              <div v-if="context" class="modal-footer">
-                <button type="button" class="btn btn-success" data-bs-dismiss="modal" @click="$router.push({name: 'home'})">Ок</button>
-              </div>
-            </div>
-          </template>
-        </template>
-      </template>
-
-      <template v-else>
-
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title">События</h1>
-          </div>
-
-          <div class="modal-body">
-            <template v-for="message in messages">
-
-              <template v-if="message.type === MESSAGE_TYPE_NEW_GAME()">
-                <h2 class="modal-title mt-3">{{ message.text.title }}</h2>
-                {{ message.text.description }}
-              </template>
-
-              <template v-if="message.type === MESSAGE_TYPE_TERM()">
-                  <h2 class="modal-title mt-3">{{ message.text.title }}</h2>
-                  <p>{{ message.text.description }}</p>
-
-                  <template v-for="effect in message.effects">
-                    <p class="mb-0" >
-                      <Effect
-                          :effect="effect"
-                          :degrees_config="degrees_config"
-                          :cards_map="cards_map"
-                      />
-                    </p>
-                  </template>
-
-              </template>
-
-              <template v-if="message.type === MESSAGE_TYPE_EVENT()">
-                  <h2 class="modal-title mt-3">{{ message.event.text.title }}</h2>
-                  <p>{{ message.event.text.description }}</p>
-
-                  <template v-for="effect in message.event.effects">
-                    <p class="mb-0" >
-                      <Effect
-                          :effect="effect"
-                          :degrees_config="degrees_config"
-                          :cards_map="cards_map"
-                      />
-                    </p>
-                  </template>
-
-              </template>
-
-              <template v-if="message.type === MESSAGE_TYPE_CHANGES()">
-                  <h2 class="modal-title mt-3">{{ message.text.title }}</h2>
-
-                  <template v-for="effect in message.effects">
-                    <p class="mb-0" >
-                      <Effect
-                          :effect="effect"
-                          :degrees_config="degrees_config"
-                          :cards_map="cards_map"
-                      />
-                    </p>
-                  </template>
-
-              </template>
-
-              <hr class="bg-danger border-2 border-top border-secondary vertical-line">
-            </template>
-          </div>
-
-          <div v-if="context" class="modal-footer">
-            <button type="button" class="btn btn-success" data-bs-dismiss="modal" @click="$emit('closeMessagesModalEvent')">Ок</button>
-          </div>
+      <div v-if="degree_name" class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title">{{ degree_config().info.title }}</h1>
         </div>
-      </template>
 
-    </div>
+        <div class="modal-body">
+          <p v-for="trend in degree().trends">
+            <template v-if="trend.value">
+              <template v-if="trend.type === TREND_TYPE_LINK()">
+                <DecreeIcon
+                    :name="trends_config[trend.code].degree_from"
+                    :degrees_config="degrees_config"
+                    color="warning"
+                    is_button=false
+                />
+              </template>
+              <template v-if="trend.type === TREND_TYPE_CONSTANT()">
+                <span class="game-badge-icon badge text-bg-warning">
+                  <i :class="TREND_CONSTANT_ICON()"></i>
+                </span>
+              </template>
+              <template v-if="trend.type === TREND_TYPE_PERSON()">
+                <span class="game-badge-icon badge text-bg-warning">
+                  <i :class="TREND_PERSON_ICON()"></i>
+                </span>
+              </template>
+              <template v-if="trend.type === TREND_TYPE_ACTOR()">
+                <span class="game-badge-icon badge text-bg-warning">
+                  <i :class="TREND_ACTOR_ICON()"></i>
+                </span>
+              </template>
+
+              <span class="badge text-bg-secondary">{{ trends_config[trend.code].text.title }}</span>
+              <span class="game-badge-number badge text-bg-dark me-1">{{ trend.value }}</span>
+            </template>
+          </p>
+          <p>
+            <template v-if="degree().trend > 0">
+              Вероятность повышения: {{ change_probability() }}%
+            </template>
+            <template v-else-if="degree().trend < 0">
+              Вероятность понижения: {{ change_probability() }}%
+            </template>
+            <template v-else>
+              Вероятность изменения: {{ change_probability() }}%
+            </template>
+          </p>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal">Ок</button>
+        </div>
+      </div>
+
+  </div>
 </template>
 
 <script>
-
-
-import Effect from "@/components/Effect.vue";
 import {
-  GAME_PHASE_LOSE, GAME_PHASE_WIN,
-  MESSAGE_TYPE_CHANGES,
-  MESSAGE_TYPE_EVENT, MESSAGE_TYPE_GAME_LOSE,
-  MESSAGE_TYPE_GAME_WIN,
-  MESSAGE_TYPE_NEW_GAME,
-  MESSAGE_TYPE_TERM
+  TREND_ACTOR_ICON,
+  TREND_CONSTANT_ICON,
+  TREND_PERSON_ICON,
+  TREND_TYPE_ACTOR,
+  TREND_TYPE_CONSTANT,
+  TREND_TYPE_LINK,
+  TREND_TYPE_PERSON
 } from "@/const";
+import DecreeIcon from "@/components/DecreeIcon.vue";
 
 export default {
   name: "TrendsModal",
-  components: {Effect},
+  components: {DecreeIcon},
   computed: {
 
   },
   methods: {
-    GAME_PHASE_WIN() {
-      return GAME_PHASE_WIN
+    TREND_ACTOR_ICON() {
+      return TREND_ACTOR_ICON
     },
-    GAME_PHASE_LOSE() {
-      return GAME_PHASE_LOSE
+    TREND_PERSON_ICON() {
+      return TREND_PERSON_ICON
     },
-    MESSAGE_TYPE_GAME_LOSE() {
-      return MESSAGE_TYPE_GAME_LOSE
+    TREND_TYPE_ACTOR() {
+      return TREND_TYPE_ACTOR
     },
-    MESSAGE_TYPE_GAME_WIN() {
-      return MESSAGE_TYPE_GAME_WIN
+    TREND_TYPE_PERSON() {
+      return TREND_TYPE_PERSON
     },
-    MESSAGE_TYPE_NEW_GAME() {
-      return MESSAGE_TYPE_NEW_GAME
+    TREND_CONSTANT_ICON() {
+      return TREND_CONSTANT_ICON
     },
-    MESSAGE_TYPE_TERM() {
-      return MESSAGE_TYPE_TERM
+    TREND_TYPE_LINK() {
+      return TREND_TYPE_LINK
     },
-    MESSAGE_TYPE_CHANGES() {
-      return MESSAGE_TYPE_CHANGES
+    TREND_TYPE_CONSTANT() {
+      return TREND_TYPE_CONSTANT
     },
-    MESSAGE_TYPE_EVENT() {
-      return MESSAGE_TYPE_EVENT
+    degree() {
+      return this.degrees[this.degree_name];
     },
-
+    degree_config() {
+      return this.degrees_config[this.degree_name];
+    },
+    change_probability: function() {
+      return Math.round(Math.abs(this.degree().change_probability) * 100);
+    },
   },
-  emits: ['closeMessagesModalEvent', 'newGameEvent'],
-  props: ['messages', 'context', 'degrees_config', 'cards_map'],
+  emits: [],
+  props: ['degrees', 'degrees_config', 'trends_config', 'degree_name'],
 }
 </script>
 

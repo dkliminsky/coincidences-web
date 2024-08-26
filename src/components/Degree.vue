@@ -25,7 +25,7 @@
       <span class="game-badge-number badge text-bg-dark">{{ degree.value }}</span>
 
       <template v-if="degree_type === DEGREE_TYPE_POWER() || degree_type === DEGREE_TYPE_PROBLEMS()">
-        <span class="game-badge-trend game-button badge text-bg-warning ms-1">
+        <span class="game-badge-trend game-button badge text-bg-warning ms-1" @click="showTrendsModal(degree.name)">
           <i :class="trend_icon()"></i>
           {{ degree.trend }}
 <!--          <span class="d-none d-sm-inline">-->
@@ -34,17 +34,16 @@
         </span>
         <template v-for="trend in degree.trends">
           <span v-if="trend.value !== 0" class="game-badge-icon badge text-bg-dark ms-1 d-none d-sm-inline">
-            <template v-if="trend.name === TREND_NAME_CONSTANT()">
-              <i class="fa-solid fa-landmark"></i>
+            <template v-if="trend.type === TREND_TYPE_CONSTANT()">
+              <i :class="TREND_CONSTANT_ICON()"></i>
             </template>
-            <template v-else-if="trend.name === TREND_NAME_PERSON()">
-              <i class="fa-solid fa-user-plus"></i>
+            <template v-else-if="trend.type === TREND_TYPE_PERSON()">
+              <i :class="TREND_PERSON_ICON()"></i>
             </template>
-            <template v-else-if="trend.name === TREND_NAME_ACTOR()">
-              <i class="fa-solid fa-user-minus"></i>
+            <template v-else-if="trend.type === TREND_TYPE_ACTOR()">
+              <i :class="TREND_ACTOR_ICON()"></i>
             </template>
-            <template v-else-if="trend.name === TREND_NAME_LINK()">
-<!--              <i class="fa-solid fa-link"></i>-->
+            <template v-else-if="trend.type === TREND_TYPE_LINK()">
               <i :class="trend_link_icon(trend)"></i>
             </template>
 
@@ -63,9 +62,16 @@
 import {
   BENEFIT_DIRECTION_DECREASE,
   BENEFIT_DIRECTION_INCREASE,
-  DEGREE_NAME_CRISIS, DEGREE_NAME_EGO,
+  DEGREE_NAME_CRISIS,
+  DEGREE_NAME_EGO,
   DEGREE_TYPE_POWER,
-  DEGREE_TYPE_PROBLEMS, TREND_NAME_ACTOR, TREND_NAME_CONSTANT, TREND_NAME_LINK, TREND_NAME_PERSON
+  DEGREE_TYPE_PROBLEMS, TREND_ACTOR_ICON,
+  TREND_CONSTANT_ICON,
+  TREND_PERSON_ICON,
+  TREND_TYPE_ACTOR,
+  TREND_TYPE_CONSTANT,
+  TREND_TYPE_LINK,
+  TREND_TYPE_PERSON
 } from "@/const";
 import DecreeIcon from "@/components/DecreeIcon.vue";
 
@@ -83,17 +89,26 @@ export default {
     },
   },
   methods: {
-    TREND_NAME_LINK() {
-      return TREND_NAME_LINK
+    TREND_ACTOR_ICON() {
+      return TREND_ACTOR_ICON
     },
-    TREND_NAME_ACTOR() {
-      return TREND_NAME_ACTOR
+    TREND_PERSON_ICON() {
+      return TREND_PERSON_ICON
     },
-    TREND_NAME_PERSON() {
-      return TREND_NAME_PERSON
+    TREND_CONSTANT_ICON() {
+      return TREND_CONSTANT_ICON
     },
-    TREND_NAME_CONSTANT() {
-      return TREND_NAME_CONSTANT
+    TREND_TYPE_LINK() {
+      return TREND_TYPE_LINK
+    },
+    TREND_TYPE_ACTOR() {
+      return TREND_TYPE_ACTOR
+    },
+    TREND_TYPE_PERSON() {
+      return TREND_TYPE_PERSON
+    },
+    TREND_TYPE_CONSTANT() {
+      return TREND_TYPE_CONSTANT
     },
     DEGREE_TYPE_PROBLEMS() {
       return DEGREE_TYPE_PROBLEMS
@@ -120,8 +135,8 @@ export default {
       return this.degrees_config[name].info.fontawesome_icon;
     },
     trend_link_icon(link_trends) {
-      let link_trend_config = this.trends_config.links[link_trends.trend_id]
-      return this.degrees_config[link_trend_config.degree_from].info.fontawesome_icon;
+      let trend_config = this.trends_config[link_trends.code];
+      return this.degrees_config[trend_config.degree_from].info.fontawesome_icon;
     },
     color: function () {
       if (this.degree.name === DEGREE_NAME_CRISIS) {
@@ -157,8 +172,12 @@ export default {
           return "info";
         }
       }
-    }
+    },
+    showTrendsModal(degree_name) {
+      this.$emit('showTradesModalEvent', degree_name);
+    },
   },
+  emits: ['showTradesModalEvent', ],
   props: ['degree', 'degrees_config', 'trends_config', 'degree_type']
 
 }

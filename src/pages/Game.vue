@@ -11,6 +11,15 @@
     />
   </div>
 
+  <div id="trends-modal" class="modal" tabindex="-1">
+    <TrendsModal
+        :degrees="degrees"
+        :degrees_config="config.degrees"
+        :trends_config="config.trends"
+        :degree_name="current_trades_degree_name"
+    />
+  </div>
+
   <nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary bg-dark">
     <div class="container-fluid">
       <div>
@@ -125,6 +134,7 @@
               :degrees_config="config.degrees"
               :trends_config="config.trends"
               :degree_type=DEGREE_TYPE_POWER
+              @showTradesModalEvent="showTradesModal"
           />
           </tbody>
         </table>
@@ -140,6 +150,7 @@
               :degrees_config="config.degrees"
               :trends_config="config.trends"
               :degree_type=DEGREE_TYPE_PROBLEMS
+              @showTradesModalEvent="showTradesModal"
           />
           </tbody>
         </table>
@@ -283,6 +294,7 @@ import {
   GAME_PHASE_APPLYING_CARDS,
   GAME_PHASE_TAKING_CARDS
 } from "@/const";
+import TrendsModal from "@/components/TrendsModal.vue";
 </script>
 
 <script>
@@ -315,6 +327,8 @@ export default {
       degreeProblems: ['corruption', 'economy', 'social', 'distrust', 'opposition'],
       degreeOther: ['ego', 'crisis', 'repression'],
       decksList: ['corruption', 'economy', 'social', 'distrust', 'opposition'],
+
+      current_trades_degree_name: null,
     }
   },
   // Watch example:
@@ -334,6 +348,14 @@ export default {
     showMessagesModal() {
       let modal = new Modal(document.getElementById("messages-modal"), {});
       modal.show();
+    },
+    showTradesModal(degree_name) {
+      this.current_trades_degree_name = degree_name;
+      let modal = new Modal(document.getElementById("trends-modal"), {});
+      modal.show();
+    },
+    showHelpModal() {
+
     },
     closeMessagesModal() {
       this.readAllMessagesRequest();
@@ -360,13 +382,6 @@ export default {
       }
 
       // this.effects.push.apply(this.effects, info.new_effects);
-    },
-    showHelpModal() {
-
-    },
-    showTrendsModal(degree) {
-      let modal = new Modal(document.getElementById("trends-modal"), {});
-      modal.show();
     },
     handleRequestError(error) {
       console.log('Got error:', error);

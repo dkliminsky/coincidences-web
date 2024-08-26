@@ -43,11 +43,16 @@ export const EFFECT_TYPE_TAKE_ACTION_BY_CODE = 'take_action_by_code'
 export const EFFECT_TYPE_TAKE_TEMP_ACTION_BY_CODE = 'take_temp_action_by_code'
 
 
-export const TREND_NAME_CONSTANT = 'constant'
-export const TREND_NAME_LINK = 'link'
-export const TREND_NAME_PERSON = 'person'
-export const TREND_NAME_ACTOR = 'actor'
+export const TREND_TYPE_CONSTANT = 'constant'
+export const TREND_TYPE_LINK = 'link'
+export const TREND_TYPE_PERSON = 'person'
+export const TREND_TYPE_ACTOR = 'actor'
 
 
 export const LABEL_ELECTIVITY = 'electivity'
 export const LABEL_ALT = 'alt'
+
+
+export const TREND_CONSTANT_ICON = 'fa-solid fa-landmark';
+export const TREND_PERSON_ICON = 'fa-solid fa-user-shield';
+export const TREND_ACTOR_ICON = 'fa-solid person-circle-exclamation';
