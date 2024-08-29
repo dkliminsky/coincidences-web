@@ -37,6 +37,9 @@
             <template v-if="trend.type === TREND_TYPE_CONSTANT()">
               <i :class="TREND_CONSTANT_ICON()"></i>
             </template>
+            <template v-if="trend.type === TREND_TYPE_CIRCUMSTANCE()">
+              <i :class="TREND_CIRCUMSTANCE_ICON()"></i>
+            </template>
             <template v-else-if="trend.type === TREND_TYPE_PERSON()">
               <i :class="TREND_PERSON_ICON()"></i>
             </template>
@@ -47,7 +50,7 @@
               <i :class="trend_link_icon(trend)"></i>
             </template>
 
-            {{ trend.value }}
+            {{ shiftValue(trend.value) }}
           </span>
         </template>
 
@@ -65,10 +68,10 @@ import {
   DEGREE_NAME_CRISIS,
   DEGREE_NAME_EGO,
   DEGREE_TYPE_POWER,
-  DEGREE_TYPE_PROBLEMS, TREND_ACTOR_ICON,
+  DEGREE_TYPE_PROBLEMS, TREND_ACTOR_ICON, TREND_CIRCUMSTANCE_ICON,
   TREND_CONSTANT_ICON,
   TREND_PERSON_ICON,
-  TREND_TYPE_ACTOR,
+  TREND_TYPE_ACTOR, TREND_TYPE_CIRCUMSTANCE,
   TREND_TYPE_CONSTANT,
   TREND_TYPE_LINK,
   TREND_TYPE_PERSON
@@ -89,6 +92,12 @@ export default {
     },
   },
   methods: {
+    TREND_CIRCUMSTANCE_ICON() {
+      return TREND_CIRCUMSTANCE_ICON
+    },
+    TREND_TYPE_CIRCUMSTANCE() {
+      return TREND_TYPE_CIRCUMSTANCE
+    },
     TREND_ACTOR_ICON() {
       return TREND_ACTOR_ICON
     },
@@ -137,6 +146,14 @@ export default {
     trend_link_icon(link_trends) {
       let trend_config = this.trends_config[link_trends.code];
       return this.degrees_config[trend_config.degree_from].info.fontawesome_icon;
+    },
+    shiftValue(value) {
+      if (value > 0) {
+        return '+' + value.toString();
+      }
+      else {
+        return value;
+      }
     },
     color: function () {
       if (this.degree.name === DEGREE_NAME_CRISIS) {

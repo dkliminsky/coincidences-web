@@ -5,6 +5,7 @@
         :messages="messages"
         :context="context"
         :degrees_config="config.degrees"
+        :trends_config="config.trends"
         :cards_map="cards_map"
         @closeMessagesModalEvent="closeMessagesModal"
         @newGameEvent="createGameRequest"

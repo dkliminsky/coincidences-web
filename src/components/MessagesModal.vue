@@ -51,6 +51,7 @@
                       <Effect
                           :effect="effect"
                           :degrees_config="degrees_config"
+                          :trends_config="trends_config"
                           :cards_map="cards_map"
                       />
                     </p>
@@ -76,7 +77,6 @@
 
               <template v-if="message.type === MESSAGE_TYPE_CHANGES()">
                   <h2 class="modal-title mt-3">{{ message.text.title }}</h2>
-
                   <template v-for="effect in message.effects">
                     <p class="mb-0" >
                       <Effect
@@ -86,7 +86,20 @@
                       />
                     </p>
                   </template>
+              </template>
 
+              <template v-if="message.type === MESSAGE_TYPE_ACTOR()">
+                  <h2 class="modal-title mt-3">{{ message.text.title }}</h2>
+                  <template v-for="effect in message.effects">
+                    <p class="mb-0" >
+                      <Effect
+                          :effect="effect"
+                          :degrees_config="degrees_config"
+                          :trends_config="trends_config"
+                          :cards_map="cards_map"
+                      />
+                    </p>
+                  </template>
               </template>
 
               <hr class="bg-danger border-2 border-top border-secondary vertical-line">
@@ -107,7 +120,7 @@
 
 import Effect from "@/components/Effect.vue";
 import {
-  GAME_PHASE_LOSE, GAME_PHASE_WIN,
+  GAME_PHASE_LOSE, GAME_PHASE_WIN, MESSAGE_TYPE_ACTOR,
   MESSAGE_TYPE_CHANGES,
   MESSAGE_TYPE_EVENT, MESSAGE_TYPE_GAME_LOSE,
   MESSAGE_TYPE_GAME_WIN,
@@ -122,6 +135,9 @@ export default {
 
   },
   methods: {
+    MESSAGE_TYPE_ACTOR() {
+      return MESSAGE_TYPE_ACTOR
+    },
     GAME_PHASE_WIN() {
       return GAME_PHASE_WIN
     },
@@ -149,7 +165,7 @@ export default {
 
   },
   emits: ['closeMessagesModalEvent', 'newGameEvent'],
-  props: ['messages', 'context', 'degrees_config', 'cards_map'],
+  props: ['messages', 'context', 'degrees_config', 'trends_config', 'cards_map'],
 }
 </script>
 
