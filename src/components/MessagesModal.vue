@@ -45,6 +45,7 @@
               <template v-if="message.type === MESSAGE_TYPE_TERM()">
                   <h2 class="modal-title mt-3">{{ message.text.title }}</h2>
                   <p>{{ message.text.description }}</p>
+                  <p v-if="message.text.description_effect" ><em>{{ message.text.description_effect }}</em></p>
 
                   <template v-for="effect in message.effects">
                     <p class="mb-0" >
@@ -68,6 +69,7 @@
                       <Effect
                           :effect="effect"
                           :degrees_config="degrees_config"
+                          :trends_config="trends_config"
                           :cards_map="cards_map"
                       />
                     </p>
@@ -82,6 +84,7 @@
                       <Effect
                           :effect="effect"
                           :degrees_config="degrees_config"
+                          :trends_config="trends_config"
                           :cards_map="cards_map"
                       />
                     </p>
@@ -90,6 +93,7 @@
 
               <template v-if="message.type === MESSAGE_TYPE_ACTOR()">
                   <h2 class="modal-title mt-3">{{ message.text.title }}</h2>
+                  <p>{{ message.text.description }}</p>
                   <template v-for="effect in message.effects">
                     <p class="mb-0" >
                       <Effect

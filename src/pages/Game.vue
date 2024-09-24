@@ -219,6 +219,8 @@
           :degrees_config="config.degrees"
           :card_categories_config="config.card_categories"
           :card_labels_config="config.card_labels"
+          :trends_config="config.trends"
+          :cards_map="cards_map"
           :deck_type=DECK_TYPE_CHOICE
           @takeCardEvent="takeCardRequest"
           @applyCardEvent="applyCardRequest"
@@ -245,25 +247,27 @@
           :degrees_config="config.degrees"
           :card_categories_config="config.card_categories"
           :card_labels_config="config.card_labels"
+          :trends_config="config.trends"
+          :cards_map="cards_map"
           :deck_type=DECK_TYPE_HAND
           @takeCardEvent="takeCardRequest"
           @applyCardEvent="applyCardRequest"
           @discardCardEvent="discardCardRequest"
       />
 
-      <Card
-          v-for="card in cards_temporary"
-          :context="context"
-          :key="card.id"
-          :card="card"
-          :degrees_config="config.degrees"
-          :card_categories_config="config.card_categories"
-          :card_labels_config="config.card_labels"
-          :deck_type=DECK_TYPE_TEMPORARY
-          @takeCardEvent="takeCardRequest"
-          @applyCardEvent="applyCardRequest"
-          @discardCardEvent="discardCardRequest"
-      />
+<!--      <Card-->
+<!--          v-for="card in cards_temporary"-->
+<!--          :context="context"-->
+<!--          :key="card.id"-->
+<!--          :card="card"-->
+<!--          :degrees_config="config.degrees"-->
+<!--          :card_categories_config="config.card_categories"-->
+<!--          :card_labels_config="config.card_labels"-->
+<!--          :deck_type=DECK_TYPE_TEMPORARY-->
+<!--          @takeCardEvent="takeCardRequest"-->
+<!--          @applyCardEvent="applyCardRequest"-->
+<!--          @discardCardEvent="discardCardRequest"-->
+<!--      />-->
 
       <div class="col d-none d-sm-inline" style="width: 100%"></div>
       <div class="col d-none d-sm-inline" style="width: 100%"></div>

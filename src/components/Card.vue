@@ -9,26 +9,11 @@
             <span>
                 <i :class="card_categories_config[card.category].info.fontawesome_icon"></i>
             </span>
-            <span v-if="card.has_dependency" class="ms-2">
-              <i class="fa-solid fa-link"></i>
-            </span>
-            <span v-if="card.expire_at_year" class="ms-2">
-              <i class="fa-solid fa-hourglass-start"></i>
-            </span>
           </div>
 
           <div class="align-self-center text-center ms-3 me-3">
             <strong>{{ card.text.title }}</strong>
           </div>
-
-          <!--            <div v-if="deck_type === DECK_TYPE_HAND()" class="col">-->
-          <!--              <button v-if="card.can_discard" @click="$emit('discardCardEvent', card)" class="game-button-action btn btn-warning float-end">-->
-          <!--                <i class="fa-solid fa-reply"></i>-->
-          <!--              </button>-->
-          <!--              <button v-else class="btn btn-outline-primary float-end disabled">-->
-          <!--                <i class="fa-solid fa-reply"></i>-->
-          <!--              </button>-->
-          <!--            </div>-->
 
           <div v-if="deck_type === DECK_TYPE_CHOICE()" class="align-self-center">
             <button v-if="card.can_take" @click="$emit('takeCardEvent', card)" class="game-button-action btn btn-success text-nowrap">
@@ -67,28 +52,12 @@
           </div>
 
           <div v-for="effect in card.effects" :key="effect.degree_name" class="text-nowrap">
-            <div v-if="effect.type === EFFECT_TYPE_SHIFT_DEGREE">
-              <DecreeIcon
-                  :name="effect.degree_name"
-                  :degrees_config="degrees_config"
-                  color="primary"
-                  is_button=false
-              />
-              <span class="badge text-bg-secondary">{{ degree_title(effect.degree_name) }}</span>
-              <span class="game-badge-number badge text-bg-dark me-1">{{ effectValue(effect.shift_value) }}</span>
-            </div>
-
-            <div v-if="effect.type === PROPAGANDA()">
-              <DecreeIcon
-                  :name="effect.degree_name"
-                  :degrees_config="degrees_config"
-                  color="primary"
-                  is_button=false
-              />
-              <span class="badge text-bg-secondary">{{ degree_title(effect.degree_name) }}</span>
-              <span class="game-badge-number badge text-bg-dark me-1">{{ effect.shift_value }}</span>
-            </div>
-
+            <Effect
+                :effect="effect"
+                :degrees_config="degrees_config"
+                :trends_config="trends_config"
+                :cards_map="cards_map"
+            />
           </div>
         </div>
 
@@ -99,6 +68,12 @@
           <div class="">
           </div>
           <div class="align-self-center text-center ms-0 me-0">
+            <span v-if="card.has_dependency" class="ms-2">
+              <i class="fa-solid fa-link"></i>
+            </span>
+            <span v-if="card.expire_at_year" class="ms-2">
+              <i class="fa-solid fa-hourglass-start"></i>
+            </span>
             <p class="game-labels text-body-tertiary mb-0">
               {{ labels_text() }}
             </p>
@@ -123,9 +98,10 @@ import {
   PROPAGANDA
 } from "@/const";
 import DecreeIcon from "@/components/DecreeIcon.vue";
+import Effect from "@/components/Effect.vue";
 
 export default {
-  components: {DecreeIcon},
+  components: {Effect, DecreeIcon},
   data() {
     return {
     }
@@ -188,6 +164,8 @@ export default {
       return result;
     }
   },
-  props: ['context', 'card', 'degrees_config', 'card_categories_config', 'card_labels_config', 'deck_type']
+  props: ['context', 'card', 'degrees_config', 'card_categories_config', 'card_labels_config', 'trends_config',
+    'cards_map', 'deck_type'
+  ]
 }
 </script>

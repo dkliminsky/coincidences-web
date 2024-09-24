@@ -32,27 +32,29 @@
 <!--            ( {{ change_probability() }}% )-->
 <!--          </span>-->
         </span>
-        <template v-for="trend in degree.trends">
-          <span v-if="trend.value !== 0" class="game-badge-icon badge text-bg-dark ms-1 d-none d-sm-inline">
-            <template v-if="trend.type === TREND_TYPE_CONSTANT()">
-              <i :class="TREND_CONSTANT_ICON()"></i>
-            </template>
-            <template v-if="trend.type === TREND_TYPE_CIRCUMSTANCE()">
-              <i :class="TREND_CIRCUMSTANCE_ICON()"></i>
-            </template>
-            <template v-else-if="trend.type === TREND_TYPE_PERSON()">
-              <i :class="TREND_PERSON_ICON()"></i>
-            </template>
-            <template v-else-if="trend.type === TREND_TYPE_ACTOR()">
-              <i :class="TREND_ACTOR_ICON()"></i>
-            </template>
-            <template v-else-if="trend.type === TREND_TYPE_LINK()">
-              <i :class="trend_link_icon(trend)"></i>
-            </template>
 
-            {{ shiftValue(trend.value) }}
-          </span>
-        </template>
+<!--        Иконки с трендами. Сомнительная идея - слишком сильно выпирают-->
+<!--        <template v-for="trend in degree.trends">-->
+<!--          <span v-if="trend.value !== 0" class="game-badge-icon badge text-bg-dark ms-1 d-none d-sm-inline">-->
+<!--            <template v-if="trend.type === TREND_TYPE_CONSTANT()">-->
+<!--              <i :class="TREND_CONSTANT_ICON()"></i>-->
+<!--            </template>-->
+<!--            <template v-if="trend.type === TREND_TYPE_CIRCUMSTANCE()">-->
+<!--              <i :class="TREND_CIRCUMSTANCE_ICON()"></i>-->
+<!--            </template>-->
+<!--            <template v-else-if="trend.type === TREND_TYPE_PERSON()">-->
+<!--              <i :class="TREND_PERSON_ICON()"></i>-->
+<!--            </template>-->
+<!--            <template v-else-if="trend.type === TREND_TYPE_ACTOR()">-->
+<!--              <i :class="TREND_ACTOR_ICON()"></i>-->
+<!--            </template>-->
+<!--            <template v-else-if="trend.type === TREND_TYPE_LINK()">-->
+<!--              <i :class="trend_link_icon(trend)"></i>-->
+<!--            </template>-->
+
+<!--            {{ shiftValue(trend.value) }}-->
+<!--          </span>-->
+<!--        </template>-->
 
       </template>
 

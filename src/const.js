@@ -39,6 +39,7 @@ export const PROPAGANDA = 'propaganda';
 export const EFFECT_TYPE_CIRCUMSTANCE = 'circumstance'
 export const EFFECT_TYPE_APPEAR_ACTOR = 'appear_actor'
 export const EFFECT_TYPE_DISAPPEAR_ACTOR = 'disappear_actor'
+export const EFFECT_TYPE_PERSON = 'person'
 export const EFFECT_TYPE_INCREASE_HAND = 'increase_hand'
 export const EFFECT_TYPE_INCREASE_HOLD = 'increase_hold'
 export const EFFECT_TYPE_INCREASE_TAKE = 'increase_take'
