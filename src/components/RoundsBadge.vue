@@ -17,7 +17,7 @@ export default {
   props: ['context', ],
   methods: {
     tooltip_html() {
-      return 'Текущий раунд / Раундов до победы';
+      return 'Текущий ход / Ходов до победы';
     },
   },
   mounted() {

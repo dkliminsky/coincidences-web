@@ -11,7 +11,7 @@
     <span class="game-badge-number badge text-bg-dark me-1">{{ shiftValue(effect.shift_value) }}</span>
   </span>
 
-  <div v-else-if="effect.type === PROPAGANDA()">
+  <div v-else-if="effect.type === EFFECT_TYPE_PROPAGANDA()">
     <DecreeIcon
         :name="effect.degree_name"
         :degrees_config="degrees_config"
@@ -86,7 +86,7 @@
 
 import {
   EFFECT_TYPE_APPEAR_ACTOR, EFFECT_TYPE_CIRCUMSTANCE, EFFECT_TYPE_DISAPPEAR_ACTOR, EFFECT_TYPE_PERSON,
-  EFFECT_TYPE_SHIFT_DEGREE, EFFECT_TYPE_TAKE_ACTION_BY_CODE, EFFECT_TYPE_TAKE_TEMP_ACTION_BY_CODE, PROPAGANDA
+  EFFECT_TYPE_SHIFT_DEGREE, EFFECT_TYPE_TAKE_ACTION_BY_CODE, EFFECT_TYPE_TAKE_TEMP_ACTION_BY_CODE, EFFECT_TYPE_PROPAGANDA
 } from "@/const";
 import DecreeIcon from "@/components/DecreeIcon.vue";
 
@@ -100,8 +100,8 @@ export default {
     EFFECT_TYPE_DISAPPEAR_ACTOR() {
       return EFFECT_TYPE_DISAPPEAR_ACTOR
     },
-    PROPAGANDA() {
-      return PROPAGANDA
+    EFFECT_TYPE_PROPAGANDA() {
+      return EFFECT_TYPE_PROPAGANDA
     },
     EFFECT_TYPE_CIRCUMSTANCE() {
       return EFFECT_TYPE_CIRCUMSTANCE

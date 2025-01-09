@@ -5,7 +5,7 @@
           :name="degree.name"
           :degrees_config="degrees_config"
           color="primary"
-          is_button=true
+          is_button=false
       />
     </td>
     <td class="text-nowrap d-none d-lg-table-cell">

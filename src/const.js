@@ -15,9 +15,12 @@ export const DEGREE_TYPE_PROBLEMS = 'problems'
 export const DEGREE_TYPE_OTHER = 'other'
 
 
+export const DEGREE_NAME_LAW = 'law';
 export const DEGREE_NAME_MEDIA = 'media';
+export const DEGREE_NAME_DISTRUST = 'distrust';
 export const DEGREE_NAME_EGO = 'ego';
 export const DEGREE_NAME_CRISIS = 'crisis';
+export const DEGREE_NAME_REPRESSION = 'repression';
 
 
 export const BENEFIT_DIRECTION_INCREASE = 'increase';
@@ -33,9 +36,15 @@ export const MESSAGE_TYPE_ACTOR = 'actor'
 export const MESSAGE_TYPE_TERM = 'term'
 
 
+export const CARD_CATEGORY_PROPAGANDA = 'propaganda'
+export const CARD_CATEGORY_REPRESSION = 'repression'
+export const CARD_CATEGORY_LAW = 'law'
+export const CARD_CATEGORY_PROJECT = 'project'
+
+
 
 export const EFFECT_TYPE_SHIFT_DEGREE = 'shift_degree';
-export const PROPAGANDA = 'propaganda';
+export const EFFECT_TYPE_PROPAGANDA = 'propaganda';
 export const EFFECT_TYPE_CIRCUMSTANCE = 'circumstance'
 export const EFFECT_TYPE_APPEAR_ACTOR = 'appear_actor'
 export const EFFECT_TYPE_DISAPPEAR_ACTOR = 'disappear_actor'
@@ -56,6 +65,8 @@ export const TREND_TYPE_ACTOR = 'actor'
 
 export const LABEL_ELECTIVITY = 'electivity'
 export const LABEL_ALT = 'alt'
+export const LABEL_CHAIN = 'chain'
+export const LABEL_REACTION = 'reaction'
 
 
 export const TREND_CONSTANT_ICON = 'fa-solid fa-landmark';

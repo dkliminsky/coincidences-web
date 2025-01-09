@@ -2,7 +2,7 @@
 
   <span id="electivity-badge" class="game-badge-electivity game-button badge text-bg-success ms-1 me-3"
         data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" :data-bs-title="tooltip_html()">
-    <i class="fa-solid fa-book"></i>&nbsp;
+    <i :class="card_labels_config[LABEL_ELECTIVITY()].info.fontawesome_icon"></i>&nbsp;
     <span class="d-none d-lg-inline">
       Срок
     </span>
@@ -21,13 +21,25 @@
 
 <script>
 import {Tooltip} from "bootstrap";
+import {LABEL_ELECTIVITY} from "@/const";
 
 export default {
   name: "ElectivityBadge",
-  props: ['electivity', ],
+  props: ['electivity', 'card_labels_config' ],
   methods: {
+    LABEL_ELECTIVITY() {
+      return LABEL_ELECTIVITY
+    },
     tooltip_html() {
-      return 'Количество лет до конца срока | Оставшееся количество переизбраний';
+      if (this.electivity.is_castling) {
+        return 'Количество ходов до конца срока приемника';
+      }
+
+      if (this.electivity.is_no_electivity) {
+        return 'Выборы отсутствуют';
+      }
+
+      return 'Количество ходов до конца срока | Оставшееся количество переизбраний';
     },
   },
   mounted() {
